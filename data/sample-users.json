@@ -1,0 +1,34 @@
+[
+  {
+    "userId": "00u123",
+    "employeeId": "EMP001",
+    "name": "Alice Smith",
+    "email": "alice@company.com",
+    "status": "ACTIVE",
+    "department": "Engineering",
+    "role": "Developer",
+    "groups": [
+      "Developers"
+    ],
+    "applications": [
+      "AWS",
+      "GitHub",
+      "Jira"
+    ]
+  },
+  {
+    "userId": "00u456",
+    "employeeId": "EMP002",
+    "name": "Bob Jones",
+    "email": "bob@company.com",
+    "status": "ACTIVE",
+    "department": "Finance",
+    "role": "Analyst",
+    "groups": [
+      "Finance"
+    ],
+    "applications": [
+      "Finance-Reporting"
+    ]
+  }
+]

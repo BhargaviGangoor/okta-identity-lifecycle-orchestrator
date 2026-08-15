@@ -1,0 +1,17 @@
+server:
+  port: 8080
+spring:
+  datasource:
+    url: ${DB_URL:jdbc:mysql://localhost:3306/identity_orchestrator}
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:root}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+okta:
+  domain: ${OKTA_DOMAIN:}
+  client-id: ${OKTA_CLIENT_ID:}
+  client-secret: ${OKTA_CLIENT_SECRET:}
+frontend:
+  origin: ${FRONTEND_ORIGIN:http://localhost:5173}

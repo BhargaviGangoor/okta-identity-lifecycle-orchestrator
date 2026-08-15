@@ -1,0 +1,106 @@
+{
+  "info": {
+    "name": "Identity Lifecycle Orchestrator",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080/api"
+    },
+    {
+      "key": "userId",
+      "value": "00u123"
+    },
+    {
+      "key": "simulationId",
+      "value": "SIM-001"
+    }
+  ],
+  "item": [
+    {
+      "name": "List Users",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/users"
+      }
+    },
+    {
+      "name": "Joiner",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/lifecycle/joiner"
+      }
+    },
+    {
+      "name": "Mover",
+      "request": {
+        "method": "PUT",
+        "url": "{{baseUrl}}/lifecycle/mover/{{userId}}"
+      }
+    },
+    {
+      "name": "Leaver",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/lifecycle/leaver/{{userId}}"
+      }
+    },
+    {
+      "name": "Impact",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/impact/{{userId}}?action=DEACTIVATE"
+      }
+    },
+    {
+      "name": "What-If",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/what-if"
+      }
+    },
+    {
+      "name": "Approve",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/approval/{{simulationId}}/approve"
+      }
+    },
+    {
+      "name": "Reject",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/approval/{{simulationId}}/reject"
+      }
+    },
+    {
+      "name": "Execute",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/execution/{{simulationId}}"
+      }
+    },
+    {
+      "name": "Drift",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/drift"
+      }
+    },
+    {
+      "name": "Audit",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/audit"
+      }
+    },
+    {
+      "name": "Export",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/users/export"
+      }
+    }
+  ]
+}

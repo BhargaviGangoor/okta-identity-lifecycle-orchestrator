@@ -1,0 +1,18 @@
+[
+  {
+    "groupId": "00g-dev",
+    "name": "Developers",
+    "applications": [
+      "AWS",
+      "GitHub",
+      "Jira"
+    ]
+  },
+  {
+    "groupId": "00g-fin",
+    "name": "Finance",
+    "applications": [
+      "Finance-Reporting"
+    ]
+  }
+]
