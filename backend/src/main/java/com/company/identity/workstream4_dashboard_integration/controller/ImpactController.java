@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("")
 public class ImpactController {
     @GetMapping("/impact/{id}")
-    public String action(String action(@PathVariable String id)) {
+    public String getImpact(@PathVariable String id) {
         return "TODO";
     }
 }

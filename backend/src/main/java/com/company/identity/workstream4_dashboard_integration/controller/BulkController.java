@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("")
 public class BulkController {
     @PostMapping("/bulk")
-    public String action(String action()) {
+    public String bulk() {
         return "TODO";
     }
 }

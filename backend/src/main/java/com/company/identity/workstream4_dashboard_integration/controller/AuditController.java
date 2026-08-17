@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("")
 public class AuditController {
     @GetMapping("/audit")
-    public String action(String action()) {
+    public String getAudit() {
         return "TODO";
     }
 }

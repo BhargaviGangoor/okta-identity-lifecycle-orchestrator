@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("")
 public class ExecutionController {
     @PostMapping("/execution/{simulationId}")
-    public String action(String action(@PathVariable String simulationId)) {
+    public String execute(@PathVariable String simulationId) {
         return "TODO";
     }
 }

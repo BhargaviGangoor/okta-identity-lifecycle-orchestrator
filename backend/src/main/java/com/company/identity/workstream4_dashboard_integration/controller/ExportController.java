@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("")
 public class ExportController {
     @GetMapping("/users/export")
-    public String action(String action()) {
+    public String exportUsers() {
         return "TODO";
     }
 }

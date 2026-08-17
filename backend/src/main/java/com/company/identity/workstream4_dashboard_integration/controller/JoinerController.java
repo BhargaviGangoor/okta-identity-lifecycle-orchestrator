@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("")
 public class JoinerController {
     @PostMapping("/lifecycle/joiner")
-    public String action(String action()) {
+    public String joiner() {
         return "TODO";
     }
 }

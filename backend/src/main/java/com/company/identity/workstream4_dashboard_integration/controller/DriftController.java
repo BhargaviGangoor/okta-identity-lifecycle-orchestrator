@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("")
 public class DriftController {
     @GetMapping("/drift")
-    public String action(String action()) {
+    public String getDrift() {
         return "TODO";
     }
 }
