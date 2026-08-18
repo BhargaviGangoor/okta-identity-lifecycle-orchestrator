@@ -1,6 +1,10 @@
-package com.company.identity;
+package com.company.identity.workstream2;
 
-import com.company.identity.workstream1_okta_lifecycle.okta.OktaClient;
+import com.company.identity.common.model.Group;
+import com.company.identity.common.model.User;
+import com.company.identity.workstream1_okta_lifecycle.okta.OktaGroupClient;
+import com.company.identity.workstream1_okta_lifecycle.okta.OktaUserClient;
+import com.company.identity.workstream2_identity_impact.graph.IdentityAccessCatalog;
 import com.company.identity.workstream2_identity_impact.graph.IdentityGraphService;
 import org.junit.jupiter.api.Test;
 
@@ -12,10 +16,9 @@ import static org.mockito.Mockito.*;
 
 class IdentityGraphServiceTest {
     @Test
-    void buildsUserGroupApplicationGraphAndIncludesGroupInheritedAccess() {
-        OktaClient client = clientWith(List.of(Map.of("userId", "User A", "groups", List.of("G"))),
-                List.of(Map.of("groupId", "G", "applications", List.of(Map.of("name", "App A", "criticality", "MEDIUM")))));
-        IdentityGraphService service = new IdentityGraphService(client);
+    void buildsUserGroupApplicationGraphAndIncludesGroupInheritedAccess() throws Exception {
+        IdentityGraphService service = serviceFor(List.of(user("User A")), Map.of("User A", List.of(group("G"))),
+                Map.of("G", java.util.Set.of("App A")), Map.of(), Map.of("App A", "MEDIUM"));
 
         IdentityGraphService.IdentityGraph graph = service.buildIdentityGraph();
 
@@ -28,24 +31,43 @@ class IdentityGraphServiceTest {
     }
 
     @Test
-    void missingUserFailsClearlyWithoutNullPointerExceptionOrMutation() {
-        OktaClient client = clientWith(List.of(Map.of("userId", "User A")), List.of());
-        IdentityGraphService service = new IdentityGraphService(client);
+    void missingUserFailsClearlyWithoutMutation() throws Exception {
+        OktaUserClient userClient = mock(OktaUserClient.class);
+        OktaGroupClient groupClient = mock(OktaGroupClient.class);
+        when(userClient.getUsers()).thenReturn(List.of(user("User A")));
+        when(groupClient.getUserGroups("User A")).thenReturn(List.of());
+        when(groupClient.getGroups()).thenReturn(List.of());
+        IdentityGraphService service = new IdentityGraphService(userClient, groupClient, new IdentityAccessCatalog(Map.of(), Map.of(), Map.of()));
 
         assertThrows(java.util.NoSuchElementException.class, () -> service.getUserApplications("missing"));
-        verify(client, never()).createUser(any());
-        verify(client, never()).updateUser(anyString(), any());
-        verify(client, never()).activateUser(anyString());
-        verify(client, never()).deactivateUser(anyString());
-        verify(client, never()).addUserToGroup(anyString(), anyString());
-        verify(client, never()).removeUserFromGroup(anyString(), anyString());
-        verify(client, never()).revokeSessions(anyString());
+        verify(userClient, never()).createUser(any());
+        verify(userClient, never()).updateUser(anyString(), any());
+        verify(userClient, never()).activateUser(anyString());
+        verify(userClient, never()).deactivateUser(anyString());
+        verify(groupClient, never()).addUserToGroup(anyString(), anyString());
+        verify(groupClient, never()).removeUserFromGroup(anyString(), anyString());
     }
 
-    private static OktaClient clientWith(List<?> users, List<?> groups) {
-        OktaClient client = mock(OktaClient.class);
-        when(client.getUsers()).thenReturn(users);
-        when(client.getGroups()).thenReturn(groups);
-        return client;
+    @Test
+    void combinesAndDeduplicatesDirectAndInheritedApplications() throws Exception {
+        IdentityGraphService service = serviceFor(List.of(user("User A")), Map.of("User A", List.of(group("G"))),
+                Map.of("G", java.util.Set.of("App Group", "Shared")), Map.of("User A", java.util.Set.of("App Direct", "Shared")),
+                Map.of("App Group", "MEDIUM", "App Direct", "MEDIUM", "Shared", "HIGH"));
+
+        assertEquals(java.util.Set.of("App Direct", "App Group", "Shared"), service.getUserApplications("User A"));
     }
+
+    static IdentityGraphService serviceFor(List<User> users, Map<String, List<Group>> memberships,
+                                           Map<String, java.util.Set<String>> grants, Map<String, java.util.Set<String>> direct,
+                                           Map<String, String> criticalities) throws Exception {
+        OktaUserClient userClient = mock(OktaUserClient.class);
+        OktaGroupClient groupClient = mock(OktaGroupClient.class);
+        when(userClient.getUsers()).thenReturn(users);
+        when(groupClient.getGroups()).thenReturn(grants.keySet().stream().map(IdentityGraphServiceTest::group).toList());
+        for (User user : users) when(groupClient.getUserGroups(user.userId)).thenReturn(memberships.getOrDefault(user.userId, List.of()));
+        return new IdentityGraphService(userClient, groupClient, new IdentityAccessCatalog(direct, grants, criticalities));
+    }
+
+    static User user(String id) { User user = new User(); user.userId = id; return user; }
+    static Group group(String id) { Group group = new Group(); group.groupId = id; return group; }
 }

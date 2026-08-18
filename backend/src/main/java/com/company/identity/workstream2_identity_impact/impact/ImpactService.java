@@ -1,5 +1,7 @@
 package com.company.identity.workstream2_identity_impact.impact;
+import org.springframework.stereotype.Service;
 import java.util.Set;
+@Service
 public class ImpactService {
     private final BlastRadiusService blastRadiusService;
     public ImpactService(BlastRadiusService blastRadiusService) { this.blastRadiusService = blastRadiusService; }
