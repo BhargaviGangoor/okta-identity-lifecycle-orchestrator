@@ -1,0 +1,19 @@
+{
+  "name": "okta-identity-lifecycle-frontend",
+  "version": "1.0.0",
+  "description": "Northwind IAM - Identity Lifecycle Orchestrator Frontend",
+  "private": true,
+  "scripts": {
+    "dev": "npm --prefix access-prism run dev",
+    "build": "npm --prefix access-prism run build",
+    "preview": "npm --prefix access-prism run preview",
+    "lint": "npm --prefix access-prism run lint"
+  },
+  "keywords": [
+    "iam",
+    "okta",
+    "identity-governance"
+  ],
+  "author": "",
+  "license": "ISC"
+}
