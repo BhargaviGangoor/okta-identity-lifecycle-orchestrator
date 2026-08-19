@@ -28,13 +28,17 @@ import org.springframework.web.bind.annotation.RestController;
  * provides a real ImpactService; swap the mock line below when WS2 is ready.
  */
 @RestController
-@RequestMapping("/api")
+@RequestMapping("")
 public class WhatIfController {
 
     private final WhatIfService whatIfService;
+    private final com.company.identity.workstream3_simulation_security.approval.ApprovalService approvalService;
 
-    public WhatIfController(WhatIfService whatIfService) {
+    public WhatIfController(
+            WhatIfService whatIfService,
+            com.company.identity.workstream3_simulation_security.approval.ApprovalService approvalService) {
         this.whatIfService = whatIfService;
+        this.approvalService = approvalService;
     }
 
     /**
@@ -43,14 +47,15 @@ public class WhatIfController {
      * @param request  Validated body — userId (non-blank) + action (ACTIVATE | SUSPEND | UNSUSPEND | DEACTIVATE)
      * @return         200 with WhatIfResult, or 400 if validation fails
      */
-    @PostMapping("/whatif")
+    @PostMapping({"/what-if", "/whatif"})
     public ResponseEntity<WhatIfResult> simulate(@Valid @RequestBody WhatIfRequest request) {
-        // --- Mock ImpactOutput until WS2 ImpactService is available ---
-        // TODO: replace with real ImpactService call when WS2 is ready:
-        //   ImpactOutput impact = impactService.calculateImpact(request.userId, request.action.name());
         ImpactOutput impact = ImpactOutputFixtures.defaultFor(request.userId, request.action);
 
         WhatIfResult result = whatIfService.simulate(request, impact);
+        String simId = "sim_" + Math.abs((request.userId + "_" + request.action.name()).hashCode());
+        result.simulationId = simId;
+        approvalService.registerSimulation(simId);
+
         return ResponseEntity.ok(result);
     }
 }
