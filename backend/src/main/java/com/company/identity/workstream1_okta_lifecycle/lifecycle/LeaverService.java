@@ -30,15 +30,15 @@ public class LeaverService {
 
         validateUserId(userId);
 
-        // Revoke the user's active Okta sessions
-        try {
-            oktaSessionClient.revokeSessions(userId);
-        } catch (Exception ignored) {
-        }
-
         // Deactivate the Okta user
         try {
             oktaUserClient.deactivateUser(userId);
+        } catch (Exception ignored) {
+        }
+
+        // Revoke the user's active Okta sessions
+        try {
+            oktaSessionClient.revokeSessions(userId);
         } catch (Exception ignored) {
         }
 
