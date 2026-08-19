@@ -1,8 +1,11 @@
 package com.company.identity.workstream3_simulation_security.approval;
 
+import org.springframework.stereotype.Service;
+
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Service
 public class ApprovalService {
 
     private static final String PENDING = "PENDING";
