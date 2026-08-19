@@ -5,6 +5,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -14,24 +15,35 @@ public class OktaClient {
     private final String oktaDomain;
     private final String apiToken;
 
-    public OktaClient() {
+    public OktaClient(
+            @Value("${okta.domain:${OKTA_DOMAIN:}}") String oktaDomain,
+            @Value("${okta.api-token:${OKTA_API_TOKEN:}}") String apiToken
+    ) {
 
         this.httpClient = HttpClient.newHttpClient();
+        this.oktaDomain = firstNonBlank(oktaDomain, System.getenv("OKTA_DOMAIN"), System.getProperty("OKTA_DOMAIN"));
+        this.apiToken = firstNonBlank(apiToken, System.getenv("OKTA_API_TOKEN"), System.getProperty("OKTA_API_TOKEN"));
 
-        this.oktaDomain = System.getenv("OKTA_DOMAIN");
-        this.apiToken = System.getenv("OKTA_API_TOKEN");
-
-        if (oktaDomain == null || oktaDomain.isBlank()) {
+        if (this.oktaDomain == null) {
             throw new IllegalStateException(
-                    "OKTA_DOMAIN environment variable is missing"
+                    "OKTA_DOMAIN is missing. Set it in the repo-root .env file."
             );
         }
 
-        if (apiToken == null || apiToken.isBlank()) {
+        if (this.apiToken == null) {
             throw new IllegalStateException(
-                    "OKTA_API_TOKEN environment variable is missing"
+                    "OKTA_API_TOKEN is missing. Set it in the repo-root .env file."
             );
         }
+    }
+
+    private static String firstNonBlank(String... values) {
+        for (String value : values) {
+            if (value != null && !value.isBlank()) {
+                return value.trim();
+            }
+        }
+        return null;
     }
 
     public String get(String endpoint) throws Exception {

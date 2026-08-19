@@ -59,7 +59,7 @@ Spring Data JPA --> MySQL
 4. Impact calculation never mutates Okta.
 5. High-risk operations require approval before execution.
 6. Shared models and DTOs are contracts; tell all teams before changing them.
-7. Never commit `.env` or real Okta credentials.
+7. The repo-root `.env` is the shared format for the team. Replace Okta placeholders with your tenant values; do not put production secrets in git.
 8. Do not add microservices, Kafka, Redis, Neo4j, Python or Streamlit for this 2-day build.
 
 See `TEAM_README.md` for every member's files and public function contracts.
