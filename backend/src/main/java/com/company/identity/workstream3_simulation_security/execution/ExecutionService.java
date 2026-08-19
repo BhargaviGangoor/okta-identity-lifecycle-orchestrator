@@ -1,7 +1,9 @@
 package com.company.identity.workstream3_simulation_security.execution;
 
 import com.company.identity.workstream3_simulation_security.approval.ApprovalService;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ExecutionService {
 
     private static final String ACTIVATE = "ACTIVATE";
