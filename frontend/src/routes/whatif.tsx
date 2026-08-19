@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { Sparkles, Play, CheckCircle2 } from "lucide-react";
-import { getUsers, simulate, approve, reject } from "../services/api";
+import { getUsers, simulate, approve, reject, execute } from "../services/api";
 import type { User, Simulation } from "../services/types";
 import { RiskBadge } from "../components/RiskBadge";
 import { ImpactCard } from "../components/ImpactCard";
@@ -65,6 +65,18 @@ export function WhatIfSimulationPage() {
       setSimResult({ ...simResult, status: "REJECTED" });
     }
     setIsApprovalOpen(false);
+  };
+
+  const handleExecute = async (id: string) => {
+    setLoading(true);
+    try {
+      await execute(id);
+      if (simResult && simResult.id === id) {
+        setSimResult({ ...simResult, status: "EXECUTED" });
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -174,9 +186,22 @@ export function WhatIfSimulationPage() {
               >
                 REQUEST SECURITY APPROVAL
               </button>
+            ) : simResult.status === "APPROVED" ? (
+              <button
+                onClick={() => handleExecute(simResult.id)}
+                disabled={loading}
+                className="px-6 py-2.5 rounded-full bg-[#D4E84A] hover:bg-[#c2d73b] text-[#141414] font-mono text-xs font-black shadow-xs flex items-center gap-2"
+              >
+                <Play className="w-3.5 h-3.5 fill-current" />
+                <span>{loading ? "EXECUTING..." : "EXECUTE APPROVED MUTATION"}</span>
+              </button>
+            ) : simResult.status === "EXECUTED" ? (
+              <span className="text-xs font-mono text-[#D4E84A] flex items-center gap-1.5">
+                <CheckCircle2 className="w-4 h-4" /> Mutation executed — changes committed to Okta
+              </span>
             ) : (
               <span className="text-xs font-mono text-[#8A8A82] flex items-center gap-1.5">
-                <CheckCircle2 className="w-4 h-4 text-[#D4E84A]" /> Decision recorded in authoritative audit trail
+                <CheckCircle2 className="w-4 h-4 text-[#E8703A]" /> Simulation rejected — no changes applied
               </span>
             )}
           </div>
