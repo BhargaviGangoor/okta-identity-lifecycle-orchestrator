@@ -20,8 +20,17 @@ public class IdentityAccessCatalog {
     private final Map<String, Set<String>> groupApplications;
     private final Map<String, String> applicationCriticalities;
 
+    @org.springframework.beans.factory.annotation.Autowired
     public IdentityAccessCatalog(ObjectMapper objectMapper) {
-        this(objectMapper, Path.of("data"));
+        this(objectMapper, resolveDataDirectory());
+    }
+
+    private static Path resolveDataDirectory() {
+        Path direct = Path.of("data");
+        if (Files.isDirectory(direct)) return direct;
+        Path parent = Path.of("../data");
+        if (Files.isDirectory(parent)) return parent;
+        return direct;
     }
 
     IdentityAccessCatalog(ObjectMapper objectMapper, Path dataDirectory) {
