@@ -1,4 +1,4 @@
-package com.company.identity;
+package com.company.identity.workstream3;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertTrue;
