@@ -1,0 +1,24 @@
+{
+  "name": "okta-identity-lifecycle-orchestrator",
+  "version": "1.0.0",
+  "description": "Cognizant Hackathon — Activity 5",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BhargaviGangoor/okta-identity-lifecycle-orchestrator.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/BhargaviGangoor/okta-identity-lifecycle-orchestrator/issues"
+  },
+  "homepage": "https://github.com/BhargaviGangoor/okta-identity-lifecycle-orchestrator#readme"
+}
