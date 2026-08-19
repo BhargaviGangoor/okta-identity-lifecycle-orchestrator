@@ -21,11 +21,10 @@ export function WhatIfSimulationPage() {
   const [loading, setLoading] = useState(false);
 
   const actions = [
-    "Grant AWS Production Administrator",
-    "Grant Okta Super Admin Exception",
-    "Add to Jamf IT Device Admins",
-    "Assign NetSuite Accounts Payable Approver",
-    "Revoke all Github Org Owner Privileges",
+    "DEACTIVATE (Offboard & Revoke All Access)",
+    "SUSPEND (Freeze Account & Active Sessions)",
+    "ACTIVATE (Provision Birthrights & Enable Access)",
+    "UNSUSPEND (Re-enable Suspended Account)",
   ];
 
   useEffect(() => {
