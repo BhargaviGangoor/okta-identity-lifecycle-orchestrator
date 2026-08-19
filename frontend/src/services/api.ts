@@ -100,8 +100,32 @@ export async function createJoiner(data: {
     body: JSON.stringify(payload),
   });
   if (remote) {
-    currentSimulations = [remote, ...currentSimulations];
-    return remote;
+    const raw: any = remote;
+    const sim: Simulation = {
+      id: raw.id || raw.userId || `sim_${Math.floor(1000 + Math.random() * 9000)}`,
+      kind: "JOINER",
+      subject: data.name || raw.name || `${raw.firstName || ""} ${raw.lastName || ""}`.trim(),
+      subjectEmail: data.email || raw.email || "",
+      summary: `New hire, ${data.title} (${data.department}) — starts ${data.startDate}`,
+      risk: "LOW",
+      riskScore: 18,
+      requiresApproval: false,
+      status: "APPROVED",
+      createdAt: new Date().toISOString(),
+      delta: {
+        granted: [`okta-${data.department.toLowerCase().replace(/\s+/g, "")}-all`, "google-workspace-user"],
+        revoked: [],
+        unchanged: [],
+      },
+      impact: {
+        groups: 2,
+        apps: 3,
+        privileged: 0,
+        notes: ["Created and provisioned in Okta."],
+      },
+    };
+    currentSimulations = [sim, ...currentSimulations];
+    return sim;
   }
   await delay(100);
   const newSim: Simulation = {
@@ -239,13 +263,52 @@ export async function simulate(data: {
   action: string;
   targetRole?: string;
 }): Promise<Simulation> {
-  const remote = await apiFetch<Simulation>(ENDPOINTS.whatIf, {
+  let actionEnum = "DEACTIVATE";
+  const a = data.action.toUpperCase();
+  if (a.includes("UNSUSPEND") || a.includes("RE-ENABLE")) {
+    actionEnum = "UNSUSPEND";
+  } else if (a.includes("SUSPEND") || a.includes("FREEZE")) {
+    actionEnum = "SUSPEND";
+  } else if (a.includes("ACTIVATE") || a.includes("GRANT") || a.includes("ADD") || a.includes("ASSIGN")) {
+    actionEnum = "ACTIVATE";
+  } else if (a.includes("DEACTIVATE") || a.includes("REVOKE") || a.includes("OFFBOARD")) {
+    actionEnum = "DEACTIVATE";
+  }
+
+  const remote = await apiFetch<any>(ENDPOINTS.whatIf, {
     method: "POST",
-    body: JSON.stringify(data),
+    body: JSON.stringify({
+      userId: data.userId,
+      action: actionEnum,
+    }),
   });
   if (remote) {
-    currentSimulations = [remote, ...currentSimulations];
-    return remote;
+    const raw: any = remote;
+    const sim: Simulation = {
+      id: raw.simulationId || `sim_${Math.floor(1000 + Math.random() * 9000)}`,
+      kind: "WHATIF",
+      subject: raw.userId || data.userId,
+      subjectEmail: "",
+      summary: `Simulation: ${data.action} on ${raw.userId || data.userId}`,
+      risk: (raw.riskLevel as "LOW" | "MEDIUM" | "HIGH" | "CRITICAL") || "HIGH",
+      riskScore: raw.riskLevel === "HIGH" ? 78 : raw.riskLevel === "MEDIUM" ? 50 : 20,
+      requiresApproval: raw.riskLevel === "HIGH" || raw.riskLevel === "MEDIUM",
+      status: "PENDING",
+      createdAt: new Date().toISOString(),
+      delta: {
+        granted: raw.accessEffect?.gains || raw.affectedGroups || [],
+        revoked: raw.accessEffect?.loses || [],
+        unchanged: [],
+      },
+      impact: {
+        groups: Array.isArray(raw.affectedGroups) ? raw.affectedGroups.length : 0,
+        apps: Array.isArray(raw.affectedApplications) ? raw.affectedApplications.length : 0,
+        privileged: raw.riskLevel === "HIGH" ? 1 : 0,
+        notes: raw.reasons || ["Impact analysis projected successfully."],
+      },
+    };
+    currentSimulations = [sim, ...currentSimulations];
+    return sim;
   }
   await delay(120);
   const user = currentUsers.find((u) => u.id === data.userId);
@@ -333,15 +396,31 @@ export async function reject(simulationId: string): Promise<Simulation | null> {
 
 // ── POST /api/execution/{simulationId} ────────────────────────────
 export async function execute(simulationId: string): Promise<Simulation | null> {
-  const remote = await apiFetch<Simulation>(ENDPOINTS.execute(simulationId), {
+  const remote = await apiFetch<any>(ENDPOINTS.execute(simulationId), {
     method: "POST",
   });
-  if (remote) return remote;
-  await delay(100);
   const sim = currentSimulations.find((s) => s.id === simulationId);
   if (sim) {
     sim.status = "EXECUTED";
   }
+  if (remote) {
+    if (sim) return sim;
+    return {
+      id: simulationId,
+      kind: "WHATIF",
+      subject: remote.userId || "Identity",
+      subjectEmail: "",
+      summary: remote.message || "Executed",
+      risk: "LOW",
+      riskScore: 20,
+      requiresApproval: false,
+      status: "EXECUTED",
+      createdAt: new Date().toISOString(),
+      delta: { granted: [], revoked: [], unchanged: [] },
+      impact: { groups: 0, apps: 0, privileged: 0, notes: [] },
+    };
+  }
+  await delay(100);
   return sim || null;
 }
 
