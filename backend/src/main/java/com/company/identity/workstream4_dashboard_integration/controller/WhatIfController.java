@@ -47,7 +47,7 @@ public class WhatIfController {
      * @param request  Validated body — userId (non-blank) + action (ACTIVATE | SUSPEND | UNSUSPEND | DEACTIVATE)
      * @return         200 with WhatIfResult, or 400 if validation fails
      */
-    @PostMapping({"/what-if", "/whatif"})
+    @PostMapping({"/what-if", "/whatif", "/api/what-if", "/api/whatif"})
     public ResponseEntity<WhatIfResult> simulate(@Valid @RequestBody WhatIfRequest request) {
         ImpactOutput impact = ImpactOutputFixtures.defaultFor(request.userId, request.action);
 
