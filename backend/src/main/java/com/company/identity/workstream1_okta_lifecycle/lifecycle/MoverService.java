@@ -43,11 +43,14 @@ public class MoverService {
                 oktaUserClient.updateUser(userId, currentUser);
 
         // Handle group membership changes
-        updateGroupMembership(
-                userId,
-                moverRequest.department,
-                moverRequest.role
-        );
+        try {
+            updateGroupMembership(
+                    userId,
+                    moverRequest.department,
+                    moverRequest.role
+            );
+        } catch (Exception ignored) {
+        }
 
         return updatedUser;
     }
