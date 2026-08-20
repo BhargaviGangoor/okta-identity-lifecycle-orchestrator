@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuditRouteImport } from './routes/audit'
 import { Route as DriftRouteImport } from './routes/drift'
+import { Route as GraphRouteImport } from './routes/graph'
 import { Route as JoinerRouteImport } from './routes/joiner'
 import { Route as LeaverRouteImport } from './routes/leaver'
 import { Route as MoverRouteImport } from './routes/mover'
@@ -31,6 +32,11 @@ const AuditRoute = AuditRouteImport.update({
 const DriftRoute = DriftRouteImport.update({
   id: '/drift',
   path: '/drift',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GraphRoute = GraphRouteImport.update({
+  id: '/graph',
+  path: '/graph',
   getParentRoute: () => rootRouteImport,
 } as any)
 const JoinerRoute = JoinerRouteImport.update({
@@ -63,6 +69,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/audit': typeof AuditRoute
   '/drift': typeof DriftRoute
+  '/graph': typeof GraphRoute
   '/joiner': typeof JoinerRoute
   '/leaver': typeof LeaverRoute
   '/mover': typeof MoverRoute
@@ -73,6 +80,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/audit': typeof AuditRoute
   '/drift': typeof DriftRoute
+  '/graph': typeof GraphRoute
   '/joiner': typeof JoinerRoute
   '/leaver': typeof LeaverRoute
   '/mover': typeof MoverRoute
@@ -84,6 +92,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/audit': typeof AuditRoute
   '/drift': typeof DriftRoute
+  '/graph': typeof GraphRoute
   '/joiner': typeof JoinerRoute
   '/leaver': typeof LeaverRoute
   '/mover': typeof MoverRoute
@@ -96,6 +105,7 @@ export interface FileRouteTypes {
     | '/'
     | '/audit'
     | '/drift'
+    | '/graph'
     | '/joiner'
     | '/leaver'
     | '/mover'
@@ -106,6 +116,7 @@ export interface FileRouteTypes {
     | '/'
     | '/audit'
     | '/drift'
+    | '/graph'
     | '/joiner'
     | '/leaver'
     | '/mover'
@@ -116,6 +127,7 @@ export interface FileRouteTypes {
     | '/'
     | '/audit'
     | '/drift'
+    | '/graph'
     | '/joiner'
     | '/leaver'
     | '/mover'
@@ -127,6 +139,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuditRoute: typeof AuditRoute
   DriftRoute: typeof DriftRoute
+  GraphRoute: typeof GraphRoute
   JoinerRoute: typeof JoinerRoute
   LeaverRoute: typeof LeaverRoute
   MoverRoute: typeof MoverRoute
@@ -155,6 +168,13 @@ declare module '@tanstack/react-router' {
       path: '/drift'
       fullPath: '/drift'
       preLoaderRoute: typeof DriftRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/graph': {
+      id: '/graph'
+      path: '/graph'
+      fullPath: '/graph'
+      preLoaderRoute: typeof GraphRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/joiner': {
@@ -199,6 +219,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuditRoute: AuditRoute,
   DriftRoute: DriftRoute,
+  GraphRoute: GraphRoute,
   JoinerRoute: JoinerRoute,
   LeaverRoute: LeaverRoute,
   MoverRoute: MoverRoute,

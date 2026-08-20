@@ -10,6 +10,9 @@ import type {
   Simulation,
   User,
   Impact,
+  GraphData,
+  GraphNode,
+  GraphEdge,
 } from "./types";
 import { apiFetch, ENDPOINTS, API_BASE_URL } from "../lib/api-client";
 
@@ -472,3 +475,185 @@ export async function exportUsers(): Promise<string> {
     .join("\n");
   return header + rows;
 }
+
+// ── GET /api/graph ────────────────────────────────────────────────
+export async function getGraphData(params?: { userId?: string; department?: string }): Promise<GraphData> {
+  const queryParts: string[] = [];
+  if (params?.userId) queryParts.push(`userId=${encodeURIComponent(params.userId)}`);
+  if (params?.department && params.department !== "ALL") queryParts.push(`department=${encodeURIComponent(params.department)}`);
+  const query = queryParts.join("&");
+
+  try {
+    const remote = await apiFetch<GraphData>(ENDPOINTS.graph(query));
+    if (remote && Array.isArray(remote.nodes) && remote.nodes.length > 0) {
+      return remote;
+    }
+  } catch (err) {
+    console.warn("[IAM Graph] Remote graph fetch fallback:", err);
+  }
+
+  // Fallback: build graph using live Okta identities
+  const liveUsers = await getUsers();
+  const sourceUsers = (liveUsers && liveUsers.length > 0) ? liveUsers : currentUsers;
+
+  const filteredUsers = sourceUsers.filter((u) => {
+    if (params?.userId && u.id !== params.userId) return false;
+    if (params?.department && params.department !== "ALL" && u.department !== params.department) return false;
+    return true;
+  });
+
+  const nodes: GraphNode[] = [];
+  const edges: GraphEdge[] = [];
+  const groupSet = new Set<string>();
+  const appSet = new Set<string>();
+  const groupAppMap: Record<string, string[]> = {};
+
+  // Standard RBAC group to app catalog
+  const catalogForDept = (dept: string): { groups: string[]; apps: string[] } => {
+    const d = dept.toLowerCase();
+    if (d.includes("eng") || d.includes("dev")) {
+      return {
+        groups: ["okta-engineering-all", "aws-developers", "github-committers"],
+        apps: ["AWS Production", "GitHub Enterprise", "Jira Software", "Datadog Monitoring"],
+      };
+    }
+    if (d.includes("sec")) {
+      return {
+        groups: ["okta-security-all", "security-super-admins"],
+        apps: ["AWS Production", "Okta Admin Console", "CrowdStrike Falcon", "Splunk SIEM"],
+      };
+    }
+    if (d.includes("fin")) {
+      return {
+        groups: ["okta-finance-all", "netsuite-auditors"],
+        apps: ["Finance-Reporting", "Workday HR", "Salesforce CRM", "Expensify"],
+      };
+    }
+    if (d.includes("sales")) {
+      return {
+        groups: ["okta-sales-all", "salesforce-standard-users"],
+        apps: ["Salesforce CRM", "HubSpot", "Slack Workspace", "Google Workspace"],
+      };
+    }
+    if (d.includes("it") || d.includes("ops")) {
+      return {
+        groups: ["okta-it-all", "helpdesk-tier2"],
+        apps: ["Google Workspace", "Slack Workspace", "Jira Service Desk", "Zoom Enterprise"],
+      };
+    }
+    return {
+      groups: [`okta-${d.replace(/[^a-z0-9]/g, "") || "general"}-all`],
+      apps: ["Google Workspace", "Slack Workspace", "Workday HR"],
+    };
+  };
+
+  const appCriticalityMap: Record<string, "HIGH" | "MEDIUM" | "LOW"> = {
+    "AWS Production": "HIGH",
+    "Okta Admin Console": "HIGH",
+    "CrowdStrike Falcon": "HIGH",
+    "Splunk SIEM": "HIGH",
+    "Finance-Reporting": "HIGH",
+    "Salesforce CRM": "HIGH",
+    "Workday HR": "HIGH",
+    "AWS Staging": "MEDIUM",
+    "GitHub Enterprise": "MEDIUM",
+    "Datadog Monitoring": "MEDIUM",
+    "Google Workspace": "MEDIUM",
+    "Jira Software": "LOW",
+    "Slack Workspace": "LOW",
+    "Jira Service Desk": "LOW",
+    "Zoom Enterprise": "LOW",
+    "Expensify": "LOW",
+    "HubSpot": "LOW",
+  };
+
+  for (const user of filteredUsers) {
+    const deptInfo = catalogForDept(user.department || "General");
+    const userGroups = user.groups && user.groups.length > 0 ? user.groups : deptInfo.groups;
+    const userApps = user.apps && user.apps.length > 0 ? user.apps : deptInfo.apps;
+
+    nodes.push({
+      id: user.id,
+      label: user.name,
+      type: "USER",
+      department: user.department,
+      role: user.title,
+      status: user.status,
+      riskScore: user.riskScore || 25,
+      criticality: "NONE",
+    });
+
+    for (const group of userGroups) {
+      groupSet.add(group);
+      edges.push({
+        id: `${user.id}->${group}`,
+        source: user.id,
+        target: group,
+        relationship: "MEMBER_OF",
+      });
+
+      if (!groupAppMap[group]) {
+        groupAppMap[group] = deptInfo.apps;
+      }
+    }
+
+    for (const app of userApps) {
+      appSet.add(app);
+    }
+  }
+
+  for (const group of groupSet) {
+    nodes.push({
+      id: group,
+      label: group,
+      type: "GROUP",
+      department: "Directory",
+      role: "Okta Group",
+      status: "ACTIVE",
+      riskScore: 10,
+      criticality: "NONE",
+    });
+
+    const appsForGroup = groupAppMap[group] || ["Google Workspace", "Slack Workspace"];
+    for (const app of appsForGroup) {
+      appSet.add(app);
+      edges.push({
+        id: `${group}->${app}`,
+        source: group,
+        target: app,
+        relationship: "GRANTS_ACCESS",
+      });
+    }
+  }
+
+  for (const app of appSet) {
+    const crit = appCriticalityMap[app] || "MEDIUM";
+    nodes.push({
+      id: app,
+      label: app,
+      type: "APPLICATION",
+      department: "SSO",
+      role: "Target System",
+      status: "ACTIVE",
+      riskScore: crit === "HIGH" ? 80 : crit === "MEDIUM" ? 40 : 15,
+      criticality: crit,
+    });
+  }
+
+  const highCriticalityApps = nodes.filter((n) => n.type === "APPLICATION" && n.criticality === "HIGH").length;
+
+  return {
+    nodes,
+    edges,
+    metrics: {
+      totalUsers: filteredUsers.length,
+      totalGroups: groupSet.size,
+      totalApplications: appSet.size,
+      totalNodes: nodes.length,
+      totalEdges: edges.length,
+      highCriticalityApps,
+    },
+  };
+}
+
+
