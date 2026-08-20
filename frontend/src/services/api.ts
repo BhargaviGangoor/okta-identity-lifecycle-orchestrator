@@ -3,6 +3,8 @@ import {
   simulations as initialSimulations,
   drift as initialDrift,
   auditEvents as initialAudit,
+  GROUP_CATALOG,
+  APP_CATALOG,
 } from "./mock-data";
 import type {
   AuditEvent,
@@ -24,25 +26,77 @@ let currentAudit: AuditEvent[] = [...initialAudit];
 
 const delay = (ms = 60) => new Promise((resolve) => setTimeout(resolve, ms));
 
+export function computeUserRisk(department: string, role: string, groupsCount: number, appsCount: number): number {
+  let score = 15;
+  const d = (department || "").toLowerCase();
+  const r = (role || "").toLowerCase();
+
+  if (d.includes("sec") || d.includes("it")) score += 30;
+  else if (d.includes("eng") || d.includes("dev")) score += 20;
+  else if (d.includes("fin")) score += 25;
+  else if (d.includes("sales")) score += 10;
+  else if (d.includes("legal")) score += 15;
+
+  if (
+    r.includes("admin") ||
+    r.includes("lead") ||
+    r.includes("architect") ||
+    r.includes("principal") ||
+    r.includes("director") ||
+    r.includes("head") ||
+    r.includes("vp")
+  ) {
+    score += 30;
+  } else if (r.includes("senior") || r.includes("manager") || r.includes("staff") || r.includes("partner")) {
+    score += 18;
+  } else if (r.includes("intern") || r.includes("associate")) {
+    score -= 8;
+  }
+
+  score += groupsCount * 6 + appsCount * 4;
+  return Math.min(95, Math.max(12, score));
+}
+
+function resolveUserEntitlements(department: string, existingGroups?: string[], existingApps?: string[]) {
+  const dept = department || "Engineering";
+  const defaultGroups = (GROUP_CATALOG as Record<string, string[]>)[dept] || ["okta-general-all", "google-workspace-user"];
+  const defaultApps = (APP_CATALOG as Record<string, string[]>)[dept] || ["Google Workspace", "Slack", "Zoom"];
+
+  const groups = Array.isArray(existingGroups) && existingGroups.length > 0 ? existingGroups : defaultGroups;
+  const apps = Array.isArray(existingApps) && existingApps.length > 0 ? existingApps : defaultApps;
+
+  return { groups, apps };
+}
+
 // ── GET /api/users ────────────────────────────────────────────────
 export async function getUsers(): Promise<User[]> {
   const remote = await apiFetch<User[]>(ENDPOINTS.users);
   if (remote && Array.isArray(remote)) {
-    return remote.map((u: any) => ({
-      id: u.id || u.userId || u.employeeId || `usr_${Math.floor(100 + Math.random() * 900)}`,
-      name: u.name || `${u.firstName || ""} ${u.lastName || ""}`.trim() || "Unknown User",
-      email: u.email || "",
-      title: u.title || u.role || "Team Member",
-      department: u.department || "General",
-      manager: u.manager || "—",
-      location: u.location || "Global",
-      status: (u.status as User["status"]) || "ACTIVE",
-      riskScore: typeof u.riskScore === "number" ? u.riskScore : 20,
-      groups: Array.isArray(u.groups) ? u.groups : [],
-      apps: Array.isArray(u.apps) ? u.apps : [],
-      lastLogin: u.lastLogin || new Date().toISOString(),
-      startDate: u.startDate || "2024-01-01",
-    }));
+    return remote.map((u: any) => {
+      const dept = u.department || "General";
+      const title = u.title || u.role || "Team Member";
+      const { groups, apps } = resolveUserEntitlements(dept, u.groups, u.apps);
+      const computedRisk =
+        typeof u.riskScore === "number" && u.riskScore > 0
+          ? u.riskScore
+          : computeUserRisk(dept, title, groups.length, apps.length);
+
+      return {
+        id: u.id || u.userId || u.employeeId || `usr_${Math.floor(100 + Math.random() * 900)}`,
+        name: u.name || `${u.firstName || ""} ${u.lastName || ""}`.trim() || "Unknown User",
+        email: u.email || "",
+        title,
+        department: dept,
+        manager: u.manager || "—",
+        location: u.location || "Global",
+        status: (u.status as User["status"]) || "ACTIVE",
+        riskScore: computedRisk,
+        groups,
+        apps,
+        lastLogin: u.lastLogin || new Date().toISOString(),
+        startDate: u.startDate || "2024-01-01",
+      };
+    });
   }
   await delay();
   return [...currentUsers];
@@ -53,18 +107,26 @@ export async function getUser(id: string): Promise<User | undefined> {
   const remote = await apiFetch<User>(ENDPOINTS.user(id));
   if (remote) {
     const u: any = remote;
+    const dept = u.department || "General";
+    const title = u.title || u.role || "Team Member";
+    const { groups, apps } = resolveUserEntitlements(dept, u.groups, u.apps);
+    const computedRisk =
+      typeof u.riskScore === "number" && u.riskScore > 0
+        ? u.riskScore
+        : computeUserRisk(dept, title, groups.length, apps.length);
+
     return {
       id: u.id || u.userId || u.employeeId || id,
       name: u.name || `${u.firstName || ""} ${u.lastName || ""}`.trim() || "Unknown User",
       email: u.email || "",
-      title: u.title || u.role || "Team Member",
-      department: u.department || "General",
+      title,
+      department: dept,
       manager: u.manager || "—",
       location: u.location || "Global",
       status: (u.status as User["status"]) || "ACTIVE",
-      riskScore: typeof u.riskScore === "number" ? u.riskScore : 20,
-      groups: Array.isArray(u.groups) ? u.groups : [],
-      apps: Array.isArray(u.apps) ? u.apps : [],
+      riskScore: computedRisk,
+      groups,
+      apps,
       lastLogin: u.lastLogin || new Date().toISOString(),
       startDate: u.startDate || "2024-01-01",
     };
