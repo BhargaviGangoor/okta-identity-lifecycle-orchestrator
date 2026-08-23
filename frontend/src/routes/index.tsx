@@ -536,7 +536,7 @@ export function TeamEchoEditorialExperience() {
         {/* 3 Interactive Product Objects */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
           {/* ── Object 1: ZERO STANDING PRIVILEGE (Node Graph + JIT Access) ── */}
-          <div className="bg-[#121214] rounded-[32px] p-7 sm:p-8 border border-white/10 flex flex-col justify-between space-y-6 hover:border-white/20 transition-all duration-300 shadow-xl group">
+          <div className="bg-[#121214] rounded-[32px] p-7 sm:p-8 border border-white/10 flex flex-col justify-between space-y-6 shadow-xl group card-interactive hover-glow-lime">
             <div className="space-y-3">
               <div className="flex items-center justify-between pb-3 border-b border-white/10">
                 <span className="text-xs font-mono font-bold text-[#D4E84A]">01</span>
@@ -646,7 +646,7 @@ export function TeamEchoEditorialExperience() {
           </div>
 
           {/* ── Object 2: EXPECTED VS ACTUAL (Interactive State Slider) ─── */}
-          <div className="bg-[#121214] rounded-[32px] p-7 sm:p-8 border border-white/10 flex flex-col justify-between space-y-6 hover:border-white/20 transition-all duration-300 shadow-xl group">
+          <div className="bg-[#121214] rounded-[32px] p-7 sm:p-8 border border-white/10 flex flex-col justify-between space-y-6 shadow-xl group card-interactive hover-glow-orange">
             <div className="space-y-3">
               <div className="flex items-center justify-between pb-3 border-b border-white/10">
                 <span className="text-xs font-mono font-bold text-[#D4E84A]">02</span>
@@ -716,7 +716,7 @@ export function TeamEchoEditorialExperience() {
                     </div>
                     <button
                       onClick={() => setDriftReconciled(true)}
-                      className="w-full py-1.5 rounded-lg bg-amber-400 hover:bg-amber-300 text-[#0E0E0E] text-[10px] font-bold transition-all shadow-xs flex items-center justify-center gap-1.5"
+                      className="w-full py-1.5 rounded-lg bg-amber-400 hover:bg-amber-300 text-[#0E0E0E] text-[10px] font-bold shadow-xs flex items-center justify-center gap-1.5 btn-interactive"
                     >
                       <RotateCw className="w-3 h-3" />
                       <span>Reconcile to Baseline</span>
@@ -742,7 +742,7 @@ export function TeamEchoEditorialExperience() {
           </div>
 
           {/* ── Object 3: RISK-GATED EXECUTION (What-If Simulation Flow) ─── */}
-          <div className="bg-[#121214] rounded-[32px] p-7 sm:p-8 border border-white/10 flex flex-col justify-between space-y-6 hover:border-white/20 transition-all duration-300 shadow-xl group">
+          <div className="bg-[#121214] rounded-[32px] p-7 sm:p-8 border border-white/10 flex flex-col justify-between space-y-6 shadow-xl group card-interactive hover-glow-cyan">
             <div className="space-y-3">
               <div className="flex items-center justify-between pb-3 border-b border-white/10">
                 <span className="text-xs font-mono font-bold text-[#D4E84A]">03</span>
@@ -861,7 +861,7 @@ export function TeamEchoEditorialExperience() {
         </div>
 
         {/* Unified Interactive Pipeline Flow Bar with Animated Data Pulse */}
-        <div className="bg-[#121214] rounded-[36px] p-7 sm:p-10 border border-white/10 space-y-8 shadow-2xl">
+        <div className="bg-[#121214] rounded-[36px] p-7 sm:p-10 border border-white/10 space-y-8 shadow-2xl card-interactive hover-glow-lime">
           {/* Horizontal Step Indicator with Connectors */}
           <div className="grid grid-cols-2 md:grid-cols-6 gap-2 border-b border-white/10 pb-6 relative">
             {PIPELINE_STAGES.map((stage, idx) => {
@@ -871,7 +871,7 @@ export function TeamEchoEditorialExperience() {
                 <button
                   key={stage.name}
                   onClick={() => setActivePipelineStage(idx)}
-                  className={`p-3.5 rounded-[18px] border text-left transition-all duration-300 relative group ${
+                  className={`p-3.5 rounded-[18px] border text-left transition-all duration-300 relative group btn-interactive ${
                     isActive
                       ? "bg-[#1C1C1F] border-[#D4E84A] shadow-lg scale-102"
                       : "bg-white/5 border-transparent hover:border-white/20 text-[#8E8E86]"
@@ -911,7 +911,7 @@ export function TeamEchoEditorialExperience() {
                 {currentStage.summary}
               </p>
 
-              <div className="p-4 rounded-[18px] bg-black/40 border border-white/10 text-xs text-[#8E8E86] leading-relaxed">
+              <div className="p-4 rounded-[18px] bg-black/40 border border-white/10 text-xs text-[#8E8E86] leading-relaxed card-interactive">
                 <strong className="text-white font-mono">Platform Action: </strong>
                 {currentStage.action}
               </div>
@@ -920,7 +920,7 @@ export function TeamEchoEditorialExperience() {
               <div className="pt-2">
                 <button
                   onClick={() => setShowTechDetails(!showTechDetails)}
-                  className="inline-flex items-center gap-2 text-xs font-mono font-bold text-[#D4E84A] hover:underline"
+                  className="inline-flex items-center gap-2 text-xs font-mono font-bold text-[#D4E84A] hover:underline btn-interactive"
                 >
                   <Code2 className="w-3.5 h-3.5" />
                   <span>{showTechDetails ? "Hide Technical Specifications" : "VIEW TECHNICAL DETAILS →"}</span>
@@ -931,7 +931,7 @@ export function TeamEchoEditorialExperience() {
             {/* Right: Technical Details or Dynamic Execution Node */}
             <div className="lg:col-span-5">
               {showTechDetails ? (
-                <div className="bg-[#08080A] rounded-[24px] p-6 border border-[#D4E84A]/30 font-mono text-xs space-y-3 shadow-inner animate-in fade-in duration-200">
+                <div className="bg-[#08080A] rounded-[24px] p-6 border border-[#D4E84A]/30 font-mono text-xs space-y-3 shadow-inner animate-in fade-in duration-200 card-interactive hover-glow-lime">
                   <div className="flex items-center justify-between border-b border-white/10 pb-2 text-[10px] text-[#8E8E86]">
                     <span>ARCHITECTURE CONTRACT</span>
                     <span className="text-[#D4E84A]">JAVA 17 / SPRING BOOT</span>
@@ -952,7 +952,7 @@ export function TeamEchoEditorialExperience() {
                   </div>
                 </div>
               ) : (
-                <div className="bg-gradient-to-br from-[#161619] to-[#0A0A0C] bg-dark-grid rounded-[24px] p-8 border border-white/10 flex flex-col items-center justify-center text-center space-y-4 shadow-inner min-h-[220px]">
+                <div className="bg-gradient-to-br from-[#161619] to-[#0A0A0C] bg-dark-grid rounded-[24px] p-8 border border-white/10 flex flex-col items-center justify-center text-center space-y-4 shadow-inner min-h-[220px] card-interactive hover-glow-lime">
                   <div className="w-14 h-14 rounded-2xl bg-white/5 border border-white/15 flex items-center justify-center text-[#D4E84A] shadow-md">
                     <Activity className="w-7 h-7" />
                   </div>
@@ -964,13 +964,13 @@ export function TeamEchoEditorialExperience() {
                     <button
                       onClick={() => setActivePipelineStage((prev) => (prev > 0 ? prev - 1 : 0))}
                       disabled={activePipelineStage === 0}
-                      className="px-3 py-1.5 rounded-full bg-white/5 hover:bg-white/10 disabled:opacity-30 text-xs font-mono text-white transition-all"
+                      className="px-3.5 py-1.5 rounded-full bg-white/5 hover:bg-white/10 disabled:opacity-30 text-xs font-mono text-white transition-all btn-interactive"
                     >
                       ← Previous
                     </button>
                     <button
                       onClick={() => setActivePipelineStage((prev) => (prev < 5 ? prev + 1 : 0))}
-                      className="px-3 py-1.5 rounded-full bg-[#D4E84A] text-[#0E0E0E] text-xs font-mono font-bold hover:bg-[#c4d838] transition-all"
+                      className="px-4 py-1.5 rounded-full bg-[#D4E84A] text-[#0E0E0E] text-xs font-mono font-bold hover:bg-[#c4d838] transition-all btn-interactive"
                     >
                       Next Stage →
                     </button>
@@ -1003,7 +1003,7 @@ export function TeamEchoEditorialExperience() {
         {/* Two-Column Grid: Live Execution Terminal + Live Event Stream */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           {/* Left: Terminal Console (8 Cols) */}
-          <div className="lg:col-span-8 bg-[#121214] rounded-[36px] p-7 sm:p-9 border border-white/10 space-y-6 shadow-2xl">
+          <div className="lg:col-span-8 bg-[#121214] rounded-[36px] p-7 sm:p-9 border border-white/10 space-y-6 shadow-2xl card-interactive hover-glow-cyan">
             {/* Scenario Tab Switcher */}
             <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/10 pb-5">
               <div className="flex flex-wrap gap-2">
@@ -1011,7 +1011,7 @@ export function TeamEchoEditorialExperience() {
                   <button
                     key={scene.id}
                     onClick={() => handleSelectTerminalScene(idx)}
-                    className={`px-4 py-2 rounded-full text-xs font-mono font-bold transition-all ${
+                    className={`px-4 py-2 rounded-full text-xs font-mono font-bold transition-all btn-interactive ${
                       activeTerminalTab === idx
                         ? "bg-[#D4E84A] text-[#0E0E0E] shadow-sm"
                         : "bg-white/5 text-[#8E8E86] hover:bg-white/10 hover:text-white"
@@ -1024,7 +1024,7 @@ export function TeamEchoEditorialExperience() {
 
               <button
                 onClick={() => setShowRawTrace(!showRawTrace)}
-                className="inline-flex items-center gap-2 text-xs font-mono text-[#8E8E86] hover:text-white transition-colors"
+                className="inline-flex items-center gap-2 text-xs font-mono text-[#8E8E86] hover:text-white transition-colors btn-interactive"
               >
                 <Terminal className="w-3.5 h-3.5" />
                 <span>{showRawTrace ? "Show Summary" : "Inspect Raw Trace"}</span>
@@ -1032,7 +1032,7 @@ export function TeamEchoEditorialExperience() {
             </div>
 
             {/* Terminal Body */}
-            <div className="bg-[#08080A] rounded-[24px] border border-white/10 p-6 sm:p-8 font-mono space-y-4 shadow-inner min-h-[260px]">
+            <div className="bg-[#08080A] rounded-[24px] border border-white/10 p-6 sm:p-8 font-mono space-y-4 shadow-inner min-h-[260px] card-interactive">
               <div className="flex items-center justify-between border-b border-white/10 pb-3 text-xs text-[#8E8E86]">
                 <div className="flex items-center gap-2">
                   <span className="w-2.5 h-2.5 rounded-full bg-red-500/80"></span>
@@ -1085,7 +1085,7 @@ export function TeamEchoEditorialExperience() {
                 </span>
                 <Link
                   to={currentScene.link}
-                  className="inline-flex items-center gap-2 text-xs font-mono font-bold text-[#D4E84A] hover:underline"
+                  className="inline-flex items-center gap-2 text-xs font-mono font-bold text-[#D4E84A] hover:underline btn-interactive"
                 >
                   <span>Launch in Platform Console</span>
                   <ArrowRight className="w-3.5 h-3.5" />
@@ -1095,7 +1095,7 @@ export function TeamEchoEditorialExperience() {
           </div>
 
           {/* Right: Live Audit Event Stream (4 Cols) */}
-          <div className="lg:col-span-4 bg-[#121214] rounded-[36px] p-7 border border-white/10 space-y-5 shadow-2xl flex flex-col justify-between">
+          <div className="lg:col-span-4 bg-[#121214] rounded-[36px] p-7 border border-white/10 space-y-5 shadow-2xl flex flex-col justify-between card-interactive hover-glow-lime">
             <div className="space-y-1">
               <div className="flex items-center justify-between pb-3 border-b border-white/10">
                 <div className="flex items-center gap-2 text-xs font-mono font-bold text-white">
@@ -1114,7 +1114,7 @@ export function TeamEchoEditorialExperience() {
               {eventStream.map((ev, i) => (
                 <div
                   key={`${ev.time}-${i}`}
-                  className="p-2.5 rounded-xl bg-[#0A0A0C] border border-white/5 flex items-center justify-between text-[11px] animate-in fade-in slide-in-from-top-1 duration-200"
+                  className="p-2.5 rounded-xl bg-[#0A0A0C] border border-white/5 flex items-center justify-between text-[11px] animate-in fade-in slide-in-from-top-1 duration-200 card-interactive"
                 >
                   <div className="space-y-0.5">
                     <div className="text-[10px] text-[#8E8E86] tabular-nums">{ev.time}</div>
@@ -1130,7 +1130,7 @@ export function TeamEchoEditorialExperience() {
 
             <Link
               to="/audit"
-              className="inline-flex items-center justify-between text-xs font-mono font-bold text-white hover:text-[#D4E84A] pt-3 border-t border-white/10 transition-colors"
+              className="inline-flex items-center justify-between text-xs font-mono font-bold text-white hover:text-[#D4E84A] pt-3 border-t border-white/10 transition-colors btn-interactive"
             >
               <span>View Full Audit Ledger</span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -1139,7 +1139,7 @@ export function TeamEchoEditorialExperience() {
         </div>
 
         {/* ── Vertical Timeline of Event Sealing ───────────────────────── */}
-        <div className="bg-[#121214] rounded-[36px] p-7 sm:p-9 border border-white/10 space-y-6">
+        <div className="bg-[#121214] rounded-[36px] p-7 sm:p-9 border border-white/10 space-y-6 card-interactive">
           <div className="flex items-center justify-between border-b border-white/10 pb-4">
             <span className="text-xs font-mono font-bold text-[#D4E84A] uppercase tracking-wider">
               Cryptographic Audit Progression
@@ -1152,9 +1152,9 @@ export function TeamEchoEditorialExperience() {
               <div
                 key={step.time}
                 onClick={() => setExpandedTimelineStep(expandedTimelineStep === idx ? null : idx)}
-                className={`p-4 rounded-2xl border transition-all duration-200 cursor-pointer space-y-2 ${
+                className={`p-4 rounded-2xl border transition-all duration-200 cursor-pointer space-y-2 card-interactive ${
                   expandedTimelineStep === idx
-                    ? "bg-[#1C1C1F] border-[#D4E84A] shadow-md"
+                    ? "bg-[#1C1C1F] border-[#D4E84A] shadow-md hover-glow-lime"
                     : "bg-[#0A0A0C] border-white/10 hover:border-white/20"
                 }`}
               >
@@ -1181,7 +1181,7 @@ export function TeamEchoEditorialExperience() {
       {/* ── 5. FINAL CINEMATIC CTA ────────────────────────────────────── */}
       <section
         id="architecture"
-        className="bg-gradient-to-b from-[#161619] to-[#0A0A0C] bg-dark-grid rounded-[36px] p-10 sm:p-16 border border-white/10 text-center space-y-8 shadow-2xl"
+        className="bg-gradient-to-b from-[#161619] to-[#0A0A0C] bg-dark-grid rounded-[36px] p-10 sm:p-16 border border-white/10 text-center space-y-8 shadow-2xl card-interactive hover-glow-lime"
       >
         <div className="max-w-2xl mx-auto space-y-4">
           <span className="text-[11px] font-mono font-bold tracking-[0.2em] text-[#8E8E86] uppercase">
@@ -1199,14 +1199,14 @@ export function TeamEchoEditorialExperience() {
         <div className="flex flex-wrap justify-center gap-4 pt-2">
           <Link
             to="/users"
-            className="px-8 py-3.5 rounded-full bg-[#D4E84A] hover:bg-[#c4d838] text-[#0E0E0E] font-mono text-xs font-black shadow-xl transition-transform active:scale-95 flex items-center gap-2 group"
+            className="px-8 py-3.5 rounded-full bg-[#D4E84A] hover:bg-[#c4d838] text-[#0E0E0E] font-mono text-xs font-black shadow-xl transition-transform active:scale-95 flex items-center gap-2 group btn-interactive"
           >
             <span>ENTER PLATFORM</span>
             <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
           </Link>
           <Link
             to="/whatif"
-            className="px-8 py-3.5 rounded-full bg-[#1A1A1C] hover:bg-neutral-800 text-white font-mono text-xs font-bold border border-white/15 transition-colors flex items-center gap-2 group"
+            className="px-8 py-3.5 rounded-full bg-[#1A1A1C] hover:bg-neutral-800 text-white font-mono text-xs font-bold border border-white/15 transition-colors flex items-center gap-2 group btn-interactive"
           >
             <span>RUN WHAT-IF SIMULATION</span>
             <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
