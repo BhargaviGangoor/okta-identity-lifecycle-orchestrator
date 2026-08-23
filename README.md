@@ -19,7 +19,7 @@
 | **⚙️ REST API Root** | Render Web Service | [https://okta-identity-lifecycle-orchestrator.onrender.com/api](https://okta-identity-lifecycle-orchestrator.onrender.com/api) |
 | **🩺 Health Check API** | Render Web Service | [https://okta-identity-lifecycle-orchestrator.onrender.com/api/health](https://okta-identity-lifecycle-orchestrator.onrender.com/api/health) |
 | **👥 Users Directory API** | Render Web Service | [https://okta-identity-lifecycle-orchestrator.onrender.com/api/users](https://okta-identity-lifecycle-orchestrator.onrender.com/api/users) |
-| **📦 GitHub Repository** | Source Control | [BhargaviGangoor/okta-identity-lifecycle-orchestrator](https://github.com/BhargaviGangoor/okta-identity-lifecycle-orchestrator) |
+
 
 ---
 
