@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { HolographicCyberCityBackground } from "../components/backgrounds/HolographicCyberCityBackground";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -413,7 +414,7 @@ export function TeamEchoEditorialExperience() {
       className="space-y-28 sm:space-y-36 pb-28 text-white selection:bg-[#D4E84A] selection:text-[#0E0E0E] relative"
     >
       {/* ── Subtle Floating Side Progress Tracker ──────────────────────── */}
-      <div className="hidden 2xl:flex fixed right-8 top-1/2 -translate-y-1/2 flex-col gap-2.5 font-mono text-[10px] text-neutral-300 z-40 bg-[#141415]/90 backdrop-blur-md p-3 rounded-full border border-white/10 shadow-2xl">
+      <div className="hidden 2xl:flex fixed right-8 top-1/2 -translate-y-1/2 flex-col gap-2.5 font-mono text-[10px] text-neutral-300 z-40 glass-card p-3 rounded-full shadow-2xl">
         {[
           { num: "01", label: "GOVERN", href: "#governance" },
           { num: "02", label: "FLOW", href: "#pipeline" },
@@ -504,7 +505,7 @@ export function TeamEchoEditorialExperience() {
               />
 
               {/* Product Language Badge */}
-              <div className="absolute -bottom-3 left-6 bg-[#141415]/95 backdrop-blur-md px-5 py-3 rounded-[20px] border border-white/30 shadow-2xl flex items-center gap-3">
+              <div className="absolute -bottom-3 left-6 glass-card-strong px-5 py-3 rounded-[20px] shadow-2xl flex items-center gap-3">
                 <span className="w-2.5 h-2.5 rounded-full bg-[#D4E84A] animate-ping"></span>
                 <span className="text-xs font-mono text-white tracking-wider font-bold">
                   REQUEST → GOVERN → EXECUTE

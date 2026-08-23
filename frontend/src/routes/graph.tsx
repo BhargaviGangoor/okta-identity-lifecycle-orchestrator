@@ -31,9 +31,9 @@ export function IdentityGraphPage() {
   }, []);
 
   return (
-    <div className="space-y-6 animate-in fade-in duration-200">
+    <div className="space-y-6 animate-in fade-in duration-200 relative">
       {/* Hero Header */}
-      <section className="bg-gradient-to-r from-[#121316]/90 via-[#181920]/90 to-[#121316]/90 backdrop-blur-xl rounded-[32px] p-6 sm:p-8 border border-white/15 text-white flex flex-col md:flex-row items-start md:items-center justify-between gap-5 shadow-[0_12px_40px_rgba(0,0,0,0.6)] card-interactive hover-glow-cyan relative overflow-hidden">
+      <section className="glass-hero rounded-[32px] p-6 sm:p-8 text-white flex flex-col md:flex-row items-start md:items-center justify-between gap-5 shadow-[0_12px_40px_rgba(0,0,0,0.4)] card-interactive hover-glow-cyan relative overflow-hidden">
         <div className="absolute -top-24 -left-24 w-48 h-48 bg-cyan-400/10 rounded-full blur-3xl pointer-events-none"></div>
         <div className="space-y-2.5 relative z-10">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[11px] font-mono font-bold tracking-[0.2em] text-cyan-400 uppercase shadow-xs">
@@ -64,7 +64,7 @@ export function IdentityGraphPage() {
       {graphData ? (
         <IdentityGraphCanvas data={graphData} loading={loading} />
       ) : (
-        <div className="bg-[#141414] rounded-[32px] p-20 border border-white/10 text-center flex flex-col items-center justify-center space-y-4 shadow-xl card-interactive">
+        <div className="glass-card rounded-[32px] p-20 text-center flex flex-col items-center justify-center space-y-4 shadow-xl card-interactive">
           <div className="w-16 h-16 rounded-full bg-[#D4E84A]/10 text-[#D4E84A] flex items-center justify-center">
             <RefreshCw className="w-8 h-8 animate-spin" />
           </div>
