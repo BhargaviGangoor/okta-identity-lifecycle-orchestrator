@@ -16,7 +16,6 @@ import { getAudit } from "../services/api";
 import type { AuditEvent } from "../services/types";
 import { RiskBadge } from "../components/RiskBadge";
 import { useToast } from "../components/Toast";
-import { PlasmaRibbonBackground } from "../components/backgrounds/PlasmaRibbonBackground";
 
 export const Route = createFileRoute("/audit")({
   component: AuditTimelinePage,
@@ -76,9 +75,8 @@ export function AuditTimelinePage() {
 
   return (
     <div className="space-y-6 animate-in fade-in duration-200 relative">
-      <PlasmaRibbonBackground />
       {/* Hero Panel */}
-      <section className="bg-gradient-to-r from-[#121316]/90 via-[#181920]/90 to-[#121316]/90 backdrop-blur-xl rounded-[32px] p-6 sm:p-8 border border-white/15 text-white flex flex-col md:flex-row items-start md:items-center justify-between gap-5 shadow-[0_12px_40px_rgba(0,0,0,0.6)] card-interactive hover-glow-lime relative overflow-hidden">
+      <section className="glass-hero rounded-[32px] p-6 sm:p-8 text-white flex flex-col md:flex-row items-start md:items-center justify-between gap-5 shadow-[0_12px_40px_rgba(0,0,0,0.4)] card-interactive hover-glow-lime relative overflow-hidden">
         <div className="absolute -top-24 -left-24 w-48 h-48 bg-[#D4E84A]/10 rounded-full blur-3xl pointer-events-none"></div>
         <div className="space-y-2.5 relative z-10">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[11px] font-mono font-bold tracking-[0.2em] text-[#D4E84A] uppercase shadow-xs">
@@ -103,9 +101,9 @@ export function AuditTimelinePage() {
       </section>
 
       {/* Controls & Audit Table */}
-      <section className="bg-[#141414] rounded-[32px] p-6 border border-white/10 space-y-4 shadow-xl card-interactive">
+      <section className="glass-card rounded-[32px] p-6 space-y-4 shadow-xl card-interactive">
         {/* Controls */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 bg-[#1b1b1b] p-3.5 rounded-[22px] border border-white/10">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 glass-panel p-3.5 rounded-[22px]">
           <div className="relative w-full sm:w-80">
             <Search className="w-4 h-4 text-[#8A8A82] absolute left-3.5 top-1/2 -translate-y-1/2" />
             <input
@@ -145,7 +143,7 @@ export function AuditTimelinePage() {
               <div
                 key={evt.id}
                 onClick={() => setSelectedEventForModal(evt)}
-                className="bg-[#1b1b1b] p-4 sm:p-5 rounded-[20px] border border-white/10 flex flex-col md:flex-row md:items-center justify-between gap-3 text-xs card-interactive hover-glow-lime cursor-pointer group shadow-sm"
+                className="glass-panel p-4 sm:p-5 rounded-[20px] flex flex-col md:flex-row md:items-center justify-between gap-3 text-xs card-interactive hover-glow-lime cursor-pointer group shadow-sm"
               >
                 <div className="space-y-1 max-w-xl">
                   <div className="flex items-center gap-2">
@@ -185,7 +183,7 @@ export function AuditTimelinePage() {
       {/* JSON Payload Inspection Modal */}
       {selectedEventForModal && (
         <div className="fixed inset-0 z-[9999] flex items-end sm:items-center justify-center sm:p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-150">
-          <div className="bg-[#141414] text-white w-full max-w-2xl rounded-t-[28px] sm:rounded-[28px] border border-white/15 shadow-2xl p-5 sm:p-6 space-y-4 max-h-[92vh] sm:max-h-[85vh] flex flex-col card-interactive">
+          <div className="glass-card text-white w-full max-w-2xl rounded-t-[28px] sm:rounded-[28px] border border-white/15 shadow-2xl p-5 sm:p-6 space-y-4 max-h-[92vh] sm:max-h-[85vh] flex flex-col card-interactive">
             <div className="flex items-center justify-between border-b border-white/10 pb-3">
               <div className="flex items-center gap-2.5 min-w-0">
                 <FileCode className="w-5 h-5 text-[#D4E84A] shrink-0" />

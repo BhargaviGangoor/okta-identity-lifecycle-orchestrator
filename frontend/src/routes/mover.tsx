@@ -23,7 +23,6 @@ import { AccessDiff } from "../components/AccessDiff";
 import { RiskBadge } from "../components/RiskBadge";
 import { ImpactCard } from "../components/ImpactCard";
 import { useToast } from "../components/Toast";
-import { PlasmaRibbonBackground } from "../components/backgrounds/PlasmaRibbonBackground";
 
 export const Route = createFileRoute("/mover")({
   component: MoverTransitionPage,
@@ -154,9 +153,8 @@ export function MoverTransitionPage() {
 
   return (
     <div className="space-y-6 max-w-5xl mx-auto animate-in fade-in duration-200 relative">
-      <PlasmaRibbonBackground />
       {/* Hero Panel */}
-      <section className="bg-gradient-to-r from-[#121316]/90 via-[#181920]/90 to-[#121316]/90 backdrop-blur-xl rounded-[32px] p-6 sm:p-8 border border-white/15 text-white flex items-center justify-between shadow-[0_12px_40px_rgba(0,0,0,0.6)] card-interactive hover-glow-lime relative overflow-hidden">
+      <section className="glass-hero rounded-[32px] p-6 sm:p-8 text-white flex items-center justify-between shadow-[0_12px_40px_rgba(0,0,0,0.4)] card-interactive hover-glow-lime relative overflow-hidden">
         <div className="absolute -top-24 -left-24 w-48 h-48 bg-[#D4E84A]/10 rounded-full blur-3xl pointer-events-none"></div>
         <div className="space-y-2.5 relative z-10">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[11px] font-mono font-bold tracking-[0.2em] text-[#D4E84A] uppercase shadow-xs">
@@ -177,7 +175,7 @@ export function MoverTransitionPage() {
 
       {/* Main Execution Cockpit */}
       {createdSim ? (
-        <section className="bg-[#141414] rounded-[32px] p-8 border border-white/10 text-center space-y-6 shadow-2xl animate-in zoom-in-95 card-interactive">
+        <section className="glass-card rounded-[32px] p-8 text-center space-y-6 shadow-2xl animate-in zoom-in-95 card-interactive">
           <div className="w-16 h-16 rounded-full bg-[#D4E84A] text-[#141414] flex items-center justify-center mx-auto shadow-[0_0_24px_rgba(212,232,74,0.4)] hover:scale-110 transition-transform">
             <CheckCircle2 className="w-8 h-8 stroke-[2.5]" />
           </div>
@@ -225,7 +223,7 @@ export function MoverTransitionPage() {
           {/* Identity & Transfer Parameters Grid */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
             {/* Left: Source User Select */}
-            <div className="lg:col-span-5 bg-[#141414] rounded-[28px] p-6 border border-white/10 space-y-4 shadow-xl card-interactive hover-glow-lime">
+            <div className="lg:col-span-5 glass-card rounded-[28px] p-6 space-y-4 shadow-xl card-interactive hover-glow-lime">
               <div className="flex items-center justify-between border-b border-white/10 pb-3">
                 <span className="text-xs font-mono font-bold uppercase text-[#8E8E86]">
                   Source Identity (Current)
@@ -251,7 +249,7 @@ export function MoverTransitionPage() {
               </div>
 
               {selectedUser && (
-                <div className="bg-[#1b1b1b] p-4 rounded-[20px] border border-white/5 space-y-2.5 text-xs hover:border-white/20 transition-all">
+                <div className="glass-panel p-4 rounded-[20px] space-y-2.5 text-xs hover:border-white/20 transition-all">
                   <div className="flex justify-between">
                     <span className="text-[#8E8E86]">Department:</span>
                     <span className="font-bold text-white">{selectedUser.department}</span>
@@ -275,7 +273,7 @@ export function MoverTransitionPage() {
             </div>
 
             {/* Right: Target Role & Department */}
-            <div className="lg:col-span-7 bg-[#141414] rounded-[28px] p-6 border border-white/10 space-y-4 shadow-xl card-interactive hover-glow-lime">
+            <div className="lg:col-span-7 glass-card rounded-[28px] p-6 space-y-4 shadow-xl card-interactive hover-glow-lime">
               <div className="flex items-center justify-between border-b border-white/10 pb-3">
                 <span className="text-xs font-mono font-bold uppercase text-[#8E8E86]">
                   Target Configuration (New Role)
@@ -356,7 +354,7 @@ export function MoverTransitionPage() {
           )}
 
           {/* Interactive Entitlement Diff Editor */}
-          <div className="bg-[#141414] rounded-[28px] p-6 border border-white/10 space-y-5 shadow-xl card-interactive">
+          <div className="glass-card rounded-[28px] p-6 space-y-5 shadow-xl card-interactive">
             <div className="flex items-center justify-between border-b border-white/10 pb-3">
               <div className="flex items-center gap-2">
                 <Layers className="w-4 h-4 text-[#D4E84A]" />
@@ -427,7 +425,7 @@ export function MoverTransitionPage() {
           </div>
 
           {/* Action Trigger Bar */}
-          <div className="bg-[#141414] rounded-[24px] p-5 border border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-xl card-interactive hover-glow-lime">
+          <div className="glass-hero rounded-[24px] p-5 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-xl card-interactive hover-glow-lime">
             <div className="text-xs text-[#8E8E86] font-mono text-center sm:text-left">
               Changes will be committed directly to <span className="text-white font-bold">Okta Production</span> with an immutable cryptographic audit record.
             </div>

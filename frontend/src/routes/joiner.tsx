@@ -26,7 +26,6 @@ import { AccessDiff } from "../components/AccessDiff";
 import { RiskBadge } from "../components/RiskBadge";
 import type { Simulation } from "../services/types";
 import { useToast } from "../components/Toast";
-import { ElectricLightningBackground } from "../components/backgrounds/ElectricLightningBackground";
 
 export const Route = createFileRoute("/joiner")({
   component: JoinerWizardPage,
@@ -163,9 +162,8 @@ export function JoinerWizardPage() {
 
   return (
     <div className="space-y-6 max-w-4xl mx-auto animate-in fade-in duration-200 relative">
-      <ElectricLightningBackground />
       {/* Hero Panel */}
-      <section className="bg-gradient-to-r from-[#121316]/90 via-[#181920]/90 to-[#121316]/90 backdrop-blur-xl rounded-[32px] p-6 sm:p-8 border border-white/15 text-white flex items-center justify-between shadow-[0_12px_40px_rgba(0,0,0,0.6)] card-interactive hover-glow-lime relative overflow-hidden">
+      <section className="glass-hero rounded-[32px] p-6 sm:p-8 text-white flex items-center justify-between shadow-[0_12px_40px_rgba(0,0,0,0.4)] card-interactive hover-glow-lime relative overflow-hidden">
         <div className="absolute -top-24 -left-24 w-48 h-48 bg-[#D4E84A]/10 rounded-full blur-3xl pointer-events-none"></div>
         <div className="space-y-2.5 relative z-10">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[11px] font-mono font-bold tracking-[0.2em] text-[#D4E84A] uppercase shadow-xs">
@@ -200,10 +198,10 @@ export function JoinerWizardPage() {
               key={st.num}
               className={`p-2.5 sm:p-3 rounded-[16px] border flex items-center gap-2 transition-all card-interactive ${
                 isActive
-                  ? "bg-[#141414] border-[#D4E84A] text-white shadow-lg hover-glow-lime"
+                  ? "glass-hero border-[#D4E84A] text-white shadow-lg hover-glow-lime"
                   : isDone
-                  ? "bg-[#141414] border-white/20 text-[#D4E84A]"
-                  : "bg-[#141414]/50 border-white/5 text-neutral-500"
+                  ? "glass-card border-white/20 text-[#D4E84A]"
+                  : "glass-card border-white/5 text-neutral-500"
               }`}
             >
               <div
@@ -224,12 +222,12 @@ export function JoinerWizardPage() {
       </div>
 
       {/* Wizard Steps */}
-      <div className="bg-[#141414] rounded-[24px] sm:rounded-[32px] p-4 sm:p-8 border border-white/10 shadow-xl space-y-6 card-interactive">
+      <div className="glass-card rounded-[24px] sm:rounded-[32px] p-4 sm:p-8 shadow-xl space-y-6 card-interactive">
         {/* Step 1: Profile & Presets */}
         {step === 1 && (
           <div className="space-y-6 animate-in fade-in duration-150">
             {/* Quick Templates Bar */}
-            <div className="bg-[#1b1b1b] p-4 rounded-[20px] border border-white/10 space-y-2.5">
+            <div className="glass-panel p-4 rounded-[20px] space-y-2.5">
               <div className="flex items-center gap-2">
                 <Zap className="w-3.5 h-3.5 text-[#D4E84A]" />
                 <span className="text-[11px] font-mono font-bold uppercase text-[#D4E84A]">

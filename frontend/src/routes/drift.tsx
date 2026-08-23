@@ -16,7 +16,6 @@ import { getDrift, remediateDrift } from "../services/api";
 import type { DriftItem, RiskLevel } from "../services/types";
 import { RiskBadge } from "../components/RiskBadge";
 import { useToast } from "../components/Toast";
-import { HyperspaceWarpBackground } from "../components/backgrounds/HyperspaceWarpBackground";
 
 export const Route = createFileRoute("/drift")({
   component: DriftReconciliationPage,
@@ -94,9 +93,8 @@ export function DriftReconciliationPage() {
 
   return (
     <div className="space-y-6 animate-in fade-in duration-200 relative">
-      <HyperspaceWarpBackground />
       {/* Hero Panel */}
-      <section className="bg-gradient-to-r from-[#121316]/90 via-[#181920]/90 to-[#121316]/90 backdrop-blur-xl rounded-[32px] p-6 sm:p-8 border border-white/15 text-white flex flex-col md:flex-row items-start md:items-center justify-between gap-5 shadow-[0_12px_40px_rgba(0,0,0,0.6)] card-interactive hover-glow-orange relative overflow-hidden">
+      <section className="glass-hero rounded-[32px] p-6 sm:p-8 text-white flex flex-col md:flex-row items-start md:items-center justify-between gap-5 shadow-[0_12px_40px_rgba(0,0,0,0.4)] card-interactive hover-glow-orange relative overflow-hidden">
         <div className="absolute -top-24 -left-24 w-48 h-48 bg-[#E8703A]/10 rounded-full blur-3xl pointer-events-none"></div>
         <div className="space-y-2.5 relative z-10">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[11px] font-mono font-bold tracking-[0.2em] text-[#E8703A] uppercase shadow-xs">
@@ -125,7 +123,7 @@ export function DriftReconciliationPage() {
 
       {/* Summary KPI Banner */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="bg-[#141414] p-5 rounded-[24px] border border-white/10 flex items-center justify-between shadow-lg card-interactive hover-glow-orange">
+        <div className="glass-card p-5 rounded-[24px] flex items-center justify-between shadow-lg card-interactive hover-glow-orange">
           <div>
             <span className="text-[10px] font-mono text-[#8E8E86] uppercase block">Total Open Drift</span>
             <span className="text-2xl font-semibold text-white mt-1 block">{openCount} Discrepancies</span>
@@ -135,7 +133,7 @@ export function DriftReconciliationPage() {
           </div>
         </div>
 
-        <div className="bg-[#141414] p-5 rounded-[24px] border border-white/10 flex items-center justify-between shadow-lg card-interactive hover-glow-orange">
+        <div className="glass-card p-5 rounded-[24px] flex items-center justify-between shadow-lg card-interactive hover-glow-orange">
           <div>
             <span className="text-[10px] font-mono text-[#8E8E86] uppercase block">Critical SoD Collisions</span>
             <span className="text-2xl font-semibold text-[#E8703A] mt-1 block">{criticalCount} High Risk</span>
@@ -145,7 +143,7 @@ export function DriftReconciliationPage() {
           </div>
         </div>
 
-        <div className="bg-[#141414] p-5 rounded-[24px] border border-white/10 flex items-center justify-between shadow-lg card-interactive hover-glow-lime">
+        <div className="glass-card p-5 rounded-[24px] flex items-center justify-between shadow-lg card-interactive hover-glow-lime">
           <div>
             <span className="text-[10px] font-mono text-[#8E8E86] uppercase block">Last Okta Sync</span>
             <span className="text-2xl font-semibold text-[#D4E84A] mt-1 block">{lastScanTime}</span>
@@ -157,9 +155,9 @@ export function DriftReconciliationPage() {
       </div>
 
       {/* Drift Comparison Grid */}
-      <section className="bg-[#141414] rounded-[32px] p-6 border border-white/10 space-y-4 shadow-xl card-interactive">
+      <section className="glass-card rounded-[32px] p-6 space-y-4 shadow-xl card-interactive">
         {/* Controls & Filter Bar */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 bg-[#1b1b1b] p-3.5 rounded-[22px] border border-white/10">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 glass-panel p-3.5 rounded-[22px]">
           <div className="flex flex-wrap items-center gap-2">
             <span className="text-[10px] font-mono text-[#8E8E86] uppercase px-1">Filter:</span>
             {["ALL", "CRITICAL", "HIGH", "MEDIUM", "LOW"].map((rk) => (
@@ -205,7 +203,7 @@ export function DriftReconciliationPage() {
             filteredDrift.map((item) => (
               <div
                 key={item.id}
-                className="bg-[#1b1b1b] p-5 rounded-[22px] border border-white/10 flex flex-col lg:flex-row lg:items-center justify-between gap-4 group card-interactive hover-glow-lime shadow-md"
+                className="glass-panel p-5 rounded-[22px] flex flex-col lg:flex-row lg:items-center justify-between gap-4 group card-interactive hover-glow-lime shadow-md"
               >
                 {/* Identity & Entitlement */}
                 <div className="space-y-1.5 max-w-md">
@@ -229,7 +227,7 @@ export function DriftReconciliationPage() {
                 </div>
 
                 {/* State Comparison Grid */}
-                <div className="grid grid-cols-2 gap-3 flex-1 max-w-lg bg-[#141414] p-3.5 rounded-[16px] border border-white/10 text-xs font-mono">
+                <div className="grid grid-cols-2 gap-3 flex-1 max-w-lg glass-panel p-3.5 rounded-[16px] text-xs font-mono">
                   <div>
                     <div className="text-[10px] text-[#8A8A82] uppercase font-bold">Authoritative Policy</div>
                     <div className="text-neutral-200 font-bold mt-1 truncate">{item.policyState}</div>

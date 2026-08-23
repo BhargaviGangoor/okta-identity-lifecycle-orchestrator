@@ -16,7 +16,6 @@ import { RiskBadge } from "../components/RiskBadge";
 import { BlastRadiusRadar } from "../components/BlastRadiusRadar";
 import { useToast } from "../components/Toast";
 import { cyberSound } from "../utils/cyberSound";
-import { ElectricLightningBackground } from "../components/backgrounds/ElectricLightningBackground";
 
 export const Route = createFileRoute("/whatif")({
   component: WhatIfSimulatorPage,
@@ -111,9 +110,8 @@ export function WhatIfSimulatorPage() {
 
   return (
     <div className="space-y-6 max-w-4xl mx-auto animate-in fade-in duration-200 relative">
-      <ElectricLightningBackground />
       {/* Hero Panel */}
-      <section className="bg-gradient-to-r from-[#121316]/90 via-[#181920]/90 to-[#121316]/90 backdrop-blur-xl rounded-[32px] p-6 sm:p-8 border border-white/15 text-white flex items-center justify-between shadow-[0_12px_40px_rgba(0,0,0,0.6)] card-interactive hover-glow-cyan relative overflow-hidden">
+      <section className="glass-hero rounded-[32px] p-6 sm:p-8 text-white flex items-center justify-between shadow-[0_12px_40px_rgba(0,0,0,0.4)] card-interactive hover-glow-cyan relative overflow-hidden">
         <div className="absolute -top-24 -left-24 w-48 h-48 bg-cyan-400/10 rounded-full blur-3xl pointer-events-none"></div>
         <div className="space-y-2.5 relative z-10">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[11px] font-mono font-bold tracking-[0.2em] text-cyan-400 uppercase shadow-xs">
@@ -133,7 +131,7 @@ export function WhatIfSimulatorPage() {
       </section>
 
       {/* Simulator Controls */}
-      <div className="bg-[#141414] rounded-[28px] p-6 border border-white/10 space-y-5 shadow-xl card-interactive hover-glow-cyan">
+      <div className="glass-card rounded-[28px] p-6 space-y-5 shadow-xl card-interactive hover-glow-cyan">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label className="text-[11px] font-mono uppercase text-[#8E8E86] block mb-1.5 font-bold">
@@ -204,7 +202,7 @@ export function WhatIfSimulatorPage() {
             delta={simResult.delta}
           />
 
-          <div className="bg-[#141414] rounded-[32px] p-6 sm:p-7 border border-white/10 space-y-6 shadow-2xl card-interactive">
+          <div className="glass-card rounded-[32px] p-6 sm:p-7 space-y-6 shadow-2xl card-interactive">
             {/* Result Header */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-4">
               <div className="space-y-1">

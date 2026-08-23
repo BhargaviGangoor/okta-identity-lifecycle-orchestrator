@@ -19,7 +19,6 @@ import type { User, Simulation } from "../services/types";
 import { RiskBadge } from "../components/RiskBadge";
 import { AccessDiff } from "../components/AccessDiff";
 import { useToast } from "../components/Toast";
-import { HyperspaceWarpBackground } from "../components/backgrounds/HyperspaceWarpBackground";
 
 export const Route = createFileRoute("/leaver")({
   component: LeaverDeprovisionPage,
@@ -90,9 +89,8 @@ export function LeaverDeprovisionPage() {
 
   return (
     <div className="space-y-6 max-w-4xl mx-auto animate-in fade-in duration-200 relative">
-      <HyperspaceWarpBackground />
       {/* Hero Panel */}
-      <section className="bg-gradient-to-r from-[#121316]/90 via-[#181920]/90 to-[#121316]/90 backdrop-blur-xl rounded-[32px] p-6 sm:p-8 border border-white/15 text-white flex items-center justify-between shadow-[0_12px_40px_rgba(0,0,0,0.6)] card-interactive hover-glow-orange relative overflow-hidden">
+      <section className="glass-hero rounded-[32px] p-6 sm:p-8 text-white flex items-center justify-between shadow-[0_12px_40px_rgba(0,0,0,0.4)] card-interactive hover-glow-orange relative overflow-hidden">
         <div className="absolute -top-24 -left-24 w-48 h-48 bg-[#E8703A]/10 rounded-full blur-3xl pointer-events-none"></div>
         <div className="space-y-2.5 relative z-10">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[11px] font-mono font-bold tracking-[0.2em] text-[#E8703A] uppercase shadow-xs">
@@ -112,7 +110,7 @@ export function LeaverDeprovisionPage() {
       </section>
 
       {createdSim ? (
-        <section className="bg-[#141414] rounded-[32px] p-8 border border-white/10 text-center space-y-6 shadow-2xl animate-in zoom-in-95 card-interactive">
+        <section className="glass-card rounded-[32px] p-8 text-center space-y-6 shadow-2xl animate-in zoom-in-95 card-interactive">
           <div className="w-16 h-16 rounded-full bg-[#E8703A] text-white flex items-center justify-center mx-auto shadow-[0_0_24px_rgba(232,112,58,0.4)] hover:scale-110 transition-transform">
             <CheckCircle2 className="w-8 h-8 stroke-[2.5]" />
           </div>
@@ -156,7 +154,7 @@ export function LeaverDeprovisionPage() {
       ) : (
         <div className="space-y-6">
           {/* Leaver Target & Details */}
-          <div className="bg-[#141414] rounded-[28px] p-6 border border-white/10 space-y-5 shadow-xl card-interactive hover-glow-orange">
+          <div className="glass-card rounded-[28px] p-6 space-y-5 shadow-xl card-interactive hover-glow-orange">
             <div className="flex items-center justify-between border-b border-white/10 pb-3">
               <span className="text-xs font-mono font-bold uppercase text-[#8E8E86]">
                 Select Identity to Deprovision
@@ -202,20 +200,20 @@ export function LeaverDeprovisionPage() {
 
             {/* Target Details Card */}
             {selectedUser && (
-              <div className="bg-[#1b1b1b] p-4 rounded-[20px] border border-white/5 grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
-                <div className="bg-[#141414] p-3 rounded-[14px]">
+              <div className="glass-panel p-4 rounded-[20px] grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+                <div className="glass-card p-3 rounded-[14px]">
                   <span className="text-[10px] font-mono text-[#8E8E86] block">EMPLOYEE</span>
                   <span className="font-bold text-white mt-0.5 block truncate">{selectedUser.name}</span>
                 </div>
-                <div className="bg-[#141414] p-3 rounded-[14px]">
+                <div className="glass-card p-3 rounded-[14px]">
                   <span className="text-[10px] font-mono text-[#8E8E86] block">DEPARTMENT</span>
                   <span className="font-bold text-white mt-0.5 block">{selectedUser.department}</span>
                 </div>
-                <div className="bg-[#141414] p-3 rounded-[14px]">
+                <div className="glass-card p-3 rounded-[14px]">
                   <span className="text-[10px] font-mono text-[#8E8E86] block">GROUPS PURGED</span>
                   <span className="font-mono text-[#E8703A] font-bold mt-0.5 block">{groups.length} Groups</span>
                 </div>
-                <div className="bg-[#141414] p-3 rounded-[14px]">
+                <div className="glass-card p-3 rounded-[14px]">
                   <span className="text-[10px] font-mono text-[#8E8E86] block">OKTA ID</span>
                   <span className="font-mono text-neutral-300 mt-0.5 block truncate">{selectedUser.id}</span>
                 </div>
@@ -224,7 +222,7 @@ export function LeaverDeprovisionPage() {
           </div>
 
           {/* 5-Stage Kill-Switch Sequence Checklist */}
-          <div className="bg-[#141414] rounded-[28px] p-6 border border-white/10 space-y-4 shadow-xl card-interactive">
+          <div className="glass-card rounded-[28px] p-6 space-y-4 shadow-xl card-interactive">
             <div className="flex items-center justify-between border-b border-white/10 pb-3">
               <div className="flex items-center gap-2">
                 <ShieldAlert className="w-4 h-4 text-[#E8703A]" />
@@ -236,7 +234,7 @@ export function LeaverDeprovisionPage() {
             </div>
 
             <div className="space-y-2.5 text-xs">
-              <label className="flex items-center gap-3 p-3.5 rounded-[16px] bg-[#1b1b1b] border border-white/5 cursor-pointer hover:border-white/20 transition-all card-interactive">
+              <label className="flex items-center gap-3 p-3.5 rounded-[16px] glass-panel cursor-pointer hover:border-white/20 transition-all card-interactive">
                 <input
                   type="checkbox"
                   checked={checklist.sessions}
@@ -249,7 +247,7 @@ export function LeaverDeprovisionPage() {
                 </div>
               </label>
 
-              <label className="flex items-center gap-3 p-3.5 rounded-[16px] bg-[#1b1b1b] border border-white/5 cursor-pointer hover:border-white/20 transition-all card-interactive">
+              <label className="flex items-center gap-3 p-3.5 rounded-[16px] glass-panel cursor-pointer hover:border-white/20 transition-all card-interactive">
                 <input
                   type="checkbox"
                   checked={checklist.groups}
@@ -262,7 +260,7 @@ export function LeaverDeprovisionPage() {
                 </div>
               </label>
 
-              <label className="flex items-center gap-3 p-3.5 rounded-[16px] bg-[#1b1b1b] border border-white/5 cursor-pointer hover:border-white/20 transition-all card-interactive">
+              <label className="flex items-center gap-3 p-3.5 rounded-[16px] glass-panel cursor-pointer hover:border-white/20 transition-all card-interactive">
                 <input
                   type="checkbox"
                   checked={checklist.mfa}
@@ -275,7 +273,7 @@ export function LeaverDeprovisionPage() {
                 </div>
               </label>
 
-              <label className="flex items-center gap-3 p-3.5 rounded-[16px] bg-[#1b1b1b] border border-white/5 cursor-pointer hover:border-white/20 transition-all card-interactive">
+              <label className="flex items-center gap-3 p-3.5 rounded-[16px] glass-panel cursor-pointer hover:border-white/20 transition-all card-interactive">
                 <input
                   type="checkbox"
                   checked={checklist.auditSealed}
@@ -291,7 +289,7 @@ export function LeaverDeprovisionPage() {
           </div>
 
           {/* Action Trigger */}
-          <div className="bg-[#141414] rounded-[24px] p-5 border border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-xl card-interactive hover-glow-orange">
+          <div className="glass-hero rounded-[24px] p-5 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-xl card-interactive hover-glow-orange">
             <div className="text-xs text-[#8E8E86] font-mono text-center sm:text-left">
               Executing will permanently deactivate <span className="text-white font-bold">{selectedUser?.name}</span> and purge all credentials.
             </div>
