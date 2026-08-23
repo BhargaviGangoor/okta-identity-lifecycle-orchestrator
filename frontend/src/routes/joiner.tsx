@@ -26,6 +26,7 @@ import { AccessDiff } from "../components/AccessDiff";
 import { RiskBadge } from "../components/RiskBadge";
 import type { Simulation } from "../services/types";
 import { useToast } from "../components/Toast";
+import { ConvergenceBackground } from "../components/backgrounds/ConvergenceBackground";
 
 export const Route = createFileRoute("/joiner")({
   component: JoinerWizardPage,
@@ -161,7 +162,8 @@ export function JoinerWizardPage() {
   };
 
   return (
-    <div className="space-y-6 max-w-4xl mx-auto animate-in fade-in duration-200">
+    <div className="space-y-6 max-w-4xl mx-auto animate-in fade-in duration-200 relative">
+      <ConvergenceBackground />
       {/* Hero Panel */}
       <section className="bg-gradient-to-r from-[#121316]/90 via-[#181920]/90 to-[#121316]/90 backdrop-blur-xl rounded-[32px] p-6 sm:p-8 border border-white/15 text-white flex items-center justify-between shadow-[0_12px_40px_rgba(0,0,0,0.6)] card-interactive hover-glow-lime relative overflow-hidden">
         <div className="absolute -top-24 -left-24 w-48 h-48 bg-[#D4E84A]/10 rounded-full blur-3xl pointer-events-none"></div>
