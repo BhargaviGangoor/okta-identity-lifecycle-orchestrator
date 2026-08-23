@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Space+Grotesk:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
 @import "tailwindcss" source(none);
 @source "../src";
 @import "tw-animate-css";
@@ -68,8 +68,8 @@
   --color-muted-gray: #8E8E86;
   --color-lime: #D4E84A;
   --color-orange: #E8703A;
-  --font-display: "Space Grotesk", system-ui, -apple-system, sans-serif;
-  --font-headline: "Syne", "Space Grotesk", system-ui, sans-serif;
+  --font-display: "Outfit", system-ui, -apple-system, sans-serif;
+  --font-headline: "Bricolage Grotesque", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, Menlo, Monaco, Consolas, monospace;
   --radius-frame: 36px;
   --radius-panel: 28px;
