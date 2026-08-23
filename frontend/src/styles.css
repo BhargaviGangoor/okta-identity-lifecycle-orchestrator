@@ -248,7 +248,7 @@ body {
 
 /* Clean Typography Utility Classes (Zero Glow) */
 .text-contrast-crisp {
-  color: #CBD5E1 !important;
+  color: #94A3B8 !important;
   text-shadow: none !important;
 }
 
@@ -258,14 +258,14 @@ body {
 }
 
 .text-glow-white {
-  color: #F1F5F9 !important;
+  color: #E2E8F0 !important;
   text-shadow: none !important;
 }
 
 .card-high-contrast {
-  background: rgba(18, 19, 25, 0.8) !important;
-  backdrop-filter: blur(16px) !important;
-  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  background: rgba(18, 19, 25, 0.5) !important;
+  backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
 }
 
 /* Global button interactive pop-out */

@@ -161,7 +161,7 @@ export function MoverTransitionPage() {
             <span className="w-1.5 h-1.5 rounded-full bg-[#D4E84A] animate-pulse"></span>
             <span>02 / LIFECYCLE TRANSITIONS</span>
           </div>
-          <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-white leading-tight">
+          <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight text-white leading-tight">
             Mover Role Transfer Cockpit
           </h1>
           <p className="text-xs sm:text-[13px] text-neutral-300 leading-[1.65] max-w-xl font-light">
@@ -187,7 +187,7 @@ export function MoverTransitionPage() {
                 OKTA PROD-US
               </span>
             </div>
-            <h2 className="text-2xl font-black text-white">Role Transition Completed & Sealed</h2>
+            <h2 className="text-2xl font-semibold text-white">Role Transition Completed & Sealed</h2>
             <p className="text-xs text-[#8E8E86] max-w-md mx-auto leading-relaxed">
               Transferred <span className="text-white font-bold">{selectedUser?.name}</span> to{" "}
               <span className="text-[#D4E84A] font-bold">{newDept}</span> as{" "}
@@ -212,7 +212,7 @@ export function MoverTransitionPage() {
             </button>
             <button
               onClick={() => navigate({ to: "/users" })}
-              className="px-6 py-2.5 rounded-full bg-[#D4E84A] hover:bg-[#c2d73b] text-[#0E0E0E] font-mono text-xs font-black shadow-md btn-interactive"
+              className="px-6 py-2.5 rounded-full bg-[#D4E84A] hover:bg-[#c2d73b] text-[#0E0E0E] font-mono text-xs font-semibold shadow-md btn-interactive"
             >
               VIEW IDENTITIES DIRECTORY
             </button>
@@ -433,7 +433,7 @@ export function MoverTransitionPage() {
             <button
               onClick={handleExecuteMove}
               disabled={loading || !selectedUser}
-              className="w-full sm:w-auto px-8 py-3 rounded-full bg-[#D4E84A] hover:bg-[#c2d73b] text-[#0E0E0E] font-mono text-xs font-black tracking-wider shadow-lg flex items-center justify-center gap-2 btn-interactive"
+              className="w-full sm:w-auto px-8 py-3 rounded-full bg-[#D4E84A] hover:bg-[#c2d73b] text-[#0E0E0E] font-mono text-xs font-semibold tracking-wider shadow-lg flex items-center justify-center gap-2 btn-interactive"
             >
               {loading ? (
                 <>

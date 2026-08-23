@@ -101,7 +101,7 @@ export function DriftReconciliationPage() {
             <span className="w-1.5 h-1.5 rounded-full bg-[#E8703A] animate-pulse"></span>
             <span>05 / DRIFT RECONCILIATION</span>
           </div>
-          <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-white leading-tight">
+          <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight text-white leading-tight">
             Authoritative Drift Scanner
           </h1>
           <p className="text-xs sm:text-[13px] text-neutral-300 leading-[1.65] max-w-xl font-light">
@@ -126,7 +126,7 @@ export function DriftReconciliationPage() {
         <div className="bg-[#141414] p-5 rounded-[24px] border border-white/10 flex items-center justify-between shadow-lg card-interactive hover-glow-orange">
           <div>
             <span className="text-[10px] font-mono text-[#8E8E86] uppercase block">Total Open Drift</span>
-            <span className="text-2xl font-black text-white mt-1 block">{openCount} Discrepancies</span>
+            <span className="text-2xl font-semibold text-white mt-1 block">{openCount} Discrepancies</span>
           </div>
           <div className="w-10 h-10 rounded-[14px] bg-[#E8703A]/20 text-[#E8703A] flex items-center justify-center font-bold hover:scale-110 transition-transform">
             <AlertTriangle className="w-5 h-5" />
@@ -136,7 +136,7 @@ export function DriftReconciliationPage() {
         <div className="bg-[#141414] p-5 rounded-[24px] border border-white/10 flex items-center justify-between shadow-lg card-interactive hover-glow-orange">
           <div>
             <span className="text-[10px] font-mono text-[#8E8E86] uppercase block">Critical SoD Collisions</span>
-            <span className="text-2xl font-black text-[#E8703A] mt-1 block">{criticalCount} High Risk</span>
+            <span className="text-2xl font-semibold text-[#E8703A] mt-1 block">{criticalCount} High Risk</span>
           </div>
           <div className="w-10 h-10 rounded-[14px] bg-red-500/20 text-red-400 flex items-center justify-center font-bold hover:scale-110 transition-transform">
             <ShieldAlert className="w-5 h-5" />
@@ -146,7 +146,7 @@ export function DriftReconciliationPage() {
         <div className="bg-[#141414] p-5 rounded-[24px] border border-white/10 flex items-center justify-between shadow-lg card-interactive hover-glow-lime">
           <div>
             <span className="text-[10px] font-mono text-[#8E8E86] uppercase block">Last Okta Sync</span>
-            <span className="text-2xl font-black text-[#D4E84A] mt-1 block">{lastScanTime}</span>
+            <span className="text-2xl font-semibold text-[#D4E84A] mt-1 block">{lastScanTime}</span>
           </div>
           <div className="w-10 h-10 rounded-[14px] bg-[#D4E84A]/20 text-[#D4E84A] flex items-center justify-center font-bold hover:scale-110 transition-transform">
             <ShieldCheck className="w-5 h-5" />
@@ -179,7 +179,7 @@ export function DriftReconciliationPage() {
             <button
               onClick={handleRemediateAll}
               disabled={batchRemediating}
-              className="px-5 py-2 rounded-full bg-[#D4E84A] hover:bg-[#c2d73b] text-[#141414] font-mono text-xs font-black shadow-md flex items-center gap-1.5 active:scale-95 disabled:opacity-50 btn-interactive shrink-0"
+              className="px-5 py-2 rounded-full bg-[#D4E84A] hover:bg-[#c2d73b] text-[#141414] font-mono text-xs font-semibold shadow-md flex items-center gap-1.5 active:scale-95 disabled:opacity-50 btn-interactive shrink-0"
             >
               {batchRemediating ? (
                 <RefreshCw className="w-3.5 h-3.5 animate-spin" />
@@ -244,7 +244,7 @@ export function DriftReconciliationPage() {
                     <button
                       onClick={() => handleRemediate(item.id)}
                       disabled={remediatingId === item.id}
-                      className="px-5 py-2.5 rounded-full bg-[#D4E84A] hover:bg-[#c2d73b] text-[#141414] font-mono text-xs font-black shadow-md flex items-center gap-1.5 btn-interactive"
+                      className="px-5 py-2.5 rounded-full bg-[#D4E84A] hover:bg-[#c2d73b] text-[#141414] font-mono text-xs font-semibold shadow-md flex items-center gap-1.5 btn-interactive"
                     >
                       {remediatingId === item.id ? (
                         <RefreshCw className="w-3.5 h-3.5 animate-spin" />

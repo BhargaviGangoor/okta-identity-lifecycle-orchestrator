@@ -669,7 +669,7 @@ export function IdentityGraphCanvas({
               <span className="text-[10px] font-mono uppercase text-[#8A8A82]">Risk & Security Tier</span>
               <div className="flex items-center gap-2">
                 <span
-                  className={`text-sm font-black ${
+                  className={`text-sm font-semibold ${
                     selectedNode.riskScore && selectedNode.riskScore > 50 ? "text-[#E8703A]" : "text-[#D4E84A]"
                   }`}
                 >
@@ -686,7 +686,7 @@ export function IdentityGraphCanvas({
 
             <div className="bg-[#1b1b1b] p-4 rounded-[18px] border border-white/10 space-y-1">
               <span className="text-[10px] font-mono uppercase text-[#8A8A82]">Active Blast Radius</span>
-              <p className="text-sm font-black text-white">{blastRadiusIds.size - 1} Connected Entities</p>
+              <p className="text-sm font-semibold text-white">{blastRadiusIds.size - 1} Connected Entities</p>
               <p className="text-xs text-[#8A8A82]">Direct & transitive entitlements in scope</p>
             </div>
           </div>
@@ -701,7 +701,7 @@ export function IdentityGraphCanvas({
               {selectedNode.type === "USER" && (
                 <Link
                   to="/whatif"
-                  className="px-4 py-2 rounded-full bg-[#D4E84A] hover:bg-[#c2d73b] text-[#141414] font-mono text-xs font-black flex items-center gap-1.5 shadow-sm"
+                  className="px-4 py-2 rounded-full bg-[#D4E84A] hover:bg-[#c2d73b] text-[#141414] font-mono text-xs font-semibold flex items-center gap-1.5 shadow-sm"
                 >
                   <Sparkles className="w-3.5 h-3.5" />
                   <span>SIMULATE WHAT-IF</span>

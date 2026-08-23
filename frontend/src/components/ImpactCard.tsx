@@ -30,16 +30,16 @@ export function ImpactCard({ impact, risk, riskScore }: ImpactCardProps) {
       <div className="grid grid-cols-3 gap-2.5">
         <div className="bg-[#141414] p-3.5 rounded-[16px] border border-white/10 text-center card-interactive hover-glow-lime">
           <div className="text-[10px] font-mono uppercase text-[#8E8E86]">Group Delta</div>
-          <div className="text-2xl font-black text-white mt-1">{impact.groups}</div>
+          <div className="text-2xl font-semibold text-white mt-1">{impact.groups}</div>
         </div>
         <div className="bg-[#141414] p-3.5 rounded-[16px] border border-white/10 text-center card-interactive hover-glow-cyan">
           <div className="text-[10px] font-mono uppercase text-[#8E8E86]">App Tiles</div>
-          <div className="text-2xl font-black text-white mt-1">{impact.apps}</div>
+          <div className="text-2xl font-semibold text-white mt-1">{impact.apps}</div>
         </div>
         <div className="bg-[#141414] p-3.5 rounded-[16px] border border-white/10 text-center card-interactive hover-glow-orange">
           <div className="text-[10px] font-mono uppercase text-[#8E8E86]">Privileged</div>
           <div
-            className={`text-2xl font-black mt-1 ${
+            className={`text-2xl font-semibold mt-1 ${
               impact.privileged > 0 ? "text-[#E8703A]" : "text-[#D4E84A]"
             }`}
           >

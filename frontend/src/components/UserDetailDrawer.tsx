@@ -61,7 +61,7 @@ export function UserDetailDrawer({ user, open, onClose }: UserDetailDrawerProps)
         {/* Header */}
         <div className="p-6 border-b border-white/10 bg-[#181818] flex items-center justify-between shrink-0">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-[16px] bg-[#0E0E0E] border border-white/20 text-[#D4E84A] font-mono font-black text-base flex items-center justify-center shadow-md">
+            <div className="w-12 h-12 rounded-[16px] bg-[#0E0E0E] border border-white/20 text-[#D4E84A] font-mono font-semibold text-base flex items-center justify-center shadow-md">
               {(user?.name || "U").slice(0, 2).toUpperCase()}
             </div>
             <div>
@@ -151,15 +151,15 @@ export function UserDetailDrawer({ user, open, onClose }: UserDetailDrawerProps)
             <div className="grid grid-cols-3 gap-2">
               <div className="bg-[#141414] p-3 rounded-[14px] border border-white/10 text-center">
                 <span className="text-[10px] font-mono text-[#8E8E86] block">ENTITLEMENTS</span>
-                <span className="text-lg font-black text-white mt-0.5 block">{groups.length}</span>
+                <span className="text-lg font-semibold text-white mt-0.5 block">{groups.length}</span>
               </div>
               <div className="bg-[#141414] p-3 rounded-[14px] border border-white/10 text-center">
                 <span className="text-[10px] font-mono text-[#8E8E86] block">LINKED APPS</span>
-                <span className="text-lg font-black text-white mt-0.5 block">{apps.length}</span>
+                <span className="text-lg font-semibold text-white mt-0.5 block">{apps.length}</span>
               </div>
               <div className="bg-[#141414] p-3 rounded-[14px] border border-white/10 text-center">
                 <span className="text-[10px] font-mono text-[#8E8E86] block">RISK SCORE</span>
-                <span className={`text-lg font-black mt-0.5 block ${
+                <span className={`text-lg font-semibold mt-0.5 block ${
                   user.riskScore > 60 ? "text-[#E8703A]" : user.riskScore > 30 ? "text-amber-400" : "text-[#D4E84A]"
                 }`}>
                   {user.riskScore}/100
@@ -290,7 +290,7 @@ export function UserDetailDrawer({ user, open, onClose }: UserDetailDrawerProps)
           </span>
           <button
             onClick={onClose}
-            className="px-5 py-2 rounded-full bg-[#D4E84A] hover:bg-[#c2d73b] text-[#0E0E0E] font-mono text-xs font-black shadow-md transition-all active:scale-95"
+            className="px-5 py-2 rounded-full bg-[#D4E84A] hover:bg-[#c2d73b] text-[#0E0E0E] font-mono text-xs font-semibold shadow-md transition-all active:scale-95"
           >
             DONE
           </button>

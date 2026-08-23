@@ -449,7 +449,7 @@ export function TeamEchoEditorialExperience() {
               <span className="text-glow-white">IDENTITY GOVERNANCE FOR OKTA</span>
             </div>
 
-            <h1 className="text-6xl sm:text-7xl lg:text-[88px] xl:text-[102px] font-black tracking-[-0.045em] leading-[0.92] text-white drop-shadow-[0_4px_16px_rgba(0,0,0,0.9)]">
+            <h1 className="text-6xl sm:text-7xl lg:text-[88px] xl:text-[102px] font-semibold tracking-[-0.045em] leading-[0.92] text-white drop-shadow-[0_4px_16px_rgba(0,0,0,0.9)]">
               <span ref={headlineLine1Ref} className="block">
                 There Is a
               </span>
@@ -471,7 +471,7 @@ export function TeamEchoEditorialExperience() {
             <div className="pt-2 flex flex-wrap items-center gap-6">
               <a
                 href="#governance"
-                className="inline-flex items-center gap-3 px-7 py-4 rounded-full bg-[#D4E84A] text-[#0E0E0E] hover:bg-white font-mono text-xs font-black transition-all duration-200 active:scale-95 shadow-[0_0_25px_rgba(212,232,74,0.4)] group border border-black/20"
+                className="inline-flex items-center gap-3 px-7 py-4 rounded-full bg-[#D4E84A] text-[#0E0E0E] hover:bg-white font-mono text-xs font-semibold transition-all duration-200 active:scale-95 shadow-[0_0_25px_rgba(212,232,74,0.4)] group border border-black/20"
               >
                 <span>EXPLORE CAPABILITIES</span>
                 <ArrowRight className="w-4 h-4 stroke-[3] group-hover:translate-x-1 transition-transform" />
@@ -519,10 +519,10 @@ export function TeamEchoEditorialExperience() {
       <section id="governance" className="space-y-12 pt-6">
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 border-b border-white/20 pb-8">
           <div className="space-y-2">
-            <span className="text-xs font-mono font-black tracking-[0.2em] text-[#D4E84A] uppercase">
+            <span className="text-xs font-mono font-semibold tracking-[0.2em] text-[#D4E84A] uppercase">
               01 / WHAT TEAM ECHO GOVERNS
             </span>
-            <h2 className="text-5xl sm:text-6xl lg:text-7xl font-black tracking-tight text-white font-sans leading-[0.98]">
+            <h2 className="text-5xl sm:text-6xl lg:text-7xl font-semibold tracking-tight text-white font-sans leading-[0.98]">
               Every Identity <br />
               Transition.
             </h2>
@@ -539,12 +539,12 @@ export function TeamEchoEditorialExperience() {
           <div className="card-high-contrast rounded-[32px] p-7 sm:p-8 flex flex-col justify-between space-y-6 shadow-2xl group card-interactive ">
             <div className="space-y-3">
               <div className="flex items-center justify-between pb-3 border-b border-white/15">
-                <span className="text-sm font-mono font-black text-[#D4E84A]">01</span>
+                <span className="text-sm font-mono font-semibold text-[#D4E84A]">01</span>
                 <span className="text-[11px] font-mono uppercase px-3 py-1 rounded-full bg-white/20 text-white border border-white/30 font-bold">
                   Just-In-Time Access
                 </span>
               </div>
-              <h3 className="text-xl sm:text-2xl font-black text-white">
+              <h3 className="text-xl sm:text-2xl font-semibold text-white">
                 ZERO STANDING PRIVILEGE
               </h3>
               <p className="text-sm text-white leading-relaxed font-medium">
@@ -560,7 +560,7 @@ export function TeamEchoEditorialExperience() {
                 <div
                   className={`px-4 py-2 rounded-xl border transition-all duration-300 ${
                     zspStep === 3
-                      ? "bg-amber-500/25 border-amber-400 text-amber-200 font-black shadow-[0_0_16px_rgba(245,158,11,0.4)]"
+                      ? "bg-amber-500/25 border-amber-400 text-amber-200 font-semibold shadow-[0_0_16px_rgba(245,158,11,0.4)]"
                       : "bg-[#1C1D22] border-white/15 text-slate-200 font-bold"
                   }`}
                 >
@@ -575,7 +575,7 @@ export function TeamEchoEditorialExperience() {
                   </div>
                   <div className="w-4 h-0.5 bg-emerald-400"></div>
 
-                  <div className="px-4 py-2 rounded-xl bg-white text-[#0E0E0E] font-black text-xs shadow-lg shrink-0 flex items-center gap-2">
+                  <div className="px-4 py-2 rounded-xl bg-white text-[#0E0E0E] font-semibold text-xs shadow-lg shrink-0 flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_6px_#10B981]"></span>
                     <span>SARAH</span>
                   </div>
@@ -597,7 +597,7 @@ export function TeamEchoEditorialExperience() {
               {!zspRequested ? (
                 <button
                   onClick={handleRequestZsp}
-                  className="w-full py-3 rounded-xl bg-[#D4E84A] hover:bg-[#c4d838] text-[#0E0E0E] text-xs font-mono font-black transition-all shadow-lg flex items-center justify-center gap-2 active:scale-98 cursor-pointer"
+                  className="w-full py-3 rounded-xl bg-[#D4E84A] hover:bg-[#c4d838] text-[#0E0E0E] text-xs font-mono font-semibold transition-all shadow-lg flex items-center justify-center gap-2 active:scale-98 cursor-pointer"
                 >
                   <Key className="w-4 h-4 stroke-[2.5]" />
                   <span>REQUEST PRODUCTION ACCESS</span>
@@ -620,7 +620,7 @@ export function TeamEchoEditorialExperience() {
                         <span className="text-amber-300 font-bold flex items-center gap-1.5">
                           <Clock className="w-3.5 h-3.5 animate-spin" /> ACCESS EXPIRES:
                         </span>
-                        <span className="font-black text-white bg-black/80 px-3 py-1 rounded-md border border-white/20 tabular-nums">
+                        <span className="font-semibold text-white bg-black/80 px-3 py-1 rounded-md border border-white/20 tabular-nums">
                           {formatZspTime(zspTimer)}
                         </span>
                       </div>
@@ -649,12 +649,12 @@ export function TeamEchoEditorialExperience() {
           <div className="card-high-contrast rounded-[32px] p-7 sm:p-8 flex flex-col justify-between space-y-6 shadow-2xl group card-interactive ">
             <div className="space-y-3">
               <div className="flex items-center justify-between pb-3 border-b border-white/15">
-                <span className="text-sm font-mono font-black text-[#D4E84A]">02</span>
+                <span className="text-sm font-mono font-semibold text-[#D4E84A]">02</span>
                 <span className="text-[11px] font-mono uppercase px-3 py-1 rounded-full bg-white/20 text-white border border-white/30 font-bold">
                   State Verification
                 </span>
               </div>
-              <h3 className="text-xl sm:text-2xl font-black text-white">
+              <h3 className="text-xl sm:text-2xl font-semibold text-white">
                 EXPECTED VS ACTUAL
               </h3>
               <p className="text-sm text-white leading-relaxed font-medium">
@@ -667,10 +667,10 @@ export function TeamEchoEditorialExperience() {
               {/* Slider Control: EXPECTED ----●---- ACTUAL */}
               <div className="space-y-2">
                 <div className="flex items-center justify-between text-xs font-mono">
-                  <span className={driftSlider < 50 ? "text-white font-black" : "text-slate-300 font-bold"}>
+                  <span className={driftSlider < 50 ? "text-white font-semibold" : "text-slate-300 font-bold"}>
                     EXPECTED (Twin)
                   </span>
-                  <span className={driftSlider >= 50 ? "text-[#D4E84A] font-black" : "text-slate-300 font-bold"}>
+                  <span className={driftSlider >= 50 ? "text-[#D4E84A] font-semibold" : "text-slate-300 font-bold"}>
                     ACTUAL (Okta)
                   </span>
                 </div>
@@ -688,15 +688,15 @@ export function TeamEchoEditorialExperience() {
               <div className="space-y-2 font-mono text-xs">
                 <div className="flex items-center justify-between px-3.5 py-2 rounded-xl bg-white/10 border border-white/15 text-white font-medium">
                   <span>GitHub</span>
-                  <span className="text-emerald-400 font-black">✓ In Policy</span>
+                  <span className="text-emerald-400 font-semibold">✓ In Policy</span>
                 </div>
                 <div className="flex items-center justify-between px-3.5 py-2 rounded-xl bg-white/10 border border-white/15 text-white font-medium">
                   <span>AWS-Dev</span>
-                  <span className="text-emerald-400 font-black">✓ In Policy</span>
+                  <span className="text-emerald-400 font-semibold">✓ In Policy</span>
                 </div>
                 <div className="flex items-center justify-between px-3.5 py-2 rounded-xl bg-white/10 border border-white/15 text-white font-medium">
                   <span>Jira & Slack</span>
-                  <span className="text-emerald-400 font-black">✓ In Policy</span>
+                  <span className="text-emerald-400 font-semibold">✓ In Policy</span>
                 </div>
 
                 {/* Unauthorized Drift Item (Fades in when slider > 40) */}
@@ -705,7 +705,7 @@ export function TeamEchoEditorialExperience() {
                     style={{ opacity: (driftSlider - 40) / 60 }}
                     className="p-3 rounded-xl bg-amber-500/20 border border-amber-500/50 space-y-2.5 transition-opacity"
                   >
-                    <div className="flex items-center justify-between text-amber-300 font-black">
+                    <div className="flex items-center justify-between text-amber-300 font-semibold">
                       <span>⚠ AWS-Prod-Admin</span>
                       <span className="text-[10px] bg-amber-500/30 px-2 py-0.5 rounded text-amber-300 font-bold">
                         Out-of-Band
@@ -716,7 +716,7 @@ export function TeamEchoEditorialExperience() {
                     </div>
                     <button
                       onClick={() => setDriftReconciled(true)}
-                      className="w-full py-2 rounded-lg bg-amber-400 hover:bg-amber-300 text-[#0E0E0E] text-xs font-black shadow-md flex items-center justify-center gap-1.5 btn-interactive cursor-pointer"
+                      className="w-full py-2 rounded-lg bg-amber-400 hover:bg-amber-300 text-[#0E0E0E] text-xs font-semibold shadow-md flex items-center justify-center gap-1.5 btn-interactive cursor-pointer"
                     >
                       <RotateCw className="w-3.5 h-3.5" />
                       <span>Reconcile to Baseline</span>
@@ -725,7 +725,7 @@ export function TeamEchoEditorialExperience() {
                 )}
 
                 {driftReconciled && (
-                  <div className="p-2.5 rounded-xl bg-emerald-500/20 border border-emerald-500/40 text-center text-xs text-emerald-300 font-black animate-in fade-in duration-200">
+                  <div className="p-2.5 rounded-xl bg-emerald-500/20 border border-emerald-500/40 text-center text-xs text-emerald-300 font-semibold animate-in fade-in duration-200">
                     ✓ Drift Reconciled: Unauthorized AWS-Prod-Admin purged
                   </div>
                 )}
@@ -745,12 +745,12 @@ export function TeamEchoEditorialExperience() {
           <div className="card-high-contrast rounded-[32px] p-7 sm:p-8 flex flex-col justify-between space-y-6 shadow-2xl group card-interactive ">
             <div className="space-y-3">
               <div className="flex items-center justify-between pb-3 border-b border-white/15">
-                <span className="text-sm font-mono font-black text-[#D4E84A]">03</span>
+                <span className="text-sm font-mono font-semibold text-[#D4E84A]">03</span>
                 <span className="text-[11px] font-mono uppercase px-3 py-1 rounded-full bg-white/20 text-white border border-white/30 font-bold">
                   Pre-Execution Gating
                 </span>
               </div>
-              <h3 className="text-xl sm:text-2xl font-black text-white">
+              <h3 className="text-xl sm:text-2xl font-semibold text-white">
                 RISK-GATED EXECUTION
               </h3>
               <p className="text-sm text-white leading-relaxed font-medium">
@@ -762,13 +762,13 @@ export function TeamEchoEditorialExperience() {
             <div className="bg-[#0A0A0C] bg-dark-grid rounded-[24px] p-5 border border-white/15 space-y-4 shadow-inner">
               <div className="p-3 rounded-xl bg-white/10 border border-white/15 text-xs font-mono flex items-center justify-between">
                 <div>
-                  <div className="text-white font-black">MOVE USER: Sarah Chen</div>
+                  <div className="text-white font-semibold">MOVE USER: Sarah Chen</div>
                   <div className="text-xs text-slate-200 font-semibold mt-0.5">Engineering → Finance</div>
                 </div>
                 {whatIfStep === 0 && (
                   <button
                     onClick={handleRunWhatIf}
-                    className="px-3.5 py-1.5 rounded-lg bg-[#D4E84A] hover:bg-[#c4d838] text-[#0E0E0E] text-xs font-black shadow-sm active:scale-95 transition-all cursor-pointer"
+                    className="px-3.5 py-1.5 rounded-lg bg-[#D4E84A] hover:bg-[#c4d838] text-[#0E0E0E] text-xs font-semibold shadow-sm active:scale-95 transition-all cursor-pointer"
                   >
                     SIMULATE
                   </button>
@@ -788,14 +788,14 @@ export function TeamEchoEditorialExperience() {
                   <div className="p-3.5 rounded-xl bg-white/10 border border-white/15 space-y-2">
                     <div className="flex items-center justify-between text-xs">
                       <span className="text-white font-bold">IMPACT ANALYSIS:</span>
-                      <span className="text-[#D4E84A] font-black">+2 groups / -3 groups</span>
+                      <span className="text-[#D4E84A] font-semibold">+2 groups / -3 groups</span>
                     </div>
 
                     {/* Risk Score Meter */}
                     <div className="space-y-1">
                       <div className="flex justify-between text-xs">
                         <span className="text-white font-medium">Risk Score:</span>
-                        <span className="text-amber-400 font-black">78% (HIGH RISK)</span>
+                        <span className="text-amber-400 font-semibold">78% (HIGH RISK)</span>
                       </div>
                       <div className="w-full bg-neutral-800 h-2 rounded-full overflow-hidden">
                         <div className="bg-amber-400 h-full w-[78%]"></div>
@@ -811,7 +811,7 @@ export function TeamEchoEditorialExperience() {
                     <div className="flex items-center gap-2">
                       <button
                         onClick={() => setWhatIfApproved(true)}
-                        className="flex-1 py-2 rounded-lg bg-red-500 hover:bg-red-400 text-white text-xs font-black shadow-md transition-colors cursor-pointer"
+                        className="flex-1 py-2 rounded-lg bg-red-500 hover:bg-red-400 text-white text-xs font-semibold shadow-md transition-colors cursor-pointer"
                       >
                         APPROVE & STAGE
                       </button>
@@ -823,7 +823,7 @@ export function TeamEchoEditorialExperience() {
                       </button>
                     </div>
                   ) : (
-                    <div className="text-center text-xs text-emerald-400 py-1 font-black">
+                    <div className="text-center text-xs text-emerald-400 py-1 font-semibold">
                       ✓ Staged & Executed in Okta Tenant
                     </div>
                   )}
@@ -846,10 +846,10 @@ export function TeamEchoEditorialExperience() {
       <section id="pipeline" className="space-y-10 pt-6">
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 border-b border-white/15 pb-8">
           <div className="space-y-2">
-            <span className="text-xs font-mono font-black tracking-[0.2em] text-[#D4E84A] uppercase">
+            <span className="text-xs font-mono font-semibold tracking-[0.2em] text-[#D4E84A] uppercase">
               02 / HOW IT WORKS
             </span>
-            <h2 className="text-5xl sm:text-6xl lg:text-7xl font-black tracking-tight text-white font-sans leading-[0.98]">
+            <h2 className="text-5xl sm:text-6xl lg:text-7xl font-semibold tracking-tight text-white font-sans leading-[0.98]">
               From Request <br />
               to Verified Access.
             </h2>
@@ -878,14 +878,14 @@ export function TeamEchoEditorialExperience() {
                   }`}
                 >
                   <div className="flex items-center justify-between text-xs font-mono mb-1">
-                    <span className={isActive ? "text-[#D4E84A] font-black" : "text-slate-300 font-bold"}>
+                    <span className={isActive ? "text-[#D4E84A] font-semibold" : "text-slate-300 font-bold"}>
                       {stage.num}
                     </span>
                     <span className="text-[10px] font-mono font-bold">
                       {isPast ? "✓" : isActive ? "● ACTIVE" : "○ WAITING"}
                     </span>
                   </div>
-                  <div className="text-xs font-black text-white tracking-wide font-mono">
+                  <div className="text-xs font-semibold text-white tracking-wide font-mono">
                     {stage.name}
                   </div>
                 </button>
@@ -903,7 +903,7 @@ export function TeamEchoEditorialExperience() {
                 <span>{currentStage.name}</span>
               </div>
 
-              <h3 className="text-3xl sm:text-4xl font-black text-white">
+              <h3 className="text-3xl sm:text-4xl font-semibold text-white">
                 {currentStage.title}
               </h3>
 
@@ -920,7 +920,7 @@ export function TeamEchoEditorialExperience() {
               <div className="pt-2">
                 <button
                   onClick={() => setShowTechDetails(!showTechDetails)}
-                  className="inline-flex items-center gap-2 text-xs font-mono font-black text-[#D4E84A] hover:underline btn-interactive cursor-pointer"
+                  className="inline-flex items-center gap-2 text-xs font-mono font-semibold text-[#D4E84A] hover:underline btn-interactive cursor-pointer"
                 >
                   <Code2 className="w-4 h-4" />
                   <span>{showTechDetails ? "Hide Technical Specifications" : "VIEW TECHNICAL DETAILS →"}</span>
@@ -957,7 +957,7 @@ export function TeamEchoEditorialExperience() {
                     <Activity className="w-7 h-7 stroke-[2.5]" />
                   </div>
                   <div className="space-y-1">
-                    <div className="text-base font-black text-white">Continuous Lifecycle Governance</div>
+                    <div className="text-base font-semibold text-white">Continuous Lifecycle Governance</div>
                     <div className="text-xs font-mono text-slate-200 font-bold">Stage {activePipelineStage + 1} of 6 in Execution Flow</div>
                   </div>
                   <div className="flex items-center gap-2 pt-2">
@@ -970,7 +970,7 @@ export function TeamEchoEditorialExperience() {
                     </button>
                     <button
                       onClick={() => setActivePipelineStage((prev) => (prev < 5 ? prev + 1 : 0))}
-                      className="px-5 py-2 rounded-full bg-[#D4E84A] text-[#0E0E0E] text-xs font-mono font-black hover:bg-white transition-all btn-interactive cursor-pointer"
+                      className="px-5 py-2 rounded-full bg-[#D4E84A] text-[#0E0E0E] text-xs font-mono font-semibold hover:bg-white transition-all btn-interactive cursor-pointer"
                     >
                       Next Stage →
                     </button>
@@ -986,10 +986,10 @@ export function TeamEchoEditorialExperience() {
       <section id="demos" className="space-y-10 pt-6">
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 border-b border-white/15 pb-8">
           <div className="space-y-2">
-            <span className="text-xs font-mono font-black tracking-[0.2em] text-[#D4E84A] uppercase">
+            <span className="text-xs font-mono font-semibold tracking-[0.2em] text-[#D4E84A] uppercase">
               03 / SEE IT IN ACTION
             </span>
-            <h2 className="text-5xl sm:text-6xl lg:text-7xl font-black tracking-tight text-white font-sans leading-[0.98]">
+            <h2 className="text-5xl sm:text-6xl lg:text-7xl font-semibold tracking-tight text-white font-sans leading-[0.98]">
               Watch Governance <br />
               Happen.
             </h2>
@@ -1011,7 +1011,7 @@ export function TeamEchoEditorialExperience() {
                   <button
                     key={scene.id}
                     onClick={() => handleSelectTerminalScene(idx)}
-                    className={`px-4 py-2 rounded-full text-xs font-mono font-black transition-all btn-interactive cursor-pointer ${
+                    className={`px-4 py-2 rounded-full text-xs font-mono font-semibold transition-all btn-interactive cursor-pointer ${
                       activeTerminalTab === idx
                         ? "bg-[#D4E84A] text-[#0E0E0E] shadow-md"
                         : "bg-white/10 text-white hover:bg-white/20"
@@ -1042,12 +1042,12 @@ export function TeamEchoEditorialExperience() {
                 </div>
                 <span className="text-xs flex items-center gap-1.5 font-bold">
                   {isTerminalStreaming ? (
-                    <span className="text-amber-400 font-black flex items-center gap-1">
+                    <span className="text-amber-400 font-semibold flex items-center gap-1">
                       <span className="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
                       ● EXECUTING
                     </span>
                   ) : (
-                    <span className="text-emerald-400 font-black">✓ COMPLETE</span>
+                    <span className="text-emerald-400 font-semibold">✓ COMPLETE</span>
                   )}
                 </span>
               </div>
@@ -1059,7 +1059,7 @@ export function TeamEchoEditorialExperience() {
                       key={i}
                       className={`flex items-start gap-2.5 animate-in fade-in slide-in-from-bottom-1 duration-150 ${
                         line.includes("STATUS:")
-                          ? "text-[#D4E84A] font-black pt-2 border-t border-white/15"
+                          ? "text-[#D4E84A] font-semibold pt-2 border-t border-white/15"
                           : line.includes("DRIFT") || line.includes("CRITICAL")
                           ? "text-amber-300 font-bold"
                           : line.includes("OktaClient")
@@ -1067,7 +1067,7 @@ export function TeamEchoEditorialExperience() {
                           : "text-white"
                       }`}
                     >
-                      <span className="text-[#D4E84A] shrink-0 select-none font-black">›</span>
+                      <span className="text-[#D4E84A] shrink-0 select-none font-semibold">›</span>
                       <span>{line}</span>
                     </div>
                   ))}
@@ -1085,7 +1085,7 @@ export function TeamEchoEditorialExperience() {
                 </span>
                 <Link
                   to={currentScene.link}
-                  className="inline-flex items-center gap-2 text-xs font-mono font-black text-[#D4E84A] hover:underline btn-interactive"
+                  className="inline-flex items-center gap-2 text-xs font-mono font-semibold text-[#D4E84A] hover:underline btn-interactive"
                 >
                   <span>Launch in Platform Console</span>
                   <ArrowRight className="w-4 h-4" />
@@ -1098,7 +1098,7 @@ export function TeamEchoEditorialExperience() {
           <div className="lg:col-span-4 card-high-contrast rounded-[36px] p-7 space-y-5 shadow-2xl flex flex-col justify-between card-interactive ">
             <div className="space-y-1">
               <div className="flex items-center justify-between pb-3 border-b border-white/15">
-                <div className="flex items-center gap-2 text-xs font-mono font-black text-white">
+                <div className="flex items-center gap-2 text-xs font-mono font-semibold text-white">
                   <Radio className="w-4 h-4 text-[#D4E84A] animate-pulse" />
                   <span>LIVE AUDIT STREAM</span>
                 </div>
@@ -1118,11 +1118,11 @@ export function TeamEchoEditorialExperience() {
                 >
                   <div className="space-y-0.5">
                     <div className="text-[10px] text-slate-300 tabular-nums font-bold">{ev.time}</div>
-                    <div className="font-black text-white">{ev.emp}</div>
+                    <div className="font-semibold text-white">{ev.emp}</div>
                   </div>
                   <div className="text-right space-y-0.5">
                     <div className="text-[10px] text-slate-200 font-bold">{ev.type}</div>
-                    <div className={`text-xs font-black ${ev.color}`}>{ev.status}</div>
+                    <div className={`text-xs font-semibold ${ev.color}`}>{ev.status}</div>
                   </div>
                 </div>
               ))}
@@ -1141,7 +1141,7 @@ export function TeamEchoEditorialExperience() {
         {/* ── Vertical Timeline of Event Sealing ───────────────────────── */}
         <div className="card-high-contrast rounded-[36px] p-7 sm:p-9 space-y-6 card-interactive">
           <div className="flex items-center justify-between border-b border-white/15 pb-4">
-            <span className="text-xs font-mono font-black text-[#D4E84A] uppercase tracking-wider">
+            <span className="text-xs font-mono font-semibold text-[#D4E84A] uppercase tracking-wider">
               Cryptographic Audit Progression
             </span>
             <span className="text-xs font-mono text-white font-medium">Click event to expand details</span>
@@ -1162,7 +1162,7 @@ export function TeamEchoEditorialExperience() {
                   <span className="tabular-nums">{step.time}</span>
                   <span className="w-2 h-2 rounded-full bg-[#D4E84A] shadow-[0_0_8px_#D4E84A]"></span>
                 </div>
-                <div className="text-xs font-black text-white leading-snug font-sans">
+                <div className="text-xs font-semibold text-white leading-snug font-sans">
                   {step.title}
                 </div>
                 {expandedTimelineStep === idx && (
@@ -1184,10 +1184,10 @@ export function TeamEchoEditorialExperience() {
         className="card-high-contrast rounded-[36px] p-10 sm:p-16 text-center space-y-8 shadow-2xl card-interactive "
       >
         <div className="max-w-2xl mx-auto space-y-4">
-          <span className="text-xs font-mono font-black tracking-[0.2em] text-[#D4E84A] uppercase">
+          <span className="text-xs font-mono font-semibold tracking-[0.2em] text-[#D4E84A] uppercase">
             IDENTITY GOVERNANCE, WITHOUT THE BLIND SPOTS.
           </span>
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white leading-tight">
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-semibold tracking-tight text-white leading-tight">
             Least Privilege. <br />
             Every Change Accounted For.
           </h2>
@@ -1199,7 +1199,7 @@ export function TeamEchoEditorialExperience() {
         <div className="flex flex-wrap justify-center gap-4 pt-2">
           <Link
             to="/users"
-            className="px-8 py-3.5 rounded-full bg-[#D4E84A] hover:bg-[#c4d838] text-[#0E0E0E] font-mono text-xs font-black shadow-xl transition-transform active:scale-95 flex items-center gap-2 group btn-interactive"
+            className="px-8 py-3.5 rounded-full bg-[#D4E84A] hover:bg-[#c4d838] text-[#0E0E0E] font-mono text-xs font-semibold shadow-xl transition-transform active:scale-95 flex items-center gap-2 group btn-interactive"
           >
             <span>ENTER PLATFORM</span>
             <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
