@@ -126,8 +126,8 @@ function RootComponent() {
           {/* Quick-Nav Right Arrow & Spinwheel Dock */}
           <CyberSpinWheelNav />
 
-          {/* Main Content Area — translucent frosted glass frame allowing animated background to show through */}
-          <div className="w-full max-w-[1600px] mx-auto bg-[#0B0C10]/60 backdrop-blur-xl text-white rounded-[28px] sm:rounded-[36px] p-3 sm:p-6 md:p-7 shadow-[0_20px_60px_rgba(0,0,0,0.6)] border border-white/15 flex flex-col flex-1 min-h-[calc(100vh-2.5rem)] relative z-10">
+          {/* Main Content Area — airy translucent frosted glass frame allowing animated living mesh to shine through clearly */}
+          <div className="w-full max-w-[1600px] mx-auto bg-[#0B0C10]/25 backdrop-blur-md text-white rounded-[28px] sm:rounded-[36px] p-3 sm:p-6 md:p-7 shadow-[0_8px_32px_rgba(0,0,0,0.35)] border border-white/10 flex flex-col flex-1 min-h-[calc(100vh-2.5rem)] relative z-10">
             <Navbar />
             <main className="flex-1 w-full mt-4">
               <Outlet />
