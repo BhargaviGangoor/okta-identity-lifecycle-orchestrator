@@ -1,8 +1,27 @@
-import { useState } from "react";
-import { Search, ArrowRight, X } from "lucide-react";
-import type { User } from "../services/types";
+import { useState, useMemo } from "react";
+import { useNavigate } from "@tanstack/react-router";
+import {
+  Search,
+  ArrowRight,
+  X,
+  SlidersHorizontal,
+  UserCheck,
+  UserMinus,
+  Sparkles,
+  Network,
+  Download,
+  Eye,
+  CheckSquare,
+  Square,
+  ShieldAlert,
+  Layers,
+  AppWindow,
+} from "lucide-react";
+import type { User, RiskLevel, UserStatus } from "../services/types";
 import { StatusBadge } from "./StatusBadge";
 import { RiskBadge } from "./RiskBadge";
+import { UserDetailDrawer } from "./UserDetailDrawer";
+import { useToast } from "./Toast";
 
 interface UserTableProps {
   users: User[];
@@ -10,220 +29,349 @@ interface UserTableProps {
 }
 
 export function UserTable({ users, onSelectUser }: UserTableProps) {
+  const navigate = useNavigate();
+  const { success, info } = useToast();
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedDept, setSelectedDept] = useState("ALL");
-  const [selectedUser, setSelectedUser] = useState<User | null>(null);
+  const [selectedStatus, setSelectedStatus] = useState<"ALL" | UserStatus>("ALL");
+  const [selectedRisk, setSelectedRisk] = useState<"ALL" | RiskLevel>("ALL");
+  const [selectedUserForDrawer, setSelectedUserForDrawer] = useState<User | null>(null);
+  const [selectedUserIds, setSelectedUserIds] = useState<string[]>([]);
 
   const departments = ["ALL", "Engineering", "Sales", "Finance", "IT", "People Ops", "Legal"];
+  const statuses: ("ALL" | UserStatus)[] = ["ALL", "ACTIVE", "SUSPENDED", "DEPROVISIONED"];
+  const riskLevels: ("ALL" | RiskLevel)[] = ["ALL", "LOW", "MEDIUM", "HIGH", "CRITICAL"];
 
-  const filteredUsers = users.filter((u) => {
-    const matchesSearch =
-      u.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      u.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      u.title.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesDept = selectedDept === "ALL" || u.department === selectedDept;
-    return matchesSearch && matchesDept;
-  });
+  const filteredUsers = useMemo(() => {
+    return users.filter((u) => {
+      const q = searchTerm.toLowerCase().trim();
+      const matchesSearch =
+        !q ||
+        u.name.toLowerCase().includes(q) ||
+        u.email.toLowerCase().includes(q) ||
+        u.title.toLowerCase().includes(q) ||
+        u.id.toLowerCase().includes(q);
+
+      const matchesDept = selectedDept === "ALL" || u.department.toLowerCase() === selectedDept.toLowerCase();
+      const matchesStatus = selectedStatus === "ALL" || u.status === selectedStatus;
+      const matchesRisk = selectedRisk === "ALL" || u.riskLevel === selectedRisk;
+
+      return matchesSearch && matchesDept && matchesStatus && matchesRisk;
+    });
+  }, [users, searchTerm, selectedDept, selectedStatus, selectedRisk]);
+
+  const handleSelectAll = () => {
+    if (selectedUserIds.length === filteredUsers.length) {
+      setSelectedUserIds([]);
+    } else {
+      setSelectedUserIds(filteredUsers.map((u) => u.id));
+    }
+  };
+
+  const toggleSelectUser = (id: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setSelectedUserIds((prev) =>
+      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
+    );
+  };
+
+  const handleBulkExport = () => {
+    const selected = users.filter((u) => selectedUserIds.includes(u.id));
+    const toExport = selected.length > 0 ? selected : filteredUsers;
+    const header = "ID,Name,Email,Department,Title,Status,RiskLevel,RiskScore,GroupsCount\n";
+    const rows = toExport
+      .map(
+        (u) =>
+          `"${u.id}","${u.name}","${u.email}","${u.department}","${u.title}","${u.status}","${u.riskLevel}",${u.riskScore},${(u.groups || []).length}`
+      )
+      .join("\n");
+    const blob = new Blob([header + rows], { type: "text/csv" });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `okta-identities-${new Date().toISOString().slice(0, 10)}.csv`;
+    a.click();
+    window.URL.revokeObjectURL(url);
+    success("Export Successful", `Exported ${toExport.length} identities to CSV`);
+  };
 
   return (
     <div className="space-y-4">
       {/* Controls Bar */}
-      <div className="flex flex-col sm:flex-row items-center justify-between gap-3 bg-[#1b1b1b] p-3 rounded-[20px] border border-white/10">
-        <div className="relative w-full sm:w-80">
-          <Search className="w-4 h-4 text-[#8A8A82] absolute left-3.5 top-1/2 -translate-y-1/2" />
-          <input
-            type="text"
-            placeholder="Search by name, email, role..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full bg-[#141414] text-white pl-10 pr-4 py-2 rounded-full text-xs border border-white/10 focus:outline-none focus:border-[#D4E84A] placeholder-[#8A8A82] font-sans"
-          />
+      <div className="flex flex-col gap-3 bg-[#1b1b1b] p-4 rounded-[24px] border border-white/10 card-interactive">
+        {/* Search & Dept Selector */}
+        <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3">
+          <div className="relative flex-1 max-w-md">
+            <Search className="w-4 h-4 text-[#8A8A82] absolute left-3.5 top-1/2 -translate-y-1/2" />
+            <input
+              type="text"
+              placeholder="Search identities by name, email, title, or Okta ID..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full bg-[#141414] text-white pl-10 pr-8 py-2.5 rounded-full text-xs border border-white/10 focus:outline-none focus:border-[#D4E84A] hover:border-white/30 transition-colors placeholder-[#8A8A82] font-sans"
+            />
+            {searchTerm && (
+              <button
+                onClick={() => setSearchTerm("")}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-white"
+              >
+                <X className="w-3.5 h-3.5" />
+              </button>
+            )}
+          </div>
+
+          {/* Department Pills */}
+          <div className="flex items-center gap-1.5 overflow-x-auto pb-1 lg:pb-0 scrollbar-none">
+            {departments.map((dept) => (
+              <button
+                key={dept}
+                onClick={() => setSelectedDept(dept)}
+                className={`px-3.5 py-1.5 rounded-full text-[11px] font-mono tracking-wider transition-all shrink-0 btn-interactive ${
+                  selectedDept === dept
+                    ? "bg-[#D4E84A] text-[#141414] font-bold shadow-md"
+                    : "bg-[#141414] text-[#8A8A82] hover:text-white border border-white/10 hover:border-white/30"
+                }`}
+              >
+                {dept}
+              </button>
+            ))}
+          </div>
         </div>
 
-        {/* Dept Pills */}
-        <div className="flex items-center gap-1.5 overflow-x-auto w-full sm:w-auto pb-1 sm:pb-0 scrollbar-none">
-          {departments.map((dept) => (
-            <button
-              key={dept}
-              onClick={() => setSelectedDept(dept)}
-              className={`px-3 py-1 rounded-full text-[11px] font-mono tracking-wider transition-colors shrink-0 ${
-                selectedDept === dept
-                  ? "bg-[#D4E84A] text-[#141414] font-bold"
-                  : "bg-[#141414] text-[#8A8A82] hover:text-white border border-white/10"
-              }`}
-            >
-              {dept}
-            </button>
-          ))}
+        {/* Secondary Filter Row (Status, Risk, Bulk Actions) */}
+        <div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-white/5 text-xs">
+          <div className="flex flex-wrap items-center gap-3">
+            {/* Status Filter */}
+            <div className="flex items-center gap-1.5">
+              <span className="text-[10px] font-mono text-[#8E8E86] uppercase">Status:</span>
+              <div className="flex items-center gap-1">
+                {statuses.map((st) => (
+                  <button
+                    key={st}
+                    onClick={() => setSelectedStatus(st)}
+                    className={`px-2.5 py-1 rounded-full text-[10px] font-mono font-medium transition-all btn-interactive ${
+                      selectedStatus === st
+                        ? "bg-white text-[#141414] font-bold shadow-sm"
+                        : "bg-[#141414] text-neutral-400 hover:text-white hover:bg-white/5"
+                    }`}
+                  >
+                    {st}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Risk Filter */}
+            <div className="flex items-center gap-1.5">
+              <span className="text-[10px] font-mono text-[#8E8E86] uppercase">Risk:</span>
+              <div className="flex items-center gap-1">
+                {riskLevels.map((rk) => (
+                  <button
+                    key={rk}
+                    onClick={() => setSelectedRisk(rk)}
+                    className={`px-2.5 py-1 rounded-full text-[10px] font-mono font-medium transition-all btn-interactive ${
+                      selectedRisk === rk
+                        ? "bg-[#D4E84A] text-[#141414] font-bold shadow-sm"
+                        : "bg-[#141414] text-neutral-400 hover:text-white hover:bg-white/5"
+                    }`}
+                  >
+                    {rk}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Bulk Selection Actions */}
+          {selectedUserIds.length > 0 && (
+            <div className="flex items-center gap-2 bg-[#141414] px-3.5 py-1.5 rounded-full border border-[#D4E84A]/30 shadow-md animate-in fade-in">
+              <span className="text-[11px] font-mono text-[#D4E84A] font-bold">
+                {selectedUserIds.length} Selected
+              </span>
+              <button
+                onClick={handleBulkExport}
+                className="text-[10px] font-mono text-white hover:text-[#D4E84A] flex items-center gap-1 btn-interactive"
+              >
+                <Download className="w-3 h-3" /> Export CSV
+              </button>
+              <button
+                onClick={() => setSelectedUserIds([])}
+                className="text-[10px] font-mono text-neutral-400 hover:text-white ml-1"
+              >
+                Clear
+              </button>
+            </div>
+          )}
         </div>
       </div>
 
       {/* Table Container */}
-      <div className="bg-[#1b1b1b] rounded-[24px] border border-white/10 overflow-hidden shadow-lg">
+      <div className="bg-[#1b1b1b] rounded-[24px] border border-white/10 overflow-hidden shadow-2xl card-interactive">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
             <thead className="bg-[#141414] text-[#8A8A82] font-mono text-[10px] uppercase tracking-wider border-b border-white/10">
               <tr>
-                <th className="py-3.5 px-5">Identity</th>
+                <th className="py-3.5 px-4 w-10 text-center">
+                  <button
+                    onClick={handleSelectAll}
+                    className="text-neutral-400 hover:text-white transition-colors"
+                  >
+                    {selectedUserIds.length === filteredUsers.length && filteredUsers.length > 0 ? (
+                      <CheckSquare className="w-4 h-4 text-[#D4E84A]" />
+                    ) : (
+                      <Square className="w-4 h-4" />
+                    )}
+                  </button>
+                </th>
+                <th className="py-3.5 px-4">Identity & Okta ID</th>
                 <th className="py-3.5 px-4">Department & Role</th>
                 <th className="py-3.5 px-4">Status</th>
                 <th className="py-3.5 px-4">Risk Profile</th>
-                <th className="py-3.5 px-4">Memberships</th>
-                <th className="py-3.5 px-5 text-right">Action</th>
+                <th className="py-3.5 px-4">Entitlements</th>
+                <th className="py-3.5 px-5 text-right">Quick Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-white/5 font-sans text-neutral-200">
               {filteredUsers.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="text-center py-10 text-[#8A8A82] font-mono">
-                    No matching identities found
+                  <td colSpan={7} className="text-center py-12 text-[#8A8A82] font-mono space-y-2">
+                    <ShieldAlert className="w-8 h-8 text-neutral-600 mx-auto" />
+                    <p>No matching authoritative identities found</p>
+                    <button
+                      onClick={() => {
+                        setSearchTerm("");
+                        setSelectedDept("ALL");
+                        setSelectedStatus("ALL");
+                        setSelectedRisk("ALL");
+                      }}
+                      className="text-xs text-[#D4E84A] hover:underline font-mono"
+                    >
+                      Reset all filters
+                    </button>
                   </td>
                 </tr>
               ) : (
-                filteredUsers.map((user) => (
-                  <tr
-                    key={user.id}
-                    onClick={() => {
-                      setSelectedUser(user);
-                      if (onSelectUser) onSelectUser(user);
-                    }}
-                    className="hover:bg-white/[0.03] transition-colors cursor-pointer group"
-                  >
-                    <td className="py-3.5 px-5">
-                      <div className="flex items-center gap-3">
-                        <div className="w-7 h-7 rounded-[8px] bg-[#141414] border border-white/10 text-[#D4E84A] font-mono font-bold flex items-center justify-center text-[10px] group-hover:scale-105 transition-transform">
-                          {user.name.slice(0, 2).toUpperCase()}
-                        </div>
-                        <div>
-                          <div className="font-bold text-white group-hover:text-[#D4E84A] transition-colors">
-                            {user.name}
+                filteredUsers.map((user) => {
+                  const isSelected = selectedUserIds.includes(user.id);
+                  const groups = user.groups || [];
+                  return (
+                    <tr
+                      key={user.id}
+                      onClick={() => {
+                        setSelectedUserForDrawer(user);
+                        if (onSelectUser) onSelectUser(user);
+                      }}
+                      className={`transition-all duration-150 cursor-pointer group hover:bg-white/[0.07] hover:shadow-inner ${
+                        isSelected ? "bg-white/[0.04]" : ""
+                      }`}
+                    >
+                      {/* Checkbox */}
+                      <td className="py-3.5 px-4 text-center" onClick={(e) => toggleSelectUser(user.id, e)}>
+                        <button className="text-neutral-400 hover:text-white">
+                          {isSelected ? (
+                            <CheckSquare className="w-4 h-4 text-[#D4E84A]" />
+                          ) : (
+                            <Square className="w-4 h-4" />
+                          )}
+                        </button>
+                      </td>
+
+                      {/* Identity & Okta ID */}
+                      <td className="py-3.5 px-4">
+                        <div className="flex items-center gap-3">
+                          <div className="w-8 h-8 rounded-[10px] bg-[#141414] border border-white/10 text-[#D4E84A] font-mono font-bold flex items-center justify-center text-xs group-hover:scale-110 group-hover:border-[#D4E84A]/50 transition-all shrink-0 shadow-xs">
+                            {(user.name || "U").slice(0, 2).toUpperCase()}
                           </div>
-                          <div className="text-[11px] text-[#8A8A82] font-mono">{user.email}</div>
+                          <div className="min-w-0">
+                            <div className="font-bold text-white group-hover:text-[#D4E84A] transition-colors flex items-center gap-1.5 truncate">
+                              <span>{user.name}</span>
+                            </div>
+                            <div className="text-[11px] text-[#8A8A82] font-mono truncate">
+                              {user.email}
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </td>
-                    <td className="py-3.5 px-4">
-                      <div className="font-medium text-white">{user.department}</div>
-                      <div className="text-[11px] text-[#8A8A82]">{user.title}</div>
-                    </td>
-                    <td className="py-3.5 px-4">
-                      <StatusBadge status={user.status} />
-                    </td>
-                    <td className="py-3.5 px-4">
-                      <RiskBadge
-                        level={user.riskScore > 75 ? "CRITICAL" : user.riskScore > 50 ? "HIGH" : user.riskScore > 25 ? "MEDIUM" : "LOW"}
-                        score={user.riskScore}
-                      />
-                    </td>
-                    <td className="py-3.5 px-4">
-                      <div className="flex items-center gap-1.5 font-mono text-[11px] text-[#8A8A82]">
-                        <span className="px-2 py-0.5 rounded-full bg-[#141414] border border-white/10 text-neutral-300">
-                          {user.groups.length} groups
-                        </span>
-                        <span className="px-2 py-0.5 rounded-full bg-[#141414] border border-white/10 text-neutral-300">
-                          {user.apps.length} apps
-                        </span>
-                      </div>
-                    </td>
-                    <td className="py-3.5 px-5 text-right">
-                      <button className="p-1.5 rounded-full bg-[#141414] group-hover:bg-[#D4E84A] group-hover:text-[#141414] text-[#8A8A82] transition-colors">
-                        <ArrowRight className="w-3 h-3" />
-                      </button>
-                    </td>
-                  </tr>
-                ))
+                      </td>
+
+                      {/* Department & Role */}
+                      <td className="py-3.5 px-4">
+                        <div className="font-semibold text-neutral-200 group-hover:text-white transition-colors">{user.title}</div>
+                        <div className="text-[11px] text-[#8A8A82] font-mono">
+                          {user.department} {user.location ? `· ${user.location.split(",")[0]}` : ""}
+                        </div>
+                      </td>
+
+                      {/* Status */}
+                      <td className="py-3.5 px-4">
+                        <StatusBadge status={user.status} />
+                      </td>
+
+                      {/* Risk */}
+                      <td className="py-3.5 px-4">
+                        <RiskBadge level={user.riskLevel} score={user.riskScore} />
+                      </td>
+
+                      {/* Entitlements */}
+                      <td className="py-3.5 px-4">
+                        <div className="flex items-center gap-1.5">
+                          <span className="px-2.5 py-1 rounded-full text-[11px] font-mono bg-[#141414] text-neutral-300 border border-white/10 font-medium group-hover:border-white/30 transition-colors">
+                            {groups.length} Groups
+                          </span>
+                        </div>
+                      </td>
+
+                      {/* Quick Actions */}
+                      <td className="py-3.5 px-5 text-right" onClick={(e) => e.stopPropagation()}>
+                        <div className="flex items-center justify-end gap-1.5">
+                          <button
+                            onClick={() => setSelectedUserForDrawer(user)}
+                            className="p-2 rounded-full bg-[#141414] hover:bg-white hover:text-black text-neutral-300 border border-white/10 hover:border-white transition-all btn-interactive shadow-xs"
+                            title="Inspect Okta Profile"
+                          >
+                            <Eye className="w-3.5 h-3.5" />
+                          </button>
+                          <button
+                            onClick={() => navigate({ to: "/mover" })}
+                            className="p-2 rounded-full bg-[#141414] hover:bg-[#D4E84A] hover:text-black text-neutral-300 border border-white/10 hover:border-[#D4E84A] transition-all btn-interactive shadow-xs"
+                            title="Mover Role Transfer"
+                          >
+                            <UserCheck className="w-3.5 h-3.5" />
+                          </button>
+                          <button
+                            onClick={() => navigate({ to: "/whatif" })}
+                            className="p-2 rounded-full bg-[#141414] hover:bg-cyan-400 hover:text-black text-neutral-300 border border-white/10 hover:border-cyan-400 transition-all btn-interactive shadow-xs"
+                            title="Simulate Access"
+                          >
+                            <Sparkles className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })
               )}
             </tbody>
           </table>
         </div>
-      </div>
 
-      {/* User Detail Drawer */}
-      {selectedUser && (
-        <div className="fixed inset-0 z-50 flex items-center justify-end bg-black/70 backdrop-blur-xs">
-          <div className="bg-[#141414] text-white w-full max-w-md h-full p-6 border-l border-white/10 shadow-2xl flex flex-col space-y-5 overflow-y-auto animate-in slide-in-from-right duration-150">
-            {/* Header */}
-            <div className="flex items-center justify-between border-b border-white/10 pb-4">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-[10px] bg-[#D4E84A] text-[#141414] font-black text-base flex items-center justify-center">
-                  {selectedUser.name.slice(0, 2).toUpperCase()}
-                </div>
-                <div>
-                  <h3 className="font-extrabold text-base text-white">{selectedUser.name}</h3>
-                  <p className="text-xs text-[#8A8A82] font-mono">{selectedUser.id}</p>
-                </div>
-              </div>
-              <button
-                onClick={() => setSelectedUser(null)}
-                className="w-7 h-7 rounded-full bg-[#1b1b1b] hover:bg-neutral-800 flex items-center justify-center text-[#8A8A82] hover:text-white"
-              >
-                <X className="w-3.5 h-3.5" />
-              </button>
-            </div>
-
-            {/* Profile Meta */}
-            <div className="grid grid-cols-2 gap-3 text-xs bg-[#1b1b1b] p-4 rounded-[18px] border border-white/10">
-              <div>
-                <span className="text-[10px] font-mono uppercase text-[#8A8A82]">Department</span>
-                <p className="font-bold text-white mt-0.5">{selectedUser.department}</p>
-              </div>
-              <div>
-                <span className="text-[10px] font-mono uppercase text-[#8A8A82]">Role / Title</span>
-                <p className="font-bold text-white mt-0.5">{selectedUser.title}</p>
-              </div>
-              <div>
-                <span className="text-[10px] font-mono uppercase text-[#8A8A82]">Manager</span>
-                <p className="font-medium text-neutral-300 mt-0.5">{selectedUser.manager}</p>
-              </div>
-              <div>
-                <span className="text-[10px] font-mono uppercase text-[#8A8A82]">Location</span>
-                <p className="font-medium text-neutral-300 mt-0.5">{selectedUser.location}</p>
-              </div>
-              <div className="col-span-2 pt-2 border-t border-white/10 flex items-center justify-between">
-                <StatusBadge status={selectedUser.status} />
-                <RiskBadge
-                  level={selectedUser.riskScore > 75 ? "CRITICAL" : selectedUser.riskScore > 50 ? "HIGH" : selectedUser.riskScore > 25 ? "MEDIUM" : "LOW"}
-                  score={selectedUser.riskScore}
-                />
-              </div>
-            </div>
-
-            {/* Groups */}
-            <div className="space-y-2">
-              <span className="text-[10px] font-mono uppercase tracking-wider text-[#8A8A82] font-bold">
-                Assigned Okta Groups ({selectedUser.groups.length})
-              </span>
-              <div className="flex flex-wrap gap-1.5">
-                {selectedUser.groups.map((group) => (
-                  <span
-                    key={group}
-                    className="px-2.5 py-1 rounded-full text-xs font-mono bg-[#1b1b1b] text-neutral-200 border border-white/10"
-                  >
-                    {group}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            {/* Applications */}
-            <div className="space-y-2">
-              <span className="text-[10px] font-mono uppercase tracking-wider text-[#8A8A82] font-bold">
-                SSO Applications ({selectedUser.apps.length})
-              </span>
-              <div className="flex flex-wrap gap-1.5">
-                {selectedUser.apps.map((app) => (
-                  <span
-                    key={app}
-                    className="px-2.5 py-1 rounded-full text-xs font-mono bg-[#D4E84A]/10 text-[#D4E84A] border border-[#D4E84A]/25"
-                  >
-                    {app}
-                  </span>
-                ))}
-              </div>
-            </div>
+        {/* Table Footer */}
+        <div className="bg-[#141414] px-5 py-3 border-t border-white/10 flex items-center justify-between text-xs font-mono text-[#8A8A82]">
+          <div>
+            Showing <span className="text-white font-bold">{filteredUsers.length}</span> of{" "}
+            <span className="text-white font-bold">{users.length}</span> authoritative identities
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="text-[10px] uppercase text-[#D4E84A]">OKTA IDENTITY ENGINE ACTIVE</span>
           </div>
         </div>
-      )}
+      </div>
+
+      {/* Slide-over Profile Drawer */}
+      <UserDetailDrawer
+        user={selectedUserForDrawer}
+        open={Boolean(selectedUserForDrawer)}
+        onClose={() => setSelectedUserForDrawer(null)}
+      />
     </div>
   );
 }
