@@ -126,14 +126,11 @@ function RootComponent() {
           {/* Quick-Nav Right Arrow & Spinwheel Dock */}
           <CyberSpinWheelNav />
 
-          {/* Main Layout Area — modular floating structure directly over the animated living canvas */}
-          <div className="w-full max-w-[1600px] mx-auto flex flex-col flex-1 min-h-[calc(100vh-2.5rem)] relative z-10 space-y-6">
-            {/* Dedicated Floating Glass Navbar Card */}
-            <div className="w-full bg-[#101116]/90 backdrop-blur-xl rounded-[24px] px-3 sm:px-5 py-2.5 border border-white/15 shadow-[0_8px_32px_rgba(0,0,0,0.6)]">
-              <Navbar />
-            </div>
+          {/* Main Layout Area — overarching frosted glass card containing Navbar and all platform tools */}
+          <div className="w-full max-w-[1600px] mx-auto bg-[#0B0C10]/85 backdrop-blur-xl rounded-[36px] border border-white/15 p-4 sm:p-6 md:p-8 shadow-[0_25px_60px_rgba(0,0,0,0.85)] flex flex-col flex-1 min-h-[calc(100vh-2.5rem)] relative z-10 space-y-6">
+            <Navbar />
 
-            {/* Individual Page Content & Section Cards */}
+            {/* Content Area */}
             <main className="flex-1 w-full">
               <Outlet />
             </main>
