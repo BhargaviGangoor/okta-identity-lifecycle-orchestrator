@@ -16,8 +16,7 @@ import { getDrift, remediateDrift } from "../services/api";
 import type { DriftItem, RiskLevel } from "../services/types";
 import { RiskBadge } from "../components/RiskBadge";
 import { useToast } from "../components/Toast";
-import { GlitchGridBackground } from "../components/backgrounds/GlitchGridBackground";
-import { UnifiedPageBackground } from "../components/backgrounds/UnifiedPageBackground";
+import { SeismicGridBackground } from "../components/backgrounds/SeismicGridBackground";
 
 export const Route = createFileRoute("/drift")({
   component: DriftReconciliationPage,
@@ -95,7 +94,7 @@ export function DriftReconciliationPage() {
 
   return (
     <div className="space-y-6 animate-in fade-in duration-200 relative">
-      <UnifiedPageBackground mode="glitch" accentColor="#D4E84A" />
+      <SeismicGridBackground />
       {/* Hero Panel */}
       <section className="bg-gradient-to-r from-[#121316]/90 via-[#181920]/90 to-[#121316]/90 backdrop-blur-xl rounded-[32px] p-6 sm:p-8 border border-white/15 text-white flex flex-col md:flex-row items-start md:items-center justify-between gap-5 shadow-[0_12px_40px_rgba(0,0,0,0.6)] card-interactive hover-glow-orange relative overflow-hidden">
         <div className="absolute -top-24 -left-24 w-48 h-48 bg-[#E8703A]/10 rounded-full blur-3xl pointer-events-none"></div>
