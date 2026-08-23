@@ -84,13 +84,7 @@ export function Navbar() {
 
   return (
     <>
-      <header
-        className={`w-full flex items-center justify-between gap-3 px-3 sticky top-2 z-50 transition-all duration-300 ${
-          scrolled
-            ? "py-2 bg-[#141416]/95 backdrop-blur-md rounded-[24px] border border-white/15 shadow-2xl"
-            : "py-3 bg-transparent"
-        }`}
-      >
+      <header className="w-full flex items-center justify-between gap-3 px-1 py-1">
         {/* Left: TEAM ECHO logo */}
         <Link
           to="/"
