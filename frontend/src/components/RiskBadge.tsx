@@ -6,7 +6,18 @@ interface RiskBadgeProps {
 }
 
 export function RiskBadge({ level, score }: RiskBadgeProps) {
-  const norm = level.toUpperCase();
+  const norm = (
+    level ||
+    (typeof score === "number"
+      ? score >= 75
+        ? "CRITICAL"
+        : score >= 50
+        ? "HIGH"
+        : score >= 30
+        ? "MEDIUM"
+        : "LOW"
+      : "LOW")
+  ).toUpperCase();
 
   if (norm === "LOW") {
     return (

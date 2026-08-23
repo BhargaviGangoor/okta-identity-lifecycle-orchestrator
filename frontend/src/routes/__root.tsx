@@ -11,22 +11,25 @@ import { type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { Navbar } from "../components/Navbar";
+import { ToastProvider } from "../components/Toast";
+import { LivingMeshBackground } from "../components/LivingMeshBackground";
+import { CyberSpinWheelNav } from "../components/CyberSpinWheelNav";
 
 function NotFoundComponent() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-4">
-      <div className="max-w-md text-center">
-        <h1 className="text-7xl font-bold text-foreground">404</h1>
-        <h2 className="mt-4 text-xl font-semibold text-foreground">Page not found</h2>
-        <p className="mt-2 text-sm text-muted-foreground">
-          The page you're looking for doesn't exist or has been moved.
+    <div className="flex min-h-screen items-center justify-center bg-[#141414] text-white px-4">
+      <div className="max-w-md text-center bg-[#1b1b1b] p-8 rounded-[32px] border border-white/10 shadow-2xl">
+        <h1 className="text-7xl font-extrabold text-[#D4E84A] font-mono">404</h1>
+        <h2 className="mt-4 text-xl font-bold text-white">Route Not Found</h2>
+        <p className="mt-2 text-xs text-neutral-400 font-sans leading-relaxed">
+          The requested IAM console route does not exist or has been relocated in the policy matrix.
         </p>
         <div className="mt-6">
           <Link
             to="/"
-            className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+            className="inline-flex items-center justify-center rounded-full bg-[#D4E84A] px-5 py-2.5 text-xs font-mono font-bold text-[#0E0E0E] transition-all hover:bg-[#c2d73b] active:scale-95 shadow-md btn-interactive"
           >
-            Go home
+            RETURN TO OVERVIEW
           </Link>
         </div>
       </div>
@@ -39,29 +42,29 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   const router = useRouter();
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-4">
-      <div className="max-w-md text-center">
-        <h1 className="text-xl font-semibold tracking-tight text-foreground">
-          This page didn't load
+    <div className="flex min-h-screen items-center justify-center bg-[#141414] text-white px-4">
+      <div className="max-w-md text-center bg-[#1b1b1b] p-8 rounded-[32px] border border-white/10 shadow-2xl">
+        <h1 className="text-xl font-bold tracking-tight text-white">
+          System Exception Detected
         </h1>
-        <p className="mt-2 text-sm text-muted-foreground">
-          Something went wrong on our end. You can try refreshing or head back home.
+        <p className="mt-2 text-xs text-neutral-400 leading-relaxed font-mono">
+          {error?.message || "An unexpected error occurred during execution."}
         </p>
-        <div className="mt-6 flex flex-wrap justify-center gap-2">
+        <div className="mt-6 flex flex-wrap justify-center gap-3">
           <button
             onClick={() => {
               router.invalidate();
               reset();
             }}
-            className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+            className="inline-flex items-center justify-center rounded-full bg-[#D4E84A] px-5 py-2 text-xs font-mono font-bold text-[#0E0E0E] transition-colors hover:bg-[#c2d73b] btn-interactive"
           >
-            Try again
+            RETRY PIPELINE
           </button>
           <a
             href="/"
-            className="inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent"
+            className="inline-flex items-center justify-center rounded-full border border-white/20 bg-white/5 px-5 py-2 text-xs font-mono font-medium text-white transition-colors hover:bg-white/10 btn-interactive"
           >
-            Go home
+            HOME
           </a>
         </div>
       </div>
@@ -109,22 +112,29 @@ function RootShell({ children }: { children: ReactNode }) {
     </html>
   );
 }
-
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* Outer frame shell: #141414 background, 44px radius, inside cream #F4EFEA canvas background */}
-      <div className="min-h-screen bg-[#F4EFEA] p-3 sm:p-6 md:p-8 flex flex-col justify-start selection:bg-[#D4E84A] selection:text-[#0E0E0E]">
-        <div className="w-full max-w-[1600px] mx-auto bg-[#141414] text-white rounded-[32px] sm:rounded-[44px] p-4 sm:p-7 shadow-2xl border border-black/15 flex flex-col flex-1 min-h-[calc(100vh-3rem)] overflow-hidden">
-          <Navbar />
-          <main className="flex-1 w-full mt-4">
-            <Outlet />
-          </main>
+      <ToastProvider>
+        {/* Full-bleed living canvas background */}
+        <div className="min-h-screen bg-transparent p-2.5 sm:p-5 md:p-6 flex flex-col justify-start selection:bg-[#D4E84A] selection:text-[#0E0E0E] relative overflow-x-hidden">
+          {/* Animated Living Identity Mesh Canvas */}
+          <LivingMeshBackground />
+
+          {/* Quick-Nav Right Arrow & Spinwheel Dock */}
+          <CyberSpinWheelNav />
+
+          {/* Main Content Area — translucent glass so glowing particles & dynamic nebulae flow seamlessly */}
+          <div className="w-full max-w-[1600px] mx-auto bg-black/35 backdrop-blur-md text-white rounded-[28px] sm:rounded-[36px] p-3 sm:p-6 md:p-7 shadow-[0_0_80px_rgba(0,0,0,0.7)] border border-white/10 flex flex-col flex-1 min-h-[calc(100vh-2.5rem)] relative z-10">
+            <Navbar />
+            <main className="flex-1 w-full mt-4">
+              <Outlet />
+            </main>
+          </div>
         </div>
-      </div>
+      </ToastProvider>
     </QueryClientProvider>
   );
 }
-

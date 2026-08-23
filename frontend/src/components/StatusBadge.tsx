@@ -5,7 +5,7 @@ interface StatusBadgeProps {
 }
 
 export function StatusBadge({ status }: StatusBadgeProps) {
-  const norm = status.toUpperCase();
+  const norm = (status || "ACTIVE").toUpperCase();
 
   if (norm === "ACTIVE") {
     return (
