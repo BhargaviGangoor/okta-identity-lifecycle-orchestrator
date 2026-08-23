@@ -16,7 +16,7 @@ import { RiskBadge } from "../components/RiskBadge";
 import { BlastRadiusRadar } from "../components/BlastRadiusRadar";
 import { useToast } from "../components/Toast";
 import { cyberSound } from "../utils/cyberSound";
-import { QuantumBranchingTreeBackground } from "../components/backgrounds/QuantumBranchingTreeBackground";
+import { ElectricLightningBackground } from "../components/backgrounds/ElectricLightningBackground";
 
 export const Route = createFileRoute("/whatif")({
   component: WhatIfSimulatorPage,
@@ -111,7 +111,7 @@ export function WhatIfSimulatorPage() {
 
   return (
     <div className="space-y-6 max-w-4xl mx-auto animate-in fade-in duration-200 relative">
-      <QuantumBranchingTreeBackground />
+      <ElectricLightningBackground />
       {/* Hero Panel */}
       <section className="bg-gradient-to-r from-[#121316]/90 via-[#181920]/90 to-[#121316]/90 backdrop-blur-xl rounded-[32px] p-6 sm:p-8 border border-white/15 text-white flex items-center justify-between shadow-[0_12px_40px_rgba(0,0,0,0.6)] card-interactive hover-glow-cyan relative overflow-hidden">
         <div className="absolute -top-24 -left-24 w-48 h-48 bg-cyan-400/10 rounded-full blur-3xl pointer-events-none"></div>
