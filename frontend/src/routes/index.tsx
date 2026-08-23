@@ -442,47 +442,47 @@ export function TeamEchoEditorialExperience() {
         className="relative pt-6 sm:pt-10 pb-10 sm:pb-16"
       >
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
-          {/* Left: Giant Typography & Line-by-Line Reveal */}
-          <div ref={heroTextRef} className="lg:col-span-7 space-y-8">
-            <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-[#18191E] border border-white/30 text-xs font-mono text-white tracking-widest uppercase shadow-lg font-bold">
-              <span className="w-2.5 h-2.5 rounded-full bg-[#D4E84A] shadow-[0_0_12px_#D4E84A] animate-pulse"></span>
-              <span className="text-glow-white">IDENTITY GOVERNANCE FOR OKTA</span>
+          {/* Left: Balanced Typography & Line-by-Line Reveal */}
+          <div ref={heroTextRef} className="lg:col-span-7 space-y-6">
+            <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-mono text-[#D4E84A] tracking-wider uppercase font-medium">
+              <span className="w-2 h-2 rounded-full bg-[#D4E84A]"></span>
+              <span>IDENTITY GOVERNANCE FOR OKTA</span>
             </div>
 
-            <h1 className="text-6xl sm:text-7xl lg:text-[88px] xl:text-[102px] font-semibold tracking-[-0.045em] leading-[0.92] text-white drop-shadow-[0_4px_16px_rgba(0,0,0,0.9)]">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.1] text-slate-100">
               <span ref={headlineLine1Ref} className="block">
                 There Is a
               </span>
-              <span ref={headlineLine2Ref} className="inline-flex items-center gap-3 sm:gap-4 flex-wrap my-1">
-                <span className="inline-flex items-center justify-center w-14 h-14 sm:w-18 sm:h-18 rounded-[22px] bg-gradient-to-br from-amber-400 via-orange-500 to-amber-600 shadow-[0_0_30px_rgba(245,158,11,0.5)] border-2 border-white/90 shrink-0 hover:rotate-6 transition-transform duration-300">
-                  <Lock className="w-7 h-7 sm:w-8 sm:h-8 text-white stroke-[2.5]" />
+              <span ref={headlineLine2Ref} className="inline-flex items-center gap-3 flex-wrap my-1">
+                <span className="inline-flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 shadow-md border border-white/20 shrink-0">
+                  <Lock className="w-5 h-5 sm:w-6 sm:h-6 text-white stroke-[2]" />
                 </span>
-                <span className="text-white">Better Way</span>
+                <span className="text-slate-100">Better Way</span>
               </span>
-              <span ref={headlineLine3Ref} className="block">
+              <span ref={headlineLine3Ref} className="block text-slate-200">
                 to Govern Identity.
               </span>
             </h1>
 
-            <p className="text-base sm:text-lg text-white font-semibold leading-relaxed max-w-xl bg-black/60 p-4 rounded-2xl border border-white/15 backdrop-blur-md shadow-xl">
+            <p className="text-base text-slate-300 font-normal leading-relaxed max-w-lg">
               Govern every identity change before it reaches Okta—validate policy, simulate impact, execute safely, and reconcile continuously.
             </p>
 
-            <div className="pt-2 flex flex-wrap items-center gap-6">
+            <div className="pt-2 flex flex-wrap items-center gap-4">
               <a
                 href="#governance"
-                className="inline-flex items-center gap-3 px-7 py-4 rounded-full bg-[#D4E84A] text-[#0E0E0E] hover:bg-white font-mono text-xs font-semibold transition-all duration-200 active:scale-95 shadow-[0_0_25px_rgba(212,232,74,0.4)] group border border-black/20"
+                className="inline-flex items-center gap-2.5 px-6 py-3 rounded-full bg-[#D4E84A] text-[#0E0E0E] hover:bg-[#c4d838] font-mono text-xs font-bold transition-colors shadow-md group"
               >
                 <span>EXPLORE CAPABILITIES</span>
-                <ArrowRight className="w-4 h-4 stroke-[3] group-hover:translate-x-1 transition-transform" />
+                <ArrowRight className="w-4 h-4 stroke-[2.5] group-hover:translate-x-0.5 transition-transform" />
               </a>
 
               <Link
                 to="/users"
-                className="inline-flex items-center gap-2 text-sm font-mono font-bold text-white hover:text-[#D4E84A] underline underline-offset-8 transition-colors group"
+                className="inline-flex items-center gap-2 text-xs font-mono font-medium text-slate-300 hover:text-[#D4E84A] underline underline-offset-4 transition-colors group"
               >
                 <span>ENTER LIVE CONSOLE</span>
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
               </Link>
             </div>
           </div>
@@ -516,52 +516,52 @@ export function TeamEchoEditorialExperience() {
       </section>
 
       {/* ── 2. SECTION 01: WHAT TEAM ECHO GOVERNS (Interactive Objects) ── */}
-      <section id="governance" className="space-y-12 pt-6">
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 border-b border-white/20 pb-8">
+      <section id="governance" className="space-y-10 pt-6">
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 border-b border-white/10 pb-6">
           <div className="space-y-2">
-            <span className="text-xs font-mono font-semibold tracking-[0.2em] text-[#D4E84A] uppercase">
+            <span className="text-xs font-mono font-medium tracking-[0.2em] text-[#D4E84A] uppercase">
               01 / WHAT TEAM ECHO GOVERNS
             </span>
-            <h2 className="text-5xl sm:text-6xl lg:text-7xl font-semibold tracking-tight text-white font-sans leading-[0.98]">
+            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-slate-100 font-sans leading-tight">
               Every Identity <br />
               Transition.
             </h2>
           </div>
 
-          <p className="text-sm sm:text-base text-white max-w-md leading-relaxed font-semibold bg-black/50 p-3.5 rounded-xl border border-white/15">
+          <p className="text-sm text-slate-300 max-w-md leading-relaxed font-normal">
             From onboarding to role changes to offboarding, every access transition passes through policy, risk, and verification.
           </p>
         </div>
 
         {/* 3 Interactive Product Objects */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* ── Object 1: ZERO STANDING PRIVILEGE (Node Graph + JIT Access) ── */}
-          <div className="card-high-contrast rounded-[32px] p-7 sm:p-8 flex flex-col justify-between space-y-6 shadow-2xl group card-interactive ">
+          <div className="card-high-contrast rounded-[32px] p-6 sm:p-7 flex flex-col justify-between space-y-6 shadow-md card-interactive">
             <div className="space-y-3">
-              <div className="flex items-center justify-between pb-3 border-b border-white/15">
+              <div className="flex items-center justify-between pb-3 border-b border-white/10">
                 <span className="text-sm font-mono font-semibold text-[#D4E84A]">01</span>
-                <span className="text-[11px] font-mono uppercase px-3 py-1 rounded-full bg-white/20 text-white border border-white/30 font-bold">
+                <span className="text-[10px] font-mono uppercase px-2.5 py-1 rounded-full bg-white/5 text-neutral-300 border border-white/10 font-medium">
                   Just-In-Time Access
                 </span>
               </div>
-              <h3 className="text-xl sm:text-2xl font-semibold text-white">
+              <h3 className="text-lg sm:text-xl font-bold text-slate-100">
                 ZERO STANDING PRIVILEGE
               </h3>
-              <p className="text-sm text-white leading-relaxed font-medium">
+              <p className="text-sm text-slate-300 leading-relaxed font-normal">
                 Access exists when needed—not permanently. Request temporary access to watch JIT provisioning and auto-expiry.
               </p>
             </div>
 
             {/* Interactive Identity Access Node Graph */}
-            <div className="bg-[#0A0A0C] bg-dark-grid rounded-[24px] p-5 border border-white/15 space-y-4 shadow-inner">
+            <div className="bg-[#0A0A0C]/70 rounded-[20px] p-5 border border-white/10 space-y-4">
               {/* Visual Node Graph Topology */}
               <div className="relative py-3 flex flex-col items-center justify-center font-mono text-xs">
                 {/* Top Node: AWS */}
                 <div
                   className={`px-4 py-2 rounded-xl border transition-all duration-300 ${
                     zspStep === 3
-                      ? "bg-amber-500/25 border-amber-400 text-amber-200 font-semibold shadow-[0_0_16px_rgba(245,158,11,0.4)]"
-                      : "bg-[#1C1D22] border-white/15 text-slate-200 font-bold"
+                      ? "bg-amber-500/25 border-amber-400 text-amber-200 font-semibold shadow-xs"
+                      : "bg-[#1C1D22] border-white/10 text-slate-300 font-medium"
                   }`}
                 >
                   AWS Prod
@@ -570,25 +570,25 @@ export function TeamEchoEditorialExperience() {
 
                 {/* Middle Row: GitHub -- SARAH -- Jira */}
                 <div className="flex items-center justify-center gap-3 w-full">
-                  <div className="px-3 py-1.5 rounded-lg bg-emerald-500/20 border border-emerald-400/40 text-emerald-200 font-bold">
+                  <div className="px-3 py-1.5 rounded-lg bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 font-medium">
                     GitHub
                   </div>
                   <div className="w-4 h-0.5 bg-emerald-400"></div>
 
-                  <div className="px-4 py-2 rounded-xl bg-white text-[#0E0E0E] font-semibold text-xs shadow-lg shrink-0 flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_6px_#10B981]"></span>
+                  <div className="px-4 py-2 rounded-xl bg-white text-[#0E0E0E] font-bold text-xs shadow-md shrink-0 flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
                     <span>SARAH</span>
                   </div>
 
                   <div className="w-4 h-0.5 bg-emerald-400"></div>
-                  <div className="px-3 py-1.5 rounded-lg bg-emerald-500/20 border border-emerald-400/40 text-emerald-200 font-bold">
+                  <div className="px-3 py-1.5 rounded-lg bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 font-medium">
                     Jira
                   </div>
                 </div>
 
                 {/* Bottom Node: Slack */}
                 <div className="w-0.5 h-4 bg-emerald-400"></div>
-                <div className="px-3 py-1.5 rounded-lg bg-emerald-500/20 border border-emerald-400/40 text-emerald-200 font-bold">
+                <div className="px-3 py-1.5 rounded-lg bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 font-medium">
                   Slack
                 </div>
               </div>
