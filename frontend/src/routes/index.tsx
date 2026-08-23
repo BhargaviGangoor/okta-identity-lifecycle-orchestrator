@@ -413,7 +413,7 @@ export function TeamEchoEditorialExperience() {
       className="space-y-28 sm:space-y-36 pb-28 text-white selection:bg-[#D4E84A] selection:text-[#0E0E0E] relative"
     >
       {/* ── Subtle Floating Side Progress Tracker ──────────────────────── */}
-      <div className="hidden 2xl:flex fixed right-8 top-1/2 -translate-y-1/2 flex-col gap-2.5 font-mono text-[10px] text-[#8E8E86] z-40 bg-[#141415]/90 backdrop-blur-md p-3 rounded-full border border-white/10 shadow-2xl">
+      <div className="hidden 2xl:flex fixed right-8 top-1/2 -translate-y-1/2 flex-col gap-2.5 font-mono text-[10px] text-neutral-300 z-40 bg-[#141415]/90 backdrop-blur-md p-3 rounded-full border border-white/10 shadow-2xl">
         {[
           { num: "01", label: "GOVERN", href: "#governance" },
           { num: "02", label: "FLOW", href: "#pipeline" },
@@ -426,7 +426,7 @@ export function TeamEchoEditorialExperience() {
             className={`flex items-center gap-2 px-3 py-1 rounded-full transition-all duration-200 ${
               activeSection === item.num
                 ? "bg-[#D4E84A] text-[#0E0E0E] font-bold shadow-sm"
-                : "hover:text-white hover:bg-white/5"
+                : "hover:text-white hover:bg-white/5 text-neutral-300"
             }`}
           >
             <span>{item.num}</span>
@@ -444,7 +444,7 @@ export function TeamEchoEditorialExperience() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
           {/* Left: Giant Typography & Line-by-Line Reveal */}
           <div ref={heroTextRef} className="lg:col-span-7 space-y-8">
-            <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-[#1A1A1C] border border-white/10 text-[11px] font-mono text-[#8E8E86] tracking-widest uppercase shadow-inner">
+            <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-[#1A1A1C] border border-white/15 text-[11px] font-mono text-neutral-200 tracking-widest uppercase shadow-inner font-semibold">
               <span className="w-2 h-2 rounded-full bg-[#D4E84A] shadow-[0_0_8px_#D4E84A] animate-pulse"></span>
               IDENTITY GOVERNANCE FOR OKTA
             </div>
@@ -464,7 +464,7 @@ export function TeamEchoEditorialExperience() {
               </span>
             </h1>
 
-            <p className="text-sm sm:text-base text-[#8E8E86] leading-relaxed font-light max-w-xl">
+            <p className="text-sm sm:text-base text-neutral-200 leading-relaxed font-normal max-w-xl">
               Govern every identity change before it reaches Okta—validate policy, simulate impact, execute safely, and reconcile continuously.
             </p>
 
@@ -519,7 +519,7 @@ export function TeamEchoEditorialExperience() {
       <section id="governance" className="space-y-12 pt-6">
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 border-b border-white/10 pb-8">
           <div className="space-y-2">
-            <span className="text-[11px] font-mono font-bold tracking-[0.2em] text-[#8E8E86] uppercase">
+            <span className="text-[11px] font-mono font-bold tracking-[0.2em] text-[#D4E84A] uppercase">
               01 / WHAT TEAM ECHO GOVERNS
             </span>
             <h2 className="text-5xl sm:text-6xl lg:text-7xl font-black tracking-tight text-white font-sans leading-[0.98]">
@@ -528,7 +528,7 @@ export function TeamEchoEditorialExperience() {
             </h2>
           </div>
 
-          <p className="text-xs sm:text-sm text-[#8E8E86] max-w-md leading-relaxed font-light">
+          <p className="text-xs sm:text-sm text-neutral-200 max-w-md leading-relaxed font-normal">
             From onboarding to role changes to offboarding, every access transition passes through policy, risk, and verification.
           </p>
         </div>
@@ -540,14 +540,14 @@ export function TeamEchoEditorialExperience() {
             <div className="space-y-3">
               <div className="flex items-center justify-between pb-3 border-b border-white/10">
                 <span className="text-xs font-mono font-bold text-[#D4E84A]">01</span>
-                <span className="text-[10px] font-mono uppercase px-2.5 py-0.5 rounded-full bg-white/5 text-[#8E8E86] border border-white/10">
+                <span className="text-[10px] font-mono uppercase px-2.5 py-0.5 rounded-full bg-white/10 text-neutral-200 border border-white/15 font-semibold">
                   Just-In-Time Access
                 </span>
               </div>
               <h3 className="text-xl sm:text-2xl font-black text-white">
                 ZERO STANDING PRIVILEGE
               </h3>
-              <p className="text-xs text-[#8E8E86] leading-relaxed">
+              <p className="text-xs text-neutral-200 leading-relaxed font-normal">
                 Access exists when needed—not permanently. Request temporary access to watch JIT provisioning and auto-expiry.
               </p>
             </div>
@@ -561,7 +561,7 @@ export function TeamEchoEditorialExperience() {
                   className={`px-3.5 py-1.5 rounded-xl border transition-all duration-300 ${
                     zspStep === 3
                       ? "bg-amber-500/20 border-amber-400 text-amber-300 font-bold shadow-[0_0_14px_rgba(245,158,11,0.25)]"
-                      : "bg-[#18181A] border-white/10 text-neutral-400"
+                      : "bg-[#18181A] border-white/10 text-neutral-300"
                   }`}
                 >
                   AWS Prod
@@ -626,7 +626,7 @@ export function TeamEchoEditorialExperience() {
                       </div>
                       <button
                         onClick={handleRevokeZsp}
-                        className="w-full py-1.5 rounded-lg bg-[#18181A] hover:bg-neutral-800 text-neutral-300 text-[10px] font-mono font-semibold transition-colors border border-white/5"
+                        className="w-full py-1.5 rounded-lg bg-[#18181A] hover:bg-neutral-800 text-neutral-200 text-[10px] font-mono font-semibold transition-colors border border-white/10"
                       >
                         Revoke Access Now (0 Standing)
                       </button>
@@ -650,14 +650,14 @@ export function TeamEchoEditorialExperience() {
             <div className="space-y-3">
               <div className="flex items-center justify-between pb-3 border-b border-white/10">
                 <span className="text-xs font-mono font-bold text-[#D4E84A]">02</span>
-                <span className="text-[10px] font-mono uppercase px-2.5 py-0.5 rounded-full bg-white/5 text-[#8E8E86] border border-white/10">
+                <span className="text-[10px] font-mono uppercase px-2.5 py-0.5 rounded-full bg-white/10 text-neutral-200 border border-white/15 font-semibold">
                   State Verification
                 </span>
               </div>
               <h3 className="text-xl sm:text-2xl font-black text-white">
                 EXPECTED VS ACTUAL
               </h3>
-              <p className="text-xs text-[#8E8E86] leading-relaxed">
+              <p className="text-xs text-neutral-200 leading-relaxed font-normal">
                 Know what access should look like before comparing it with reality. Move the slider to inspect drift.
               </p>
             </div>
@@ -667,10 +667,10 @@ export function TeamEchoEditorialExperience() {
               {/* Slider Control: EXPECTED ----●---- ACTUAL */}
               <div className="space-y-2">
                 <div className="flex items-center justify-between text-[11px] font-mono">
-                  <span className={driftSlider < 50 ? "text-white font-bold" : "text-[#8E8E86]"}>
+                  <span className={driftSlider < 50 ? "text-white font-bold" : "text-neutral-300 font-semibold"}>
                     EXPECTED (Twin)
                   </span>
-                  <span className={driftSlider >= 50 ? "text-[#D4E84A] font-bold" : "text-[#8E8E86]"}>
+                  <span className={driftSlider >= 50 ? "text-[#D4E84A] font-bold" : "text-neutral-300 font-semibold"}>
                     ACTUAL (Okta)
                   </span>
                 </div>
@@ -686,17 +686,17 @@ export function TeamEchoEditorialExperience() {
 
               {/* Dynamic State List */}
               <div className="space-y-1.5 font-mono text-[11px]">
-                <div className="flex items-center justify-between px-3 py-1.5 rounded-xl bg-white/5 border border-white/10 text-neutral-300">
+                <div className="flex items-center justify-between px-3 py-1.5 rounded-xl bg-white/5 border border-white/10 text-neutral-200">
                   <span>GitHub</span>
-                  <span className="text-emerald-400">✓ In Policy</span>
+                  <span className="text-emerald-400 font-bold">✓ In Policy</span>
                 </div>
-                <div className="flex items-center justify-between px-3 py-1.5 rounded-xl bg-white/5 border border-white/10 text-neutral-300">
+                <div className="flex items-center justify-between px-3 py-1.5 rounded-xl bg-white/5 border border-white/10 text-neutral-200">
                   <span>AWS-Dev</span>
-                  <span className="text-emerald-400">✓ In Policy</span>
+                  <span className="text-emerald-400 font-bold">✓ In Policy</span>
                 </div>
-                <div className="flex items-center justify-between px-3 py-1.5 rounded-xl bg-white/5 border border-white/10 text-neutral-300">
+                <div className="flex items-center justify-between px-3 py-1.5 rounded-xl bg-white/5 border border-white/10 text-neutral-200">
                   <span>Jira & Slack</span>
-                  <span className="text-emerald-400">✓ In Policy</span>
+                  <span className="text-emerald-400 font-bold">✓ In Policy</span>
                 </div>
 
                 {/* Unauthorized Drift Item (Fades in when slider > 40) */}
@@ -707,11 +707,11 @@ export function TeamEchoEditorialExperience() {
                   >
                     <div className="flex items-center justify-between text-amber-300 font-bold">
                       <span>⚠ AWS-Prod-Admin</span>
-                      <span className="text-[9px] bg-amber-500/20 px-1.5 py-0.5 rounded text-amber-400">
+                      <span className="text-[9px] bg-amber-500/20 px-1.5 py-0.5 rounded text-amber-400 font-bold">
                         Out-of-Band
                       </span>
                     </div>
-                    <div className="text-[10px] text-[#8E8E86]">
+                    <div className="text-[10px] text-neutral-200">
                       3 deviations detected · 2 unapproved assignments
                     </div>
                     <button
@@ -725,7 +725,7 @@ export function TeamEchoEditorialExperience() {
                 )}
 
                 {driftReconciled && (
-                  <div className="p-2 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-center text-[10px] text-emerald-300 animate-in fade-in duration-200">
+                  <div className="p-2 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-center text-[10px] text-emerald-300 font-bold animate-in fade-in duration-200">
                     ✓ Drift Reconciled: Unauthorized AWS-Prod-Admin purged
                   </div>
                 )}
@@ -746,14 +746,14 @@ export function TeamEchoEditorialExperience() {
             <div className="space-y-3">
               <div className="flex items-center justify-between pb-3 border-b border-white/10">
                 <span className="text-xs font-mono font-bold text-[#D4E84A]">03</span>
-                <span className="text-[10px] font-mono uppercase px-2.5 py-0.5 rounded-full bg-white/5 text-[#8E8E86] border border-white/10">
+                <span className="text-[10px] font-mono uppercase px-2.5 py-0.5 rounded-full bg-white/10 text-neutral-200 border border-white/15 font-semibold">
                   Pre-Execution Gating
                 </span>
               </div>
               <h3 className="text-xl sm:text-2xl font-black text-white">
                 RISK-GATED EXECUTION
               </h3>
-              <p className="text-xs text-[#8E8E86] leading-relaxed">
+              <p className="text-xs text-neutral-200 leading-relaxed font-normal">
                 Simulate impact before a change reaches production. High-risk actions halt at the approval threshold.
               </p>
             </div>
@@ -763,7 +763,7 @@ export function TeamEchoEditorialExperience() {
               <div className="p-2.5 rounded-xl bg-white/5 border border-white/10 text-[11px] font-mono flex items-center justify-between">
                 <div>
                   <div className="text-white font-bold">MOVE USER: Sarah Chen</div>
-                  <div className="text-[10px] text-[#8E8E86]">Engineering → Finance</div>
+                  <div className="text-[10px] text-neutral-200 font-medium">Engineering → Finance</div>
                 </div>
                 {whatIfStep === 0 && (
                   <button
@@ -779,7 +779,7 @@ export function TeamEchoEditorialExperience() {
               {whatIfStep === 1 && (
                 <div className="py-4 text-center font-mono text-[11px] text-[#D4E84A] space-y-1 animate-pulse">
                   <div>REQUEST → POLICY → DELTA → RISK</div>
-                  <div className="text-[10px] text-[#8E8E86]">Calculating blast radius...</div>
+                  <div className="text-[10px] text-neutral-200">Calculating blast radius...</div>
                 </div>
               )}
 
@@ -787,14 +787,14 @@ export function TeamEchoEditorialExperience() {
                 <div className="space-y-3 font-mono text-[11px] animate-in fade-in duration-200">
                   <div className="p-3 rounded-xl bg-white/5 border border-white/10 space-y-2">
                     <div className="flex items-center justify-between text-[10px]">
-                      <span className="text-[#8E8E86]">IMPACT ANALYSIS:</span>
+                      <span className="text-neutral-200 font-semibold">IMPACT ANALYSIS:</span>
                       <span className="text-[#D4E84A] font-bold">+2 groups / -3 groups</span>
                     </div>
 
                     {/* Risk Score Meter */}
                     <div className="space-y-1">
                       <div className="flex justify-between text-[10px]">
-                        <span>Risk Score:</span>
+                        <span className="text-neutral-200">Risk Score:</span>
                         <span className="text-amber-400 font-bold">78% (HIGH RISK)</span>
                       </div>
                       <div className="w-full bg-neutral-800 h-1.5 rounded-full overflow-hidden">
@@ -802,7 +802,7 @@ export function TeamEchoEditorialExperience() {
                       </div>
                     </div>
 
-                    <div className="text-[10px] text-amber-300">
+                    <div className="text-[10px] text-amber-300 font-semibold">
                       RECOMMENDATION: Requires multi-party approval
                     </div>
                   </div>
@@ -817,7 +817,7 @@ export function TeamEchoEditorialExperience() {
                       </button>
                       <button
                         onClick={() => setWhatIfStep(0)}
-                        className="px-3 py-1.5 rounded-lg bg-neutral-800 hover:bg-neutral-700 text-neutral-400 text-[10px] font-bold transition-colors"
+                        className="px-3 py-1.5 rounded-lg bg-neutral-800 hover:bg-neutral-700 text-neutral-200 text-[10px] font-bold transition-colors"
                       >
                         CANCEL
                       </button>
@@ -846,7 +846,7 @@ export function TeamEchoEditorialExperience() {
       <section id="pipeline" className="space-y-10 pt-6">
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 border-b border-white/10 pb-8">
           <div className="space-y-2">
-            <span className="text-[11px] font-mono font-bold tracking-[0.2em] text-[#8E8E86] uppercase">
+            <span className="text-[11px] font-mono font-bold tracking-[0.2em] text-[#D4E84A] uppercase">
               02 / HOW IT WORKS
             </span>
             <h2 className="text-5xl sm:text-6xl lg:text-7xl font-black tracking-tight text-white font-sans leading-[0.98]">
@@ -855,7 +855,7 @@ export function TeamEchoEditorialExperience() {
             </h2>
           </div>
 
-          <p className="text-xs sm:text-sm text-[#8E8E86] max-w-md leading-relaxed font-light">
+          <p className="text-xs sm:text-sm text-neutral-200 max-w-md leading-relaxed font-normal">
             Watch the live governance pipeline progress from intake to policy checks, impact simulation, authorization, execution, and continuous reconciliation.
           </p>
         </div>
@@ -874,11 +874,11 @@ export function TeamEchoEditorialExperience() {
                   className={`p-3.5 rounded-[18px] border text-left transition-all duration-300 relative group btn-interactive ${
                     isActive
                       ? "bg-[#1C1C1F] border-[#D4E84A] shadow-lg scale-102"
-                      : "bg-white/5 border-transparent hover:border-white/20 text-[#8E8E86]"
+                      : "bg-white/5 border-transparent hover:border-white/20 text-neutral-300"
                   }`}
                 >
                   <div className="flex items-center justify-between text-[10px] font-mono mb-1">
-                    <span className={isActive ? "text-[#D4E84A] font-bold" : "text-[#666]"}>
+                    <span className={isActive ? "text-[#D4E84A] font-bold" : "text-neutral-400"}>
                       {stage.num}
                     </span>
                     <span className="text-[9px] font-mono">
@@ -907,11 +907,11 @@ export function TeamEchoEditorialExperience() {
                 {currentStage.title}
               </h3>
 
-              <p className="text-sm text-neutral-300 leading-relaxed font-light">
+              <p className="text-sm text-neutral-200 leading-relaxed font-normal">
                 {currentStage.summary}
               </p>
 
-              <div className="p-4 rounded-[18px] bg-black/40 border border-white/10 text-xs text-[#8E8E86] leading-relaxed card-interactive">
+              <div className="p-4 rounded-[18px] bg-black/40 border border-white/10 text-xs text-neutral-200 leading-relaxed card-interactive">
                 <strong className="text-white font-mono">Platform Action: </strong>
                 {currentStage.action}
               </div>
@@ -932,20 +932,20 @@ export function TeamEchoEditorialExperience() {
             <div className="lg:col-span-5">
               {showTechDetails ? (
                 <div className="bg-[#08080A] rounded-[24px] p-6 border border-[#D4E84A]/30 font-mono text-xs space-y-3 shadow-inner animate-in fade-in duration-200 card-interactive hover-glow-lime">
-                  <div className="flex items-center justify-between border-b border-white/10 pb-2 text-[10px] text-[#8E8E86]">
+                  <div className="flex items-center justify-between border-b border-white/10 pb-2 text-[10px] text-neutral-300">
                     <span>ARCHITECTURE CONTRACT</span>
                     <span className="text-[#D4E84A]">JAVA 17 / SPRING BOOT</span>
                   </div>
                   <div>
-                    <span className="text-[#8E8E86] block text-[10px]">ENDPOINT:</span>
+                    <span className="text-neutral-300 block text-[10px]">ENDPOINT:</span>
                     <code className="text-[#D4E84A]">{currentStage.techEndpoint}</code>
                   </div>
                   <div>
-                    <span className="text-[#8E8E86] block text-[10px]">INTERNAL SERVICE:</span>
-                    <code className="text-neutral-300">{currentStage.techService}</code>
+                    <span className="text-neutral-300 block text-[10px]">INTERNAL SERVICE:</span>
+                    <code className="text-neutral-200">{currentStage.techService}</code>
                   </div>
                   <div>
-                    <span className="text-[#8E8E86] block text-[10px]">PAYLOAD STATE:</span>
+                    <span className="text-neutral-300 block text-[10px]">PAYLOAD STATE:</span>
                     <pre className="text-[11px] text-emerald-400 bg-white/5 p-2 rounded-lg mt-1 overflow-x-auto whitespace-pre-wrap">
                       {currentStage.techOutput}
                     </pre>
@@ -958,7 +958,7 @@ export function TeamEchoEditorialExperience() {
                   </div>
                   <div className="space-y-1">
                     <div className="text-sm font-bold text-white">Continuous Lifecycle Governance</div>
-                    <div className="text-xs font-mono text-[#8E8E86]">Stage {activePipelineStage + 1} of 6 in Execution Flow</div>
+                    <div className="text-xs font-mono text-neutral-300 font-medium">Stage {activePipelineStage + 1} of 6 in Execution Flow</div>
                   </div>
                   <div className="flex items-center gap-2 pt-2">
                     <button
@@ -986,7 +986,7 @@ export function TeamEchoEditorialExperience() {
       <section id="demos" className="space-y-10 pt-6">
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 border-b border-white/10 pb-8">
           <div className="space-y-2">
-            <span className="text-[11px] font-mono font-bold tracking-[0.2em] text-[#8E8E86] uppercase">
+            <span className="text-[11px] font-mono font-bold tracking-[0.2em] text-[#D4E84A] uppercase">
               03 / SEE IT IN ACTION
             </span>
             <h2 className="text-5xl sm:text-6xl lg:text-7xl font-black tracking-tight text-white font-sans leading-[0.98]">
@@ -995,7 +995,7 @@ export function TeamEchoEditorialExperience() {
             </h2>
           </div>
 
-          <p className="text-xs sm:text-sm text-[#8E8E86] max-w-md leading-relaxed font-light">
+          <p className="text-xs sm:text-sm text-neutral-200 max-w-md leading-relaxed font-normal">
             Follow an identity request from intake to policy validation, risk analysis, execution, and audit.
           </p>
         </div>
@@ -1014,7 +1014,7 @@ export function TeamEchoEditorialExperience() {
                     className={`px-4 py-2 rounded-full text-xs font-mono font-bold transition-all btn-interactive ${
                       activeTerminalTab === idx
                         ? "bg-[#D4E84A] text-[#0E0E0E] shadow-sm"
-                        : "bg-white/5 text-[#8E8E86] hover:bg-white/10 hover:text-white"
+                        : "bg-white/5 text-neutral-200 hover:bg-white/10 hover:text-white"
                     }`}
                   >
                     {scene.title}
@@ -1024,7 +1024,7 @@ export function TeamEchoEditorialExperience() {
 
               <button
                 onClick={() => setShowRawTrace(!showRawTrace)}
-                className="inline-flex items-center gap-2 text-xs font-mono text-[#8E8E86] hover:text-white transition-colors btn-interactive"
+                className="inline-flex items-center gap-2 text-xs font-mono text-neutral-300 hover:text-white transition-colors btn-interactive"
               >
                 <Terminal className="w-3.5 h-3.5" />
                 <span>{showRawTrace ? "Show Summary" : "Inspect Raw Trace"}</span>
@@ -1033,12 +1033,12 @@ export function TeamEchoEditorialExperience() {
 
             {/* Terminal Body */}
             <div className="bg-[#08080A] rounded-[24px] border border-white/10 p-6 sm:p-8 font-mono space-y-4 shadow-inner min-h-[260px] card-interactive">
-              <div className="flex items-center justify-between border-b border-white/10 pb-3 text-xs text-[#8E8E86]">
+              <div className="flex items-center justify-between border-b border-white/10 pb-3 text-xs text-neutral-300">
                 <div className="flex items-center gap-2">
                   <span className="w-2.5 h-2.5 rounded-full bg-red-500/80"></span>
                   <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/80"></span>
                   <span className="w-2.5 h-2.5 rounded-full bg-green-500/80"></span>
-                  <span className="ml-2 text-neutral-400">team-echo://stream</span>
+                  <span className="ml-2 text-neutral-300">team-echo://stream</span>
                 </div>
                 <span className="text-[11px] flex items-center gap-1.5">
                   {isTerminalStreaming ? (
@@ -1064,23 +1064,23 @@ export function TeamEchoEditorialExperience() {
                           ? "text-amber-400 font-semibold"
                           : line.includes("OktaClient")
                           ? "text-emerald-400 font-semibold"
-                          : "text-neutral-300"
+                          : "text-neutral-200"
                       }`}
                     >
-                      <span className="text-[#666] shrink-0 select-none">›</span>
+                      <span className="text-[#888] shrink-0 select-none font-bold">›</span>
                       <span>{line}</span>
                     </div>
                   ))}
                 </div>
               ) : (
-                <pre className="text-xs text-neutral-300 leading-relaxed overflow-x-auto whitespace-pre-wrap py-2 animate-in fade-in duration-200">
+                <pre className="text-xs text-neutral-200 leading-relaxed overflow-x-auto whitespace-pre-wrap py-2 animate-in fade-in duration-200">
                   {currentScene.rawPayload}
                 </pre>
               )}
 
               {/* Footer Link */}
               <div className="pt-4 border-t border-white/10 flex items-center justify-between">
-                <span className="text-[11px] text-[#8E8E86]">
+                <span className="text-[11px] text-neutral-300">
                   Target: <strong className="text-white">{currentScene.target}</strong>
                 </span>
                 <Link
@@ -1102,9 +1102,9 @@ export function TeamEchoEditorialExperience() {
                   <Radio className="w-3.5 h-3.5 text-[#D4E84A] animate-pulse" />
                   <span>LIVE AUDIT STREAM</span>
                 </div>
-                <span className="text-[10px] font-mono text-[#8E8E86]">REAL-TIME</span>
+                <span className="text-[10px] font-mono text-neutral-300 font-semibold">REAL-TIME</span>
               </div>
-              <p className="text-[11px] text-[#8E8E86] leading-relaxed pt-1">
+              <p className="text-[11px] text-neutral-200 leading-relaxed pt-1 font-normal">
                 Deterministic event feed from the Spring Boot orchestration engine.
               </p>
             </div>
@@ -1117,11 +1117,11 @@ export function TeamEchoEditorialExperience() {
                   className="p-2.5 rounded-xl bg-[#0A0A0C] border border-white/5 flex items-center justify-between text-[11px] animate-in fade-in slide-in-from-top-1 duration-200 card-interactive"
                 >
                   <div className="space-y-0.5">
-                    <div className="text-[10px] text-[#8E8E86] tabular-nums">{ev.time}</div>
+                    <div className="text-[10px] text-neutral-300 tabular-nums font-semibold">{ev.time}</div>
                     <div className="font-bold text-white">{ev.emp}</div>
                   </div>
                   <div className="text-right space-y-0.5">
-                    <div className="text-[10px] text-neutral-400 font-semibold">{ev.type}</div>
+                    <div className="text-[10px] text-neutral-300 font-semibold">{ev.type}</div>
                     <div className={`text-[10px] font-bold ${ev.color}`}>{ev.status}</div>
                   </div>
                 </div>
@@ -1144,7 +1144,7 @@ export function TeamEchoEditorialExperience() {
             <span className="text-xs font-mono font-bold text-[#D4E84A] uppercase tracking-wider">
               Cryptographic Audit Progression
             </span>
-            <span className="text-[10px] font-mono text-[#8E8E86]">Click event to expand details</span>
+            <span className="text-[10px] font-mono text-neutral-300 font-medium">Click event to expand details</span>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-5 gap-3">
@@ -1158,18 +1158,18 @@ export function TeamEchoEditorialExperience() {
                     : "bg-[#0A0A0C] border-white/10 hover:border-white/20"
                 }`}
               >
-                <div className="flex items-center justify-between text-[10px] font-mono text-[#8E8E86]">
-                  <span className="tabular-nums">{step.time}</span>
+                <div className="flex items-center justify-between text-[10px] font-mono text-neutral-300">
+                  <span className="tabular-nums font-semibold">{step.time}</span>
                   <span className="w-1.5 h-1.5 rounded-full bg-[#D4E84A]"></span>
                 </div>
                 <div className="text-xs font-bold text-white leading-snug font-sans">
                   {step.title}
                 </div>
                 {expandedTimelineStep === idx && (
-                  <div className="pt-2 border-t border-white/10 text-[10px] font-mono space-y-1 text-neutral-300 animate-in fade-in duration-150">
+                  <div className="pt-2 border-t border-white/10 text-[10px] font-mono space-y-1 text-neutral-200 animate-in fade-in duration-150">
                     <div>Actor: <span className="text-[#D4E84A]">{step.actor}</span></div>
                     <div>Target: <span className="text-white">{step.target}</span></div>
-                    <div className="text-[#8E8E86] leading-relaxed pt-1">{step.detail}</div>
+                    <div className="text-neutral-200 leading-relaxed pt-1">{step.detail}</div>
                   </div>
                 )}
               </div>
@@ -1184,14 +1184,14 @@ export function TeamEchoEditorialExperience() {
         className="bg-gradient-to-b from-[#161619] to-[#0A0A0C] bg-dark-grid rounded-[36px] p-10 sm:p-16 border border-white/10 text-center space-y-8 shadow-2xl card-interactive hover-glow-lime"
       >
         <div className="max-w-2xl mx-auto space-y-4">
-          <span className="text-[11px] font-mono font-bold tracking-[0.2em] text-[#8E8E86] uppercase">
+          <span className="text-[11px] font-mono font-bold tracking-[0.2em] text-[#D4E84A] uppercase">
             IDENTITY GOVERNANCE, WITHOUT THE BLIND SPOTS.
           </span>
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white leading-tight">
             Least Privilege. <br />
             Every Change Accounted For.
           </h2>
-          <p className="text-xs sm:text-sm text-[#8E8E86] leading-relaxed max-w-lg mx-auto font-light">
+          <p className="text-xs sm:text-sm text-neutral-200 leading-relaxed max-w-lg mx-auto font-normal">
             Govern every employee lifecycle transition before it reaches Okta. Zero standing privilege, read-only simulation, and continuous drift detection.
           </p>
         </div>
