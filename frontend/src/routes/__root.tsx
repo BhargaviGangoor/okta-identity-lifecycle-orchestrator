@@ -126,8 +126,8 @@ function RootComponent() {
           {/* Quick-Nav Right Arrow & Spinwheel Dock */}
           <CyberSpinWheelNav />
 
-          {/* Main Content Area — translucent glass so glowing particles & dynamic nebulae flow seamlessly */}
-          <div className="w-full max-w-[1600px] mx-auto bg-black/35 backdrop-blur-md text-white rounded-[28px] sm:rounded-[36px] p-3 sm:p-6 md:p-7 shadow-[0_0_80px_rgba(0,0,0,0.7)] border border-white/10 flex flex-col flex-1 min-h-[calc(100vh-2.5rem)] relative z-10">
+          {/* Main Content Area — airy translucent frosted glass frame allowing animated living mesh to shine through clearly */}
+          <div className="w-full max-w-[1600px] mx-auto bg-[#0B0C10]/15 backdrop-blur-sm text-white rounded-[28px] sm:rounded-[36px] p-3 sm:p-6 md:p-7 shadow-[0_8px_32px_rgba(0,0,0,0.25)] border border-white/10 flex flex-col flex-1 min-h-[calc(100vh-2.5rem)] relative z-10">
             <Navbar />
             <main className="flex-1 w-full mt-4">
               <Outlet />

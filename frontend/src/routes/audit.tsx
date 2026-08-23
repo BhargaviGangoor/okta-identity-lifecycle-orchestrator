@@ -83,7 +83,7 @@ export function AuditTimelinePage() {
             <span className="w-1.5 h-1.5 rounded-full bg-[#D4E84A] animate-pulse"></span>
             <span>06 / COMPLIANCE LEDGER</span>
           </div>
-          <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-white leading-tight">
+          <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight text-white leading-tight">
             Cryptographic Audit Ledger
           </h1>
           <p className="text-xs sm:text-[13px] text-neutral-300 leading-[1.65] max-w-xl font-light">

@@ -413,7 +413,7 @@ export function TeamEchoEditorialExperience() {
       className="space-y-28 sm:space-y-36 pb-28 text-white selection:bg-[#D4E84A] selection:text-[#0E0E0E] relative"
     >
       {/* ── Subtle Floating Side Progress Tracker ──────────────────────── */}
-      <div className="hidden 2xl:flex fixed right-8 top-1/2 -translate-y-1/2 flex-col gap-2.5 font-mono text-[10px] text-[#8E8E86] z-40 bg-[#141415]/90 backdrop-blur-md p-3 rounded-full border border-white/10 shadow-2xl">
+      <div className="hidden 2xl:flex fixed right-8 top-1/2 -translate-y-1/2 flex-col gap-2.5 font-mono text-[10px] text-neutral-300 z-40 bg-[#141415]/90 backdrop-blur-md p-3 rounded-full border border-white/10 shadow-2xl">
         {[
           { num: "01", label: "GOVERN", href: "#governance" },
           { num: "02", label: "FLOW", href: "#pipeline" },
@@ -426,7 +426,7 @@ export function TeamEchoEditorialExperience() {
             className={`flex items-center gap-2 px-3 py-1 rounded-full transition-all duration-200 ${
               activeSection === item.num
                 ? "bg-[#D4E84A] text-[#0E0E0E] font-bold shadow-sm"
-                : "hover:text-white hover:bg-white/5"
+                : "hover:text-white hover:bg-white/5 text-neutral-300"
             }`}
           >
             <span>{item.num}</span>
@@ -442,44 +442,44 @@ export function TeamEchoEditorialExperience() {
         className="relative pt-6 sm:pt-10 pb-10 sm:pb-16"
       >
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
-          {/* Left: Giant Typography & Line-by-Line Reveal */}
-          <div ref={heroTextRef} className="lg:col-span-7 space-y-8">
-            <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-[#1A1A1C] border border-white/10 text-[11px] font-mono text-[#8E8E86] tracking-widest uppercase shadow-inner">
-              <span className="w-2 h-2 rounded-full bg-[#D4E84A] shadow-[0_0_8px_#D4E84A] animate-pulse"></span>
-              IDENTITY GOVERNANCE FOR OKTA
+          {/* Left: Balanced Typography & Line-by-Line Reveal */}
+          <div ref={heroTextRef} className="lg:col-span-7 space-y-6">
+            <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-mono text-[#D4E84A] tracking-wider uppercase font-medium">
+              <span className="w-2 h-2 rounded-full bg-[#D4E84A]"></span>
+              <span>IDENTITY GOVERNANCE FOR OKTA</span>
             </div>
 
-            <h1 className="text-6xl sm:text-7xl lg:text-[88px] xl:text-[102px] font-black tracking-[-0.045em] leading-[0.92] text-white">
-              <span ref={headlineLine1Ref} className="block">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.08] text-white">
+              <span ref={headlineLine1Ref} className="block font-extrabold">
                 There Is a
               </span>
-              <span ref={headlineLine2Ref} className="inline-flex items-center gap-3 sm:gap-4 flex-wrap my-1">
-                <span className="inline-flex items-center justify-center w-14 h-14 sm:w-18 sm:h-18 rounded-[22px] bg-gradient-to-br from-amber-400 via-orange-500 to-amber-600 shadow-xl border-2 border-white/80 shrink-0 hover:rotate-6 transition-transform duration-300">
-                  <Lock className="w-7 h-7 sm:w-8 sm:h-8 text-white stroke-[2.5]" />
+              <span ref={headlineLine2Ref} className="inline-flex items-center gap-3 flex-wrap my-1">
+                <span className="inline-flex items-center justify-center w-11 h-11 sm:w-13 sm:h-13 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 shadow-md border border-white/20 shrink-0">
+                  <Lock className="w-5 h-5 sm:w-6 sm:h-6 text-white stroke-[2.5]" />
                 </span>
-                <span className="text-white">Better Way</span>
+                <span className="text-white font-extrabold">Better Way</span>
               </span>
-              <span ref={headlineLine3Ref} className="block">
+              <span ref={headlineLine3Ref} className="block text-white font-extrabold">
                 to Govern Identity.
               </span>
             </h1>
 
-            <p className="text-sm sm:text-base text-[#8E8E86] leading-relaxed font-light max-w-xl">
+            <p className="text-base text-slate-300 font-normal leading-relaxed max-w-lg">
               Govern every identity change before it reaches Okta—validate policy, simulate impact, execute safely, and reconcile continuously.
             </p>
 
-            <div className="pt-2 flex flex-wrap items-center gap-6">
+            <div className="pt-2 flex flex-wrap items-center gap-4">
               <a
                 href="#governance"
-                className="inline-flex items-center gap-3 px-6 py-3.5 rounded-full bg-white text-[#0E0E0E] hover:bg-[#D4E84A] font-mono text-xs font-bold transition-all duration-200 active:scale-95 shadow-xl group border border-white/20"
+                className="inline-flex items-center gap-2.5 px-6 py-3 rounded-full bg-[#D4E84A] text-[#0E0E0E] hover:bg-[#c4d838] font-mono text-xs font-bold transition-colors shadow-md group"
               >
                 <span>EXPLORE CAPABILITIES</span>
-                <ArrowRight className="w-3.5 h-3.5 stroke-[2.5] group-hover:translate-x-1 transition-transform" />
+                <ArrowRight className="w-4 h-4 stroke-[2.5] group-hover:translate-x-0.5 transition-transform" />
               </a>
 
               <Link
                 to="/users"
-                className="inline-flex items-center gap-2 text-xs font-mono font-bold text-white hover:text-[#D4E84A] underline underline-offset-8 transition-colors group"
+                className="inline-flex items-center gap-2 text-xs font-mono font-medium text-slate-300 hover:text-[#D4E84A] underline underline-offset-4 transition-colors group"
               >
                 <span>ENTER LIVE CONSOLE</span>
                 <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
@@ -500,13 +500,13 @@ export function TeamEchoEditorialExperience() {
               <img
                 src="/assets/hero_lens.jpg"
                 alt="Tactile 3D Optical Security Lens and Layered Geometry"
-                className="w-full h-auto object-contain select-none pointer-events-none drop-shadow-2xl rounded-[32px] border border-white/10"
+                className="w-full h-auto object-contain select-none pointer-events-none drop-shadow-[0_0_50px_rgba(0,0,0,0.9)] rounded-[32px] border border-white/20"
               />
 
               {/* Product Language Badge */}
-              <div className="absolute -bottom-3 left-6 bg-[#141415]/95 backdrop-blur-md px-4 py-2.5 rounded-[18px] border border-white/15 shadow-2xl flex items-center gap-3">
-                <span className="w-2 h-2 rounded-full bg-[#D4E84A] animate-ping"></span>
-                <span className="text-[11px] font-mono text-white tracking-wider font-semibold">
+              <div className="absolute -bottom-3 left-6 bg-[#141415]/95 backdrop-blur-md px-5 py-3 rounded-[20px] border border-white/30 shadow-2xl flex items-center gap-3">
+                <span className="w-2.5 h-2.5 rounded-full bg-[#D4E84A] animate-ping"></span>
+                <span className="text-xs font-mono text-white tracking-wider font-bold">
                   REQUEST → GOVERN → EXECUTE
                 </span>
               </div>
@@ -516,79 +516,79 @@ export function TeamEchoEditorialExperience() {
       </section>
 
       {/* ── 2. SECTION 01: WHAT TEAM ECHO GOVERNS (Interactive Objects) ── */}
-      <section id="governance" className="space-y-12 pt-6">
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 border-b border-white/10 pb-8">
+      <section id="governance" className="space-y-10 pt-6">
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 border-b border-white/10 pb-6">
           <div className="space-y-2">
-            <span className="text-[11px] font-mono font-bold tracking-[0.2em] text-[#8E8E86] uppercase">
+            <span className="text-xs font-mono font-medium tracking-[0.2em] text-[#D4E84A] uppercase">
               01 / WHAT TEAM ECHO GOVERNS
             </span>
-            <h2 className="text-5xl sm:text-6xl lg:text-7xl font-black tracking-tight text-white font-sans leading-[0.98]">
+            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-slate-100 font-sans leading-tight">
               Every Identity <br />
               Transition.
             </h2>
           </div>
 
-          <p className="text-xs sm:text-sm text-[#8E8E86] max-w-md leading-relaxed font-light">
+          <p className="text-sm text-slate-300 max-w-md leading-relaxed font-normal">
             From onboarding to role changes to offboarding, every access transition passes through policy, risk, and verification.
           </p>
         </div>
 
         {/* 3 Interactive Product Objects */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* ── Object 1: ZERO STANDING PRIVILEGE (Node Graph + JIT Access) ── */}
-          <div className="bg-[#121214] rounded-[32px] p-7 sm:p-8 border border-white/10 flex flex-col justify-between space-y-6 shadow-xl group card-interactive hover-glow-lime">
+          <div className="card-high-contrast rounded-[32px] p-6 sm:p-7 flex flex-col justify-between space-y-6 shadow-md card-interactive">
             <div className="space-y-3">
               <div className="flex items-center justify-between pb-3 border-b border-white/10">
-                <span className="text-xs font-mono font-bold text-[#D4E84A]">01</span>
-                <span className="text-[10px] font-mono uppercase px-2.5 py-0.5 rounded-full bg-white/5 text-[#8E8E86] border border-white/10">
+                <span className="text-sm font-mono font-semibold text-[#D4E84A]">01</span>
+                <span className="text-[10px] font-mono uppercase px-2.5 py-1 rounded-full bg-white/5 text-neutral-300 border border-white/10 font-medium">
                   Just-In-Time Access
                 </span>
               </div>
-              <h3 className="text-xl sm:text-2xl font-black text-white">
+              <h3 className="text-lg sm:text-xl font-bold text-slate-100">
                 ZERO STANDING PRIVILEGE
               </h3>
-              <p className="text-xs text-[#8E8E86] leading-relaxed">
+              <p className="text-sm text-slate-300 leading-relaxed font-normal">
                 Access exists when needed—not permanently. Request temporary access to watch JIT provisioning and auto-expiry.
               </p>
             </div>
 
             {/* Interactive Identity Access Node Graph */}
-            <div className="bg-[#0A0A0C] bg-dark-grid rounded-[24px] p-5 border border-white/10 space-y-4 shadow-inner">
+            <div className="bg-[#0A0A0C]/70 rounded-[20px] p-5 border border-white/10 space-y-4">
               {/* Visual Node Graph Topology */}
-              <div className="relative py-3 flex flex-col items-center justify-center font-mono text-[10px]">
+              <div className="relative py-3 flex flex-col items-center justify-center font-mono text-xs">
                 {/* Top Node: AWS */}
                 <div
-                  className={`px-3.5 py-1.5 rounded-xl border transition-all duration-300 ${
+                  className={`px-4 py-2 rounded-xl border transition-all duration-300 ${
                     zspStep === 3
-                      ? "bg-amber-500/20 border-amber-400 text-amber-300 font-bold shadow-[0_0_14px_rgba(245,158,11,0.25)]"
-                      : "bg-[#18181A] border-white/10 text-neutral-400"
+                      ? "bg-amber-500/25 border-amber-400 text-amber-200 font-semibold shadow-xs"
+                      : "bg-[#1C1D22] border-white/10 text-slate-300 font-medium"
                   }`}
                 >
                   AWS Prod
                 </div>
-                <div className={`w-0.5 h-4 transition-colors duration-300 ${zspStep === 3 ? "bg-amber-400" : "bg-neutral-800"}`}></div>
+                <div className={`w-0.5 h-4 transition-colors duration-300 ${zspStep === 3 ? "bg-amber-400" : "bg-neutral-700"}`}></div>
 
                 {/* Middle Row: GitHub -- SARAH -- Jira */}
                 <div className="flex items-center justify-center gap-3 w-full">
-                  <div className="px-2.5 py-1 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-300">
+                  <div className="px-3 py-1.5 rounded-lg bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 font-medium">
                     GitHub
                   </div>
-                  <div className="w-4 h-0.5 bg-emerald-500/40"></div>
+                  <div className="w-4 h-0.5 bg-emerald-400"></div>
 
-                  <div className="px-3.5 py-2 rounded-xl bg-white text-[#0E0E0E] font-bold text-xs shadow-md shrink-0 flex items-center gap-1.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                  <div className="px-4 py-2 rounded-xl bg-white text-[#0E0E0E] font-bold text-xs shadow-md shrink-0 flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
                     <span>SARAH</span>
                   </div>
 
-                  <div className="w-4 h-0.5 bg-emerald-500/40"></div>
-                  <div className="px-2.5 py-1 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-300">
+                  <div className="w-4 h-0.5 bg-emerald-400"></div>
+                  <div className="px-3 py-1.5 rounded-lg bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 font-medium">
                     Jira
                   </div>
                 </div>
 
                 {/* Bottom Node: Slack */}
-                <div className="w-0.5 h-4 bg-emerald-500/40"></div>
-                <div className="px-2.5 py-1 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-300">
+                <div className="w-0.5 h-4 bg-emerald-400"></div>
+                <div className="px-3 py-1.5 rounded-lg bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 font-medium">
                   Slack
                 </div>
               </div>
@@ -597,36 +597,36 @@ export function TeamEchoEditorialExperience() {
               {!zspRequested ? (
                 <button
                   onClick={handleRequestZsp}
-                  className="w-full py-2.5 rounded-xl bg-[#D4E84A] hover:bg-[#c4d838] text-[#0E0E0E] text-xs font-mono font-bold transition-all shadow-md flex items-center justify-center gap-2 active:scale-98"
+                  className="w-full py-3 rounded-xl bg-[#D4E84A] hover:bg-[#c4d838] text-[#0E0E0E] text-xs font-mono font-semibold transition-all shadow-lg flex items-center justify-center gap-2 active:scale-98 cursor-pointer"
                 >
-                  <Key className="w-3.5 h-3.5" />
+                  <Key className="w-4 h-4 stroke-[2.5]" />
                   <span>REQUEST PRODUCTION ACCESS</span>
                 </button>
               ) : (
                 <div className="space-y-2 animate-in fade-in duration-200">
                   {zspStep === 1 && (
-                    <div className="text-center py-2 text-[11px] font-mono text-[#D4E84A] animate-pulse">
+                    <div className="text-center py-2 text-xs font-mono font-bold text-[#D4E84A] animate-pulse">
                       › POLICY CHECK: Evaluating least privilege...
                     </div>
                   )}
                   {zspStep === 2 && (
-                    <div className="text-center py-2 text-[11px] font-mono text-cyan-300 animate-pulse">
+                    <div className="text-center py-2 text-xs font-mono font-bold text-cyan-300 animate-pulse">
                       › RISK CHECK: Blast radius 0.14 (APPROVED) ✓
                     </div>
                   )}
                   {zspStep === 3 && (
-                    <div className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/30 space-y-2">
-                      <div className="flex items-center justify-between text-[11px] font-mono">
+                    <div className="p-3.5 rounded-xl bg-amber-500/15 border border-amber-500/40 space-y-2.5">
+                      <div className="flex items-center justify-between text-xs font-mono">
                         <span className="text-amber-300 font-bold flex items-center gap-1.5">
-                          <Clock className="w-3 h-3 animate-spin" /> ACCESS EXPIRES:
+                          <Clock className="w-3.5 h-3.5 animate-spin" /> ACCESS EXPIRES:
                         </span>
-                        <span className="font-bold text-white bg-black/60 px-2.5 py-0.5 rounded-md border border-white/15 tabular-nums">
+                        <span className="font-semibold text-white bg-black/80 px-3 py-1 rounded-md border border-white/20 tabular-nums">
                           {formatZspTime(zspTimer)}
                         </span>
                       </div>
                       <button
                         onClick={handleRevokeZsp}
-                        className="w-full py-1.5 rounded-lg bg-[#18181A] hover:bg-neutral-800 text-neutral-300 text-[10px] font-mono font-semibold transition-colors border border-white/5"
+                        className="w-full py-2 rounded-lg bg-[#202128] hover:bg-neutral-800 text-white text-xs font-mono font-bold transition-colors border border-white/20 cursor-pointer"
                       >
                         Revoke Access Now (0 Standing)
                       </button>
@@ -646,31 +646,31 @@ export function TeamEchoEditorialExperience() {
           </div>
 
           {/* ── Object 2: EXPECTED VS ACTUAL (Interactive State Slider) ─── */}
-          <div className="bg-[#121214] rounded-[32px] p-7 sm:p-8 border border-white/10 flex flex-col justify-between space-y-6 shadow-xl group card-interactive hover-glow-orange">
+          <div className="card-high-contrast rounded-[32px] p-7 sm:p-8 flex flex-col justify-between space-y-6 shadow-2xl group card-interactive ">
             <div className="space-y-3">
-              <div className="flex items-center justify-between pb-3 border-b border-white/10">
-                <span className="text-xs font-mono font-bold text-[#D4E84A]">02</span>
-                <span className="text-[10px] font-mono uppercase px-2.5 py-0.5 rounded-full bg-white/5 text-[#8E8E86] border border-white/10">
+              <div className="flex items-center justify-between pb-3 border-b border-white/15">
+                <span className="text-sm font-mono font-semibold text-[#D4E84A]">02</span>
+                <span className="text-[11px] font-mono uppercase px-3 py-1 rounded-full bg-white/20 text-white border border-white/30 font-bold">
                   State Verification
                 </span>
               </div>
-              <h3 className="text-xl sm:text-2xl font-black text-white">
+              <h3 className="text-xl sm:text-2xl font-semibold text-white">
                 EXPECTED VS ACTUAL
               </h3>
-              <p className="text-xs text-[#8E8E86] leading-relaxed">
+              <p className="text-sm text-white leading-relaxed font-medium">
                 Know what access should look like before comparing it with reality. Move the slider to inspect drift.
               </p>
             </div>
 
             {/* Interactive Expected vs Actual State Comparison */}
-            <div className="bg-[#0A0A0C] bg-dark-grid rounded-[24px] p-5 border border-white/10 space-y-4 shadow-inner">
+            <div className="bg-[#0A0A0C] bg-dark-grid rounded-[24px] p-5 border border-white/15 space-y-4 shadow-inner">
               {/* Slider Control: EXPECTED ----●---- ACTUAL */}
               <div className="space-y-2">
-                <div className="flex items-center justify-between text-[11px] font-mono">
-                  <span className={driftSlider < 50 ? "text-white font-bold" : "text-[#8E8E86]"}>
+                <div className="flex items-center justify-between text-xs font-mono">
+                  <span className={driftSlider < 50 ? "text-white font-semibold" : "text-slate-300 font-bold"}>
                     EXPECTED (Twin)
                   </span>
-                  <span className={driftSlider >= 50 ? "text-[#D4E84A] font-bold" : "text-[#8E8E86]"}>
+                  <span className={driftSlider >= 50 ? "text-[#D4E84A] font-semibold" : "text-slate-300 font-bold"}>
                     ACTUAL (Okta)
                   </span>
                 </div>
@@ -680,52 +680,52 @@ export function TeamEchoEditorialExperience() {
                   max="100"
                   value={driftSlider}
                   onChange={(e) => setDriftSlider(Number(e.target.value))}
-                  className="w-full h-1.5 bg-neutral-800 rounded-lg appearance-none cursor-pointer accent-[#D4E84A]"
+                  className="w-full h-2 bg-neutral-800 rounded-lg appearance-none cursor-pointer accent-[#D4E84A]"
                 />
               </div>
 
               {/* Dynamic State List */}
-              <div className="space-y-1.5 font-mono text-[11px]">
-                <div className="flex items-center justify-between px-3 py-1.5 rounded-xl bg-white/5 border border-white/10 text-neutral-300">
+              <div className="space-y-2 font-mono text-xs">
+                <div className="flex items-center justify-between px-3.5 py-2 rounded-xl bg-white/10 border border-white/15 text-white font-medium">
                   <span>GitHub</span>
-                  <span className="text-emerald-400">✓ In Policy</span>
+                  <span className="text-emerald-400 font-semibold">✓ In Policy</span>
                 </div>
-                <div className="flex items-center justify-between px-3 py-1.5 rounded-xl bg-white/5 border border-white/10 text-neutral-300">
+                <div className="flex items-center justify-between px-3.5 py-2 rounded-xl bg-white/10 border border-white/15 text-white font-medium">
                   <span>AWS-Dev</span>
-                  <span className="text-emerald-400">✓ In Policy</span>
+                  <span className="text-emerald-400 font-semibold">✓ In Policy</span>
                 </div>
-                <div className="flex items-center justify-between px-3 py-1.5 rounded-xl bg-white/5 border border-white/10 text-neutral-300">
+                <div className="flex items-center justify-between px-3.5 py-2 rounded-xl bg-white/10 border border-white/15 text-white font-medium">
                   <span>Jira & Slack</span>
-                  <span className="text-emerald-400">✓ In Policy</span>
+                  <span className="text-emerald-400 font-semibold">✓ In Policy</span>
                 </div>
 
                 {/* Unauthorized Drift Item (Fades in when slider > 40) */}
                 {driftSlider >= 40 && !driftReconciled && (
                   <div
                     style={{ opacity: (driftSlider - 40) / 60 }}
-                    className="p-2.5 rounded-xl bg-amber-500/10 border border-amber-500/30 space-y-2 transition-opacity"
+                    className="p-3 rounded-xl bg-amber-500/20 border border-amber-500/50 space-y-2.5 transition-opacity"
                   >
-                    <div className="flex items-center justify-between text-amber-300 font-bold">
+                    <div className="flex items-center justify-between text-amber-300 font-semibold">
                       <span>⚠ AWS-Prod-Admin</span>
-                      <span className="text-[9px] bg-amber-500/20 px-1.5 py-0.5 rounded text-amber-400">
+                      <span className="text-[10px] bg-amber-500/30 px-2 py-0.5 rounded text-amber-300 font-bold">
                         Out-of-Band
                       </span>
                     </div>
-                    <div className="text-[10px] text-[#8E8E86]">
+                    <div className="text-xs text-white font-medium">
                       3 deviations detected · 2 unapproved assignments
                     </div>
                     <button
                       onClick={() => setDriftReconciled(true)}
-                      className="w-full py-1.5 rounded-lg bg-amber-400 hover:bg-amber-300 text-[#0E0E0E] text-[10px] font-bold shadow-xs flex items-center justify-center gap-1.5 btn-interactive"
+                      className="w-full py-2 rounded-lg bg-amber-400 hover:bg-amber-300 text-[#0E0E0E] text-xs font-semibold shadow-md flex items-center justify-center gap-1.5 btn-interactive cursor-pointer"
                     >
-                      <RotateCw className="w-3 h-3" />
+                      <RotateCw className="w-3.5 h-3.5" />
                       <span>Reconcile to Baseline</span>
                     </button>
                   </div>
                 )}
 
                 {driftReconciled && (
-                  <div className="p-2 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-center text-[10px] text-emerald-300 animate-in fade-in duration-200">
+                  <div className="p-2.5 rounded-xl bg-emerald-500/20 border border-emerald-500/40 text-center text-xs text-emerald-300 font-semibold animate-in fade-in duration-200">
                     ✓ Drift Reconciled: Unauthorized AWS-Prod-Admin purged
                   </div>
                 )}
@@ -734,41 +734,41 @@ export function TeamEchoEditorialExperience() {
 
             <Link
               to="/drift"
-              className="inline-flex items-center justify-between text-xs font-mono font-bold text-white hover:text-[#D4E84A] pt-2 border-t border-white/10 group-hover:text-[#D4E84A] transition-colors"
+              className="inline-flex items-center justify-between text-xs font-mono font-bold text-white hover:text-[#D4E84A] pt-2 border-t border-white/15 group-hover:text-[#D4E84A] transition-colors"
             >
               <span>Launch Drift Scanner</span>
-              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </Link>
           </div>
 
           {/* ── Object 3: RISK-GATED EXECUTION (What-If Simulation Flow) ─── */}
-          <div className="bg-[#121214] rounded-[32px] p-7 sm:p-8 border border-white/10 flex flex-col justify-between space-y-6 shadow-xl group card-interactive hover-glow-cyan">
+          <div className="card-high-contrast rounded-[32px] p-7 sm:p-8 flex flex-col justify-between space-y-6 shadow-2xl group card-interactive ">
             <div className="space-y-3">
-              <div className="flex items-center justify-between pb-3 border-b border-white/10">
-                <span className="text-xs font-mono font-bold text-[#D4E84A]">03</span>
-                <span className="text-[10px] font-mono uppercase px-2.5 py-0.5 rounded-full bg-white/5 text-[#8E8E86] border border-white/10">
+              <div className="flex items-center justify-between pb-3 border-b border-white/15">
+                <span className="text-sm font-mono font-semibold text-[#D4E84A]">03</span>
+                <span className="text-[11px] font-mono uppercase px-3 py-1 rounded-full bg-white/20 text-white border border-white/30 font-bold">
                   Pre-Execution Gating
                 </span>
               </div>
-              <h3 className="text-xl sm:text-2xl font-black text-white">
+              <h3 className="text-xl sm:text-2xl font-semibold text-white">
                 RISK-GATED EXECUTION
               </h3>
-              <p className="text-xs text-[#8E8E86] leading-relaxed">
+              <p className="text-sm text-white leading-relaxed font-medium">
                 Simulate impact before a change reaches production. High-risk actions halt at the approval threshold.
               </p>
             </div>
 
             {/* Interactive Simulation Object */}
-            <div className="bg-[#0A0A0C] bg-dark-grid rounded-[24px] p-5 border border-white/10 space-y-4 shadow-inner">
-              <div className="p-2.5 rounded-xl bg-white/5 border border-white/10 text-[11px] font-mono flex items-center justify-between">
+            <div className="bg-[#0A0A0C] bg-dark-grid rounded-[24px] p-5 border border-white/15 space-y-4 shadow-inner">
+              <div className="p-3 rounded-xl bg-white/10 border border-white/15 text-xs font-mono flex items-center justify-between">
                 <div>
-                  <div className="text-white font-bold">MOVE USER: Sarah Chen</div>
-                  <div className="text-[10px] text-[#8E8E86]">Engineering → Finance</div>
+                  <div className="text-white font-semibold">MOVE USER: Sarah Chen</div>
+                  <div className="text-xs text-slate-200 font-semibold mt-0.5">Engineering → Finance</div>
                 </div>
                 {whatIfStep === 0 && (
                   <button
                     onClick={handleRunWhatIf}
-                    className="px-3 py-1 rounded-lg bg-[#D4E84A] hover:bg-[#c4d838] text-[#0E0E0E] text-[10px] font-bold shadow-xs active:scale-95 transition-all"
+                    className="px-3.5 py-1.5 rounded-lg bg-[#D4E84A] hover:bg-[#c4d838] text-[#0E0E0E] text-xs font-semibold shadow-sm active:scale-95 transition-all cursor-pointer"
                   >
                     SIMULATE
                   </button>
@@ -777,53 +777,53 @@ export function TeamEchoEditorialExperience() {
 
               {/* Simulation Flow Pipeline / Impact analysis */}
               {whatIfStep === 1 && (
-                <div className="py-4 text-center font-mono text-[11px] text-[#D4E84A] space-y-1 animate-pulse">
+                <div className="py-4 text-center font-mono text-xs text-[#D4E84A] space-y-1 animate-pulse font-bold">
                   <div>REQUEST → POLICY → DELTA → RISK</div>
-                  <div className="text-[10px] text-[#8E8E86]">Calculating blast radius...</div>
+                  <div className="text-xs text-white">Calculating blast radius...</div>
                 </div>
               )}
 
               {whatIfStep === 2 && (
-                <div className="space-y-3 font-mono text-[11px] animate-in fade-in duration-200">
-                  <div className="p-3 rounded-xl bg-white/5 border border-white/10 space-y-2">
-                    <div className="flex items-center justify-between text-[10px]">
-                      <span className="text-[#8E8E86]">IMPACT ANALYSIS:</span>
-                      <span className="text-[#D4E84A] font-bold">+2 groups / -3 groups</span>
+                <div className="space-y-3 font-mono text-xs animate-in fade-in duration-200">
+                  <div className="p-3.5 rounded-xl bg-white/10 border border-white/15 space-y-2">
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="text-white font-bold">IMPACT ANALYSIS:</span>
+                      <span className="text-[#D4E84A] font-semibold">+2 groups / -3 groups</span>
                     </div>
 
                     {/* Risk Score Meter */}
                     <div className="space-y-1">
-                      <div className="flex justify-between text-[10px]">
-                        <span>Risk Score:</span>
-                        <span className="text-amber-400 font-bold">78% (HIGH RISK)</span>
+                      <div className="flex justify-between text-xs">
+                        <span className="text-white font-medium">Risk Score:</span>
+                        <span className="text-amber-400 font-semibold">78% (HIGH RISK)</span>
                       </div>
-                      <div className="w-full bg-neutral-800 h-1.5 rounded-full overflow-hidden">
+                      <div className="w-full bg-neutral-800 h-2 rounded-full overflow-hidden">
                         <div className="bg-amber-400 h-full w-[78%]"></div>
                       </div>
                     </div>
 
-                    <div className="text-[10px] text-amber-300">
+                    <div className="text-xs text-amber-300 font-bold">
                       RECOMMENDATION: Requires multi-party approval
                     </div>
                   </div>
 
                   {!whatIfApproved ? (
-                    <div className="flex items-center gap-1.5">
+                    <div className="flex items-center gap-2">
                       <button
                         onClick={() => setWhatIfApproved(true)}
-                        className="flex-1 py-1.5 rounded-lg bg-red-500 hover:bg-red-400 text-white text-[10px] font-bold shadow-xs transition-colors"
+                        className="flex-1 py-2 rounded-lg bg-red-500 hover:bg-red-400 text-white text-xs font-semibold shadow-md transition-colors cursor-pointer"
                       >
                         APPROVE & STAGE
                       </button>
                       <button
                         onClick={() => setWhatIfStep(0)}
-                        className="px-3 py-1.5 rounded-lg bg-neutral-800 hover:bg-neutral-700 text-neutral-400 text-[10px] font-bold transition-colors"
+                        className="px-3.5 py-2 rounded-lg bg-neutral-800 hover:bg-neutral-700 text-white text-xs font-bold transition-colors cursor-pointer"
                       >
                         CANCEL
                       </button>
                     </div>
                   ) : (
-                    <div className="text-center text-[10px] text-emerald-400 py-1 font-bold">
+                    <div className="text-center text-xs text-emerald-400 py-1 font-semibold">
                       ✓ Staged & Executed in Okta Tenant
                     </div>
                   )}
@@ -833,10 +833,10 @@ export function TeamEchoEditorialExperience() {
 
             <Link
               to="/whatif"
-              className="inline-flex items-center justify-between text-xs font-mono font-bold text-white hover:text-[#D4E84A] pt-2 border-t border-white/10 group-hover:text-[#D4E84A] transition-colors"
+              className="inline-flex items-center justify-between text-xs font-mono font-bold text-white hover:text-[#D4E84A] pt-2 border-t border-white/15 group-hover:text-[#D4E84A] transition-colors"
             >
               <span>Simulate Blast Radius</span>
-              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </Link>
           </div>
         </div>
@@ -844,26 +844,26 @@ export function TeamEchoEditorialExperience() {
 
       {/* ── 3. SECTION 02: HOW IT WORKS (Animated Pipeline Flow) ──────── */}
       <section id="pipeline" className="space-y-10 pt-6">
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 border-b border-white/10 pb-8">
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 border-b border-white/15 pb-8">
           <div className="space-y-2">
-            <span className="text-[11px] font-mono font-bold tracking-[0.2em] text-[#8E8E86] uppercase">
+            <span className="text-xs font-mono font-semibold tracking-[0.2em] text-[#D4E84A] uppercase">
               02 / HOW IT WORKS
             </span>
-            <h2 className="text-5xl sm:text-6xl lg:text-7xl font-black tracking-tight text-white font-sans leading-[0.98]">
+            <h2 className="text-5xl sm:text-6xl lg:text-7xl font-semibold tracking-tight text-white font-sans leading-[0.98]">
               From Request <br />
               to Verified Access.
             </h2>
           </div>
 
-          <p className="text-xs sm:text-sm text-[#8E8E86] max-w-md leading-relaxed font-light">
+          <p className="text-sm sm:text-base text-white max-w-md leading-relaxed font-semibold bg-black/50 p-3.5 rounded-xl border border-white/15">
             Watch the live governance pipeline progress from intake to policy checks, impact simulation, authorization, execution, and continuous reconciliation.
           </p>
         </div>
 
         {/* Unified Interactive Pipeline Flow Bar with Animated Data Pulse */}
-        <div className="bg-[#121214] rounded-[36px] p-7 sm:p-10 border border-white/10 space-y-8 shadow-2xl card-interactive hover-glow-lime">
+        <div className="card-high-contrast rounded-[36px] p-7 sm:p-10 space-y-8 shadow-2xl card-interactive ">
           {/* Horizontal Step Indicator with Connectors */}
-          <div className="grid grid-cols-2 md:grid-cols-6 gap-2 border-b border-white/10 pb-6 relative">
+          <div className="grid grid-cols-2 md:grid-cols-6 gap-2 border-b border-white/15 pb-6 relative">
             {PIPELINE_STAGES.map((stage, idx) => {
               const isActive = activePipelineStage === idx;
               const isPast = activePipelineStage > idx;
@@ -871,21 +871,21 @@ export function TeamEchoEditorialExperience() {
                 <button
                   key={stage.name}
                   onClick={() => setActivePipelineStage(idx)}
-                  className={`p-3.5 rounded-[18px] border text-left transition-all duration-300 relative group btn-interactive ${
+                  className={`p-4 rounded-[20px] border text-left transition-all duration-300 relative group btn-interactive cursor-pointer ${
                     isActive
-                      ? "bg-[#1C1C1F] border-[#D4E84A] shadow-lg scale-102"
-                      : "bg-white/5 border-transparent hover:border-white/20 text-[#8E8E86]"
+                      ? "bg-[#202128] border-[#D4E84A] shadow-xl scale-102"
+                      : "bg-white/5 border-transparent hover:border-white/20 text-slate-200"
                   }`}
                 >
-                  <div className="flex items-center justify-between text-[10px] font-mono mb-1">
-                    <span className={isActive ? "text-[#D4E84A] font-bold" : "text-[#666]"}>
+                  <div className="flex items-center justify-between text-xs font-mono mb-1">
+                    <span className={isActive ? "text-[#D4E84A] font-semibold" : "text-slate-300 font-bold"}>
                       {stage.num}
                     </span>
-                    <span className="text-[9px] font-mono">
+                    <span className="text-[10px] font-mono font-bold">
                       {isPast ? "✓" : isActive ? "● ACTIVE" : "○ WAITING"}
                     </span>
                   </div>
-                  <div className="text-xs font-bold text-white tracking-wide font-mono">
+                  <div className="text-xs font-semibold text-white tracking-wide font-mono">
                     {stage.name}
                   </div>
                 </button>
@@ -897,22 +897,22 @@ export function TeamEchoEditorialExperience() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             {/* Left Narrative */}
             <div className="lg:col-span-7 space-y-5">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[11px] font-mono text-[#D4E84A]">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/20 text-xs font-mono text-[#D4E84A] font-bold">
                 <span>STAGE {currentStage.num}</span>
                 <span>/</span>
                 <span>{currentStage.name}</span>
               </div>
 
-              <h3 className="text-3xl sm:text-4xl font-extrabold text-white">
+              <h3 className="text-3xl sm:text-4xl font-semibold text-white">
                 {currentStage.title}
               </h3>
 
-              <p className="text-sm text-neutral-300 leading-relaxed font-light">
+              <p className="text-base text-white leading-relaxed font-semibold">
                 {currentStage.summary}
               </p>
 
-              <div className="p-4 rounded-[18px] bg-black/40 border border-white/10 text-xs text-[#8E8E86] leading-relaxed card-interactive">
-                <strong className="text-white font-mono">Platform Action: </strong>
+              <div className="p-4 rounded-[18px] bg-black/70 border border-white/20 text-sm text-white leading-relaxed card-interactive font-medium">
+                <strong className="text-[#D4E84A] font-mono font-bold">Platform Action: </strong>
                 {currentStage.action}
               </div>
 
@@ -920,9 +920,9 @@ export function TeamEchoEditorialExperience() {
               <div className="pt-2">
                 <button
                   onClick={() => setShowTechDetails(!showTechDetails)}
-                  className="inline-flex items-center gap-2 text-xs font-mono font-bold text-[#D4E84A] hover:underline btn-interactive"
+                  className="inline-flex items-center gap-2 text-xs font-mono font-semibold text-[#D4E84A] hover:underline btn-interactive cursor-pointer"
                 >
-                  <Code2 className="w-3.5 h-3.5" />
+                  <Code2 className="w-4 h-4" />
                   <span>{showTechDetails ? "Hide Technical Specifications" : "VIEW TECHNICAL DETAILS →"}</span>
                 </button>
               </div>
@@ -931,46 +931,46 @@ export function TeamEchoEditorialExperience() {
             {/* Right: Technical Details or Dynamic Execution Node */}
             <div className="lg:col-span-5">
               {showTechDetails ? (
-                <div className="bg-[#08080A] rounded-[24px] p-6 border border-[#D4E84A]/30 font-mono text-xs space-y-3 shadow-inner animate-in fade-in duration-200 card-interactive hover-glow-lime">
-                  <div className="flex items-center justify-between border-b border-white/10 pb-2 text-[10px] text-[#8E8E86]">
+                <div className="bg-[#08080A] rounded-[24px] p-6 border border-[#D4E84A]/40 font-mono text-xs space-y-3 shadow-inner animate-in fade-in duration-200 card-interactive ">
+                  <div className="flex items-center justify-between border-b border-white/15 pb-2 text-xs text-white font-bold">
                     <span>ARCHITECTURE CONTRACT</span>
                     <span className="text-[#D4E84A]">JAVA 17 / SPRING BOOT</span>
                   </div>
                   <div>
-                    <span className="text-[#8E8E86] block text-[10px]">ENDPOINT:</span>
-                    <code className="text-[#D4E84A]">{currentStage.techEndpoint}</code>
+                    <span className="text-slate-300 block text-xs font-bold">ENDPOINT:</span>
+                    <code className="text-[#D4E84A] font-bold">{currentStage.techEndpoint}</code>
                   </div>
                   <div>
-                    <span className="text-[#8E8E86] block text-[10px]">INTERNAL SERVICE:</span>
-                    <code className="text-neutral-300">{currentStage.techService}</code>
+                    <span className="text-slate-300 block text-xs font-bold">INTERNAL SERVICE:</span>
+                    <code className="text-white font-medium">{currentStage.techService}</code>
                   </div>
                   <div>
-                    <span className="text-[#8E8E86] block text-[10px]">PAYLOAD STATE:</span>
-                    <pre className="text-[11px] text-emerald-400 bg-white/5 p-2 rounded-lg mt-1 overflow-x-auto whitespace-pre-wrap">
+                    <span className="text-slate-300 block text-xs font-bold">PAYLOAD STATE:</span>
+                    <pre className="text-xs text-emerald-400 bg-white/10 p-2.5 rounded-lg mt-1 overflow-x-auto whitespace-pre-wrap font-bold">
                       {currentStage.techOutput}
                     </pre>
                   </div>
                 </div>
               ) : (
-                <div className="bg-gradient-to-br from-[#161619] to-[#0A0A0C] bg-dark-grid rounded-[24px] p-8 border border-white/10 flex flex-col items-center justify-center text-center space-y-4 shadow-inner min-h-[220px] card-interactive hover-glow-lime">
-                  <div className="w-14 h-14 rounded-2xl bg-white/5 border border-white/15 flex items-center justify-center text-[#D4E84A] shadow-md">
-                    <Activity className="w-7 h-7" />
+                <div className="bg-gradient-to-br from-[#18191E] to-[#0A0A0C] bg-dark-grid rounded-[24px] p-8 border border-white/15 flex flex-col items-center justify-center text-center space-y-4 shadow-inner min-h-[220px] card-interactive ">
+                  <div className="w-14 h-14 rounded-2xl bg-white/10 border border-white/20 flex items-center justify-center text-[#D4E84A] shadow-lg">
+                    <Activity className="w-7 h-7 stroke-[2.5]" />
                   </div>
                   <div className="space-y-1">
-                    <div className="text-sm font-bold text-white">Continuous Lifecycle Governance</div>
-                    <div className="text-xs font-mono text-[#8E8E86]">Stage {activePipelineStage + 1} of 6 in Execution Flow</div>
+                    <div className="text-base font-semibold text-white">Continuous Lifecycle Governance</div>
+                    <div className="text-xs font-mono text-slate-200 font-bold">Stage {activePipelineStage + 1} of 6 in Execution Flow</div>
                   </div>
                   <div className="flex items-center gap-2 pt-2">
                     <button
                       onClick={() => setActivePipelineStage((prev) => (prev > 0 ? prev - 1 : 0))}
                       disabled={activePipelineStage === 0}
-                      className="px-3.5 py-1.5 rounded-full bg-white/5 hover:bg-white/10 disabled:opacity-30 text-xs font-mono text-white transition-all btn-interactive"
+                      className="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 disabled:opacity-30 text-xs font-mono text-white transition-all font-bold btn-interactive cursor-pointer"
                     >
                       ← Previous
                     </button>
                     <button
                       onClick={() => setActivePipelineStage((prev) => (prev < 5 ? prev + 1 : 0))}
-                      className="px-4 py-1.5 rounded-full bg-[#D4E84A] text-[#0E0E0E] text-xs font-mono font-bold hover:bg-[#c4d838] transition-all btn-interactive"
+                      className="px-5 py-2 rounded-full bg-[#D4E84A] text-[#0E0E0E] text-xs font-mono font-semibold hover:bg-white transition-all btn-interactive cursor-pointer"
                     >
                       Next Stage →
                     </button>
@@ -984,18 +984,18 @@ export function TeamEchoEditorialExperience() {
 
       {/* ── 4. SECTION 03: SEE IT IN ACTION & LIVE EVENT STREAM ───────── */}
       <section id="demos" className="space-y-10 pt-6">
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 border-b border-white/10 pb-8">
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 border-b border-white/15 pb-8">
           <div className="space-y-2">
-            <span className="text-[11px] font-mono font-bold tracking-[0.2em] text-[#8E8E86] uppercase">
+            <span className="text-xs font-mono font-semibold tracking-[0.2em] text-[#D4E84A] uppercase">
               03 / SEE IT IN ACTION
             </span>
-            <h2 className="text-5xl sm:text-6xl lg:text-7xl font-black tracking-tight text-white font-sans leading-[0.98]">
+            <h2 className="text-5xl sm:text-6xl lg:text-7xl font-semibold tracking-tight text-white font-sans leading-[0.98]">
               Watch Governance <br />
               Happen.
             </h2>
           </div>
 
-          <p className="text-xs sm:text-sm text-[#8E8E86] max-w-md leading-relaxed font-light">
+          <p className="text-sm sm:text-base text-white max-w-md leading-relaxed font-semibold bg-black/50 p-3.5 rounded-xl border border-white/15">
             Follow an identity request from intake to policy validation, risk analysis, execution, and audit.
           </p>
         </div>
@@ -1003,18 +1003,18 @@ export function TeamEchoEditorialExperience() {
         {/* Two-Column Grid: Live Execution Terminal + Live Event Stream */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           {/* Left: Terminal Console (8 Cols) */}
-          <div className="lg:col-span-8 bg-[#121214] rounded-[36px] p-7 sm:p-9 border border-white/10 space-y-6 shadow-2xl card-interactive hover-glow-cyan">
+          <div className="lg:col-span-8 card-high-contrast rounded-[36px] p-7 sm:p-9 space-y-6 shadow-2xl card-interactive ">
             {/* Scenario Tab Switcher */}
-            <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/10 pb-5">
+            <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/15 pb-5">
               <div className="flex flex-wrap gap-2">
                 {TERMINAL_SCENES.map((scene, idx) => (
                   <button
                     key={scene.id}
                     onClick={() => handleSelectTerminalScene(idx)}
-                    className={`px-4 py-2 rounded-full text-xs font-mono font-bold transition-all btn-interactive ${
+                    className={`px-4 py-2 rounded-full text-xs font-mono font-semibold transition-all btn-interactive cursor-pointer ${
                       activeTerminalTab === idx
-                        ? "bg-[#D4E84A] text-[#0E0E0E] shadow-sm"
-                        : "bg-white/5 text-[#8E8E86] hover:bg-white/10 hover:text-white"
+                        ? "bg-[#D4E84A] text-[#0E0E0E] shadow-md"
+                        : "bg-white/10 text-white hover:bg-white/20"
                     }`}
                   >
                     {scene.title}
@@ -1024,87 +1024,87 @@ export function TeamEchoEditorialExperience() {
 
               <button
                 onClick={() => setShowRawTrace(!showRawTrace)}
-                className="inline-flex items-center gap-2 text-xs font-mono text-[#8E8E86] hover:text-white transition-colors btn-interactive"
+                className="inline-flex items-center gap-2 text-xs font-mono font-bold text-white hover:text-[#D4E84A] transition-colors btn-interactive cursor-pointer"
               >
-                <Terminal className="w-3.5 h-3.5" />
+                <Terminal className="w-4 h-4" />
                 <span>{showRawTrace ? "Show Summary" : "Inspect Raw Trace"}</span>
               </button>
             </div>
 
             {/* Terminal Body */}
-            <div className="bg-[#08080A] rounded-[24px] border border-white/10 p-6 sm:p-8 font-mono space-y-4 shadow-inner min-h-[260px] card-interactive">
-              <div className="flex items-center justify-between border-b border-white/10 pb-3 text-xs text-[#8E8E86]">
+            <div className="bg-[#08080A] rounded-[24px] border border-white/15 p-6 sm:p-8 font-mono space-y-4 shadow-inner min-h-[260px] card-interactive">
+              <div className="flex items-center justify-between border-b border-white/15 pb-3 text-xs text-white">
                 <div className="flex items-center gap-2">
-                  <span className="w-2.5 h-2.5 rounded-full bg-red-500/80"></span>
-                  <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/80"></span>
-                  <span className="w-2.5 h-2.5 rounded-full bg-green-500/80"></span>
-                  <span className="ml-2 text-neutral-400">team-echo://stream</span>
+                  <span className="w-2.5 h-2.5 rounded-full bg-red-500"></span>
+                  <span className="w-2.5 h-2.5 rounded-full bg-yellow-500"></span>
+                  <span className="w-2.5 h-2.5 rounded-full bg-green-500"></span>
+                  <span className="ml-2 text-white font-bold">team-echo://stream</span>
                 </div>
-                <span className="text-[11px] flex items-center gap-1.5">
+                <span className="text-xs flex items-center gap-1.5 font-bold">
                   {isTerminalStreaming ? (
-                    <span className="text-amber-400 font-bold flex items-center gap-1">
+                    <span className="text-amber-400 font-semibold flex items-center gap-1">
                       <span className="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
                       ● EXECUTING
                     </span>
                   ) : (
-                    <span className="text-emerald-400 font-bold">✓ COMPLETE</span>
+                    <span className="text-emerald-400 font-semibold">✓ COMPLETE</span>
                   )}
                 </span>
               </div>
 
               {!showRawTrace ? (
-                <div className="space-y-2 py-2 text-xs sm:text-[13px]">
+                <div className="space-y-2.5 py-2 text-xs sm:text-sm font-medium">
                   {currentScene.lines.slice(0, visibleLineCount).map((line, i) => (
                     <div
                       key={i}
                       className={`flex items-start gap-2.5 animate-in fade-in slide-in-from-bottom-1 duration-150 ${
                         line.includes("STATUS:")
-                          ? "text-[#D4E84A] font-bold pt-2 border-t border-white/10"
+                          ? "text-[#D4E84A] font-semibold pt-2 border-t border-white/15"
                           : line.includes("DRIFT") || line.includes("CRITICAL")
-                          ? "text-amber-400 font-semibold"
+                          ? "text-amber-300 font-bold"
                           : line.includes("OktaClient")
-                          ? "text-emerald-400 font-semibold"
-                          : "text-neutral-300"
+                          ? "text-emerald-300 font-bold"
+                          : "text-white"
                       }`}
                     >
-                      <span className="text-[#666] shrink-0 select-none">›</span>
+                      <span className="text-[#D4E84A] shrink-0 select-none font-semibold">›</span>
                       <span>{line}</span>
                     </div>
                   ))}
                 </div>
               ) : (
-                <pre className="text-xs text-neutral-300 leading-relaxed overflow-x-auto whitespace-pre-wrap py-2 animate-in fade-in duration-200">
+                <pre className="text-xs sm:text-sm text-white leading-relaxed overflow-x-auto whitespace-pre-wrap py-2 animate-in fade-in duration-200 font-mono font-medium">
                   {currentScene.rawPayload}
                 </pre>
               )}
 
               {/* Footer Link */}
-              <div className="pt-4 border-t border-white/10 flex items-center justify-between">
-                <span className="text-[11px] text-[#8E8E86]">
-                  Target: <strong className="text-white">{currentScene.target}</strong>
+              <div className="pt-4 border-t border-white/15 flex items-center justify-between">
+                <span className="text-xs text-slate-200 font-medium">
+                  Target: <strong className="text-white font-bold">{currentScene.target}</strong>
                 </span>
                 <Link
                   to={currentScene.link}
-                  className="inline-flex items-center gap-2 text-xs font-mono font-bold text-[#D4E84A] hover:underline btn-interactive"
+                  className="inline-flex items-center gap-2 text-xs font-mono font-semibold text-[#D4E84A] hover:underline btn-interactive"
                 >
                   <span>Launch in Platform Console</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
+                  <ArrowRight className="w-4 h-4" />
                 </Link>
               </div>
             </div>
           </div>
 
           {/* Right: Live Audit Event Stream (4 Cols) */}
-          <div className="lg:col-span-4 bg-[#121214] rounded-[36px] p-7 border border-white/10 space-y-5 shadow-2xl flex flex-col justify-between card-interactive hover-glow-lime">
+          <div className="lg:col-span-4 card-high-contrast rounded-[36px] p-7 space-y-5 shadow-2xl flex flex-col justify-between card-interactive ">
             <div className="space-y-1">
-              <div className="flex items-center justify-between pb-3 border-b border-white/10">
-                <div className="flex items-center gap-2 text-xs font-mono font-bold text-white">
-                  <Radio className="w-3.5 h-3.5 text-[#D4E84A] animate-pulse" />
+              <div className="flex items-center justify-between pb-3 border-b border-white/15">
+                <div className="flex items-center gap-2 text-xs font-mono font-semibold text-white">
+                  <Radio className="w-4 h-4 text-[#D4E84A] animate-pulse" />
                   <span>LIVE AUDIT STREAM</span>
                 </div>
-                <span className="text-[10px] font-mono text-[#8E8E86]">REAL-TIME</span>
+                <span className="text-[10px] font-mono text-white font-bold bg-white/10 px-2 py-0.5 rounded-full">REAL-TIME</span>
               </div>
-              <p className="text-[11px] text-[#8E8E86] leading-relaxed pt-1">
+              <p className="text-xs text-white leading-relaxed pt-1 font-medium">
                 Deterministic event feed from the Spring Boot orchestration engine.
               </p>
             </div>
@@ -1114,15 +1114,15 @@ export function TeamEchoEditorialExperience() {
               {eventStream.map((ev, i) => (
                 <div
                   key={`${ev.time}-${i}`}
-                  className="p-2.5 rounded-xl bg-[#0A0A0C] border border-white/5 flex items-center justify-between text-[11px] animate-in fade-in slide-in-from-top-1 duration-200 card-interactive"
+                  className="p-3 rounded-xl bg-[#0A0A0C] border border-white/10 flex items-center justify-between text-xs animate-in fade-in slide-in-from-top-1 duration-200 card-interactive"
                 >
                   <div className="space-y-0.5">
-                    <div className="text-[10px] text-[#8E8E86] tabular-nums">{ev.time}</div>
-                    <div className="font-bold text-white">{ev.emp}</div>
+                    <div className="text-[10px] text-slate-300 tabular-nums font-bold">{ev.time}</div>
+                    <div className="font-semibold text-white">{ev.emp}</div>
                   </div>
                   <div className="text-right space-y-0.5">
-                    <div className="text-[10px] text-neutral-400 font-semibold">{ev.type}</div>
-                    <div className={`text-[10px] font-bold ${ev.color}`}>{ev.status}</div>
+                    <div className="text-[10px] text-slate-200 font-bold">{ev.type}</div>
+                    <div className={`text-xs font-semibold ${ev.color}`}>{ev.status}</div>
                   </div>
                 </div>
               ))}
@@ -1130,21 +1130,21 @@ export function TeamEchoEditorialExperience() {
 
             <Link
               to="/audit"
-              className="inline-flex items-center justify-between text-xs font-mono font-bold text-white hover:text-[#D4E84A] pt-3 border-t border-white/10 transition-colors btn-interactive"
+              className="inline-flex items-center justify-between text-xs font-mono font-bold text-white hover:text-[#D4E84A] pt-3 border-t border-white/15 transition-colors btn-interactive"
             >
               <span>View Full Audit Ledger</span>
-              <ArrowRight className="w-3.5 h-3.5" />
+              <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
         </div>
 
         {/* ── Vertical Timeline of Event Sealing ───────────────────────── */}
-        <div className="bg-[#121214] rounded-[36px] p-7 sm:p-9 border border-white/10 space-y-6 card-interactive">
-          <div className="flex items-center justify-between border-b border-white/10 pb-4">
-            <span className="text-xs font-mono font-bold text-[#D4E84A] uppercase tracking-wider">
+        <div className="card-high-contrast rounded-[36px] p-7 sm:p-9 space-y-6 card-interactive">
+          <div className="flex items-center justify-between border-b border-white/15 pb-4">
+            <span className="text-xs font-mono font-semibold text-[#D4E84A] uppercase tracking-wider">
               Cryptographic Audit Progression
             </span>
-            <span className="text-[10px] font-mono text-[#8E8E86]">Click event to expand details</span>
+            <span className="text-xs font-mono text-white font-medium">Click event to expand details</span>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-5 gap-3">
@@ -1154,22 +1154,22 @@ export function TeamEchoEditorialExperience() {
                 onClick={() => setExpandedTimelineStep(expandedTimelineStep === idx ? null : idx)}
                 className={`p-4 rounded-2xl border transition-all duration-200 cursor-pointer space-y-2 card-interactive ${
                   expandedTimelineStep === idx
-                    ? "bg-[#1C1C1F] border-[#D4E84A] shadow-md hover-glow-lime"
-                    : "bg-[#0A0A0C] border-white/10 hover:border-white/20"
+                    ? "bg-[#202128] border-[#D4E84A] shadow-lg "
+                    : "bg-[#0A0A0C] border-white/15 hover:border-white/30"
                 }`}
               >
-                <div className="flex items-center justify-between text-[10px] font-mono text-[#8E8E86]">
+                <div className="flex items-center justify-between text-xs font-mono text-slate-200 font-bold">
                   <span className="tabular-nums">{step.time}</span>
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#D4E84A]"></span>
+                  <span className="w-2 h-2 rounded-full bg-[#D4E84A] shadow-[0_0_8px_#D4E84A]"></span>
                 </div>
-                <div className="text-xs font-bold text-white leading-snug font-sans">
+                <div className="text-xs font-semibold text-white leading-snug font-sans">
                   {step.title}
                 </div>
                 {expandedTimelineStep === idx && (
-                  <div className="pt-2 border-t border-white/10 text-[10px] font-mono space-y-1 text-neutral-300 animate-in fade-in duration-150">
-                    <div>Actor: <span className="text-[#D4E84A]">{step.actor}</span></div>
-                    <div>Target: <span className="text-white">{step.target}</span></div>
-                    <div className="text-[#8E8E86] leading-relaxed pt-1">{step.detail}</div>
+                  <div className="pt-2 border-t border-white/15 text-xs font-mono space-y-1 text-white animate-in fade-in duration-150 font-medium">
+                    <div>Actor: <span className="text-[#D4E84A] font-bold">{step.actor}</span></div>
+                    <div>Target: <span className="text-white font-bold">{step.target}</span></div>
+                    <div className="text-slate-100 leading-relaxed pt-1">{step.detail}</div>
                   </div>
                 )}
               </div>
@@ -1181,17 +1181,17 @@ export function TeamEchoEditorialExperience() {
       {/* ── 5. FINAL CINEMATIC CTA ────────────────────────────────────── */}
       <section
         id="architecture"
-        className="bg-gradient-to-b from-[#161619] to-[#0A0A0C] bg-dark-grid rounded-[36px] p-10 sm:p-16 border border-white/10 text-center space-y-8 shadow-2xl card-interactive hover-glow-lime"
+        className="card-high-contrast rounded-[36px] p-10 sm:p-16 text-center space-y-8 shadow-2xl card-interactive "
       >
         <div className="max-w-2xl mx-auto space-y-4">
-          <span className="text-[11px] font-mono font-bold tracking-[0.2em] text-[#8E8E86] uppercase">
+          <span className="text-xs font-mono font-semibold tracking-[0.2em] text-[#D4E84A] uppercase">
             IDENTITY GOVERNANCE, WITHOUT THE BLIND SPOTS.
           </span>
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white leading-tight">
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-semibold tracking-tight text-white leading-tight">
             Least Privilege. <br />
             Every Change Accounted For.
           </h2>
-          <p className="text-xs sm:text-sm text-[#8E8E86] leading-relaxed max-w-lg mx-auto font-light">
+          <p className="text-sm sm:text-base text-white leading-relaxed max-w-lg mx-auto font-semibold bg-black/60 p-4 rounded-2xl border border-white/15 backdrop-blur-md">
             Govern every employee lifecycle transition before it reaches Okta. Zero standing privilege, read-only simulation, and continuous drift detection.
           </p>
         </div>
@@ -1199,7 +1199,7 @@ export function TeamEchoEditorialExperience() {
         <div className="flex flex-wrap justify-center gap-4 pt-2">
           <Link
             to="/users"
-            className="px-8 py-3.5 rounded-full bg-[#D4E84A] hover:bg-[#c4d838] text-[#0E0E0E] font-mono text-xs font-black shadow-xl transition-transform active:scale-95 flex items-center gap-2 group btn-interactive"
+            className="px-8 py-3.5 rounded-full bg-[#D4E84A] hover:bg-[#c4d838] text-[#0E0E0E] font-mono text-xs font-semibold shadow-xl transition-transform active:scale-95 flex items-center gap-2 group btn-interactive"
           >
             <span>ENTER PLATFORM</span>
             <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />

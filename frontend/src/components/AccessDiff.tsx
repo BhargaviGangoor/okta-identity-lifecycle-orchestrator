@@ -16,7 +16,7 @@ export function AccessDiff({ delta, compact = false }: AccessDiffProps) {
         <div className="absolute top-0 right-0 w-24 h-24 bg-[#D4E84A]/5 rounded-full blur-xl pointer-events-none group-hover:bg-[#D4E84A]/10 transition-all"></div>
         <div className="flex items-center justify-between gap-2 mb-3">
           <div className="flex items-center gap-2">
-            <span className="w-5 h-5 rounded-[8px] bg-[#D4E84A] text-[#141414] flex items-center justify-center font-black text-xs shadow-xs">
+            <span className="w-5 h-5 rounded-[8px] bg-[#D4E84A] text-[#141414] flex items-center justify-center font-semibold text-xs shadow-xs">
               <Plus className="w-3.5 h-3.5 stroke-[3]" />
             </span>
             <h4 className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#D4E84A]">
@@ -47,7 +47,7 @@ export function AccessDiff({ delta, compact = false }: AccessDiffProps) {
         <div className="absolute top-0 right-0 w-24 h-24 bg-[#E8703A]/5 rounded-full blur-xl pointer-events-none group-hover:bg-[#E8703A]/10 transition-all"></div>
         <div className="flex items-center justify-between gap-2 mb-3">
           <div className="flex items-center gap-2">
-            <span className="w-5 h-5 rounded-[8px] bg-[#E8703A] text-white flex items-center justify-center font-black text-xs shadow-xs">
+            <span className="w-5 h-5 rounded-[8px] bg-[#E8703A] text-white flex items-center justify-center font-semibold text-xs shadow-xs">
               <Minus className="w-3.5 h-3.5 stroke-[3]" />
             </span>
             <h4 className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#E8703A]">

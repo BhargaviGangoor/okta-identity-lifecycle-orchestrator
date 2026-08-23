@@ -7,11 +7,11 @@ interface StatusBadgeProps {
 export function StatusBadge({ status }: StatusBadgeProps) {
   const norm = (status || "ACTIVE").toUpperCase();
 
-  if (norm === "ACTIVE") {
+  if (norm === "ACTIVE" || norm === "PROVISIONED" || norm === "STAGED") {
     return (
       <span className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-[11px] font-mono font-bold bg-[#D4E84A] text-[#141414]">
         <span className="w-1.5 h-1.5 rounded-full bg-[#141414]"></span>
-        ACTIVE
+        {norm}
       </span>
     );
   }

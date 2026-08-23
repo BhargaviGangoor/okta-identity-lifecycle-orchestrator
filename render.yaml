@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: identity-orchestrator-backend
+    runtime: docker
+    dockerfilePath: backend/Dockerfile
+    dockerContext: backend
+    plan: free
+    region: oregon
+    envVars:
+      - key: SERVER_PORT
+        value: 8080
+      - key: API_CONTEXT_PATH
+        value: /api
+      - key: DB_URL
+        value: jdbc:h2:mem:identity_orchestrator;DB_CLOSE_DELAY=-1;MODE=MySQL
+      - key: OKTA_DOMAIN
+        sync: false
+      - key: OKTA_API_TOKEN
+        sync: false
+      - key: FRONTEND_ORIGIN
+        value: "*"

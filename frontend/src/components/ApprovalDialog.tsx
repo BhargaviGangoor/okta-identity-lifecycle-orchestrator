@@ -105,7 +105,7 @@ export function ApprovalDialog({
             </button>
             <button
               onClick={() => onApprove(simulation.id)}
-              className="px-5 py-2 rounded-full bg-[#D4E84A] hover:bg-[#c2d73b] text-[#141414] text-xs font-mono font-black tracking-wider transition-transform active:scale-95 shadow-md flex items-center gap-1.5"
+              className="px-5 py-2 rounded-full bg-[#D4E84A] hover:bg-[#c2d73b] text-[#141414] text-xs font-mono font-semibold tracking-wider transition-transform active:scale-95 shadow-md flex items-center gap-1.5"
             >
               <CheckCircle className="w-3.5 h-3.5 stroke-[2.5]" />
               AUTHORIZE & EXECUTE

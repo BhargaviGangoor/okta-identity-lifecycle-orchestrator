@@ -84,13 +84,7 @@ export function Navbar() {
 
   return (
     <>
-      <header
-        className={`w-full flex items-center justify-between gap-3 px-3 sticky top-2 z-50 transition-all duration-300 ${
-          scrolled
-            ? "py-2 bg-[#141416]/95 backdrop-blur-md rounded-[24px] border border-white/15 shadow-2xl"
-            : "py-3 bg-transparent"
-        }`}
-      >
+      <header className="w-full flex items-center justify-between gap-3 px-1 py-1">
         {/* Left: TEAM ECHO logo */}
         <Link
           to="/"
@@ -102,7 +96,7 @@ export function Navbar() {
             <div className="w-2.5 h-2.5 rounded-[2px] bg-[#D4E84A] shadow-[0_0_8px_#D4E84A] group-hover:shadow-[0_0_14px_#D4E84A] transition-shadow"></div>
           </div>
           <div className="flex items-baseline gap-1.5">
-            <span className="font-black tracking-tight text-white text-lg font-sans">TEAM ECHO</span>
+            <span className="font-semibold tracking-tight text-white text-lg font-sans">TEAM ECHO</span>
             <span className="text-[10px] font-mono text-[#8E8E86] tracking-widest uppercase">/ IAM</span>
           </div>
         </Link>

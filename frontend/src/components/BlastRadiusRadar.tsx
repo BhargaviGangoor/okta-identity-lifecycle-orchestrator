@@ -199,16 +199,16 @@ export function BlastRadiusRadar({
       <div className="grid grid-cols-3 gap-2.5 pt-1 relative z-10 text-xs font-mono">
         <div className="bg-[#18191E] p-3 rounded-[16px] border border-white/10 text-center card-interactive hover-glow-lime">
           <span className="text-[10px] text-[#8E8E86] uppercase block">Groups Delta</span>
-          <span className="text-lg font-black text-white mt-0.5 block">{impact.groups}</span>
+          <span className="text-lg font-semibold text-white mt-0.5 block">{impact.groups}</span>
         </div>
         <div className="bg-[#18191E] p-3 rounded-[16px] border border-white/10 text-center card-interactive hover-glow-cyan">
           <span className="text-[10px] text-[#8E8E86] uppercase block">Downstream Apps</span>
-          <span className="text-lg font-black text-cyan-300 mt-0.5 block">{impact.apps}</span>
+          <span className="text-lg font-semibold text-cyan-300 mt-0.5 block">{impact.apps}</span>
         </div>
         <div className="bg-[#18191E] p-3 rounded-[16px] border border-white/10 text-center card-interactive hover-glow-orange">
           <span className="text-[10px] text-[#8E8E86] uppercase block">Privileged Roles</span>
           <span
-            className={`text-lg font-black mt-0.5 block ${
+            className={`text-lg font-semibold mt-0.5 block ${
               impact.privileged > 0 ? "text-[#E8703A]" : "text-[#D4E84A]"
             }`}
           >

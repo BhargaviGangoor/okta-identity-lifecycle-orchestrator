@@ -40,7 +40,7 @@ export function IdentityGraphPage() {
             <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
             <span>02 / TOPOLOGICAL ACCESS MATRIX</span>
           </div>
-          <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-white leading-tight">
+          <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight text-white leading-tight">
             Identity Access Graph Topology
           </h1>
           <p className="text-xs sm:text-[13px] text-neutral-300 leading-[1.65] max-w-xl font-light">

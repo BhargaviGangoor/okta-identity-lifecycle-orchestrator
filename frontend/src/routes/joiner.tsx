@@ -170,7 +170,7 @@ export function JoinerWizardPage() {
             <span className="w-1.5 h-1.5 rounded-full bg-[#D4E84A] animate-pulse"></span>
             <span>01 / LIFECYCLE ONBOARDING</span>
           </div>
-          <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-white leading-tight">
+          <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight text-white leading-tight">
             Joiner Provisioning Wizard
           </h1>
           <p className="text-xs sm:text-[13px] text-neutral-300 leading-[1.65] max-w-xl font-light">
@@ -337,7 +337,7 @@ export function JoinerWizardPage() {
               <button
                 onClick={handleNext}
                 disabled={!formData.name || !formData.email}
-                className="px-6 py-2.5 rounded-full bg-[#D4E84A] hover:bg-[#c2d73b] text-[#0E0E0E] font-mono text-xs font-black flex items-center gap-2 shadow-md btn-interactive disabled:opacity-50"
+                className="px-6 py-2.5 rounded-full bg-[#D4E84A] hover:bg-[#c2d73b] text-[#0E0E0E] font-mono text-xs font-semibold flex items-center gap-2 shadow-md btn-interactive disabled:opacity-50"
               >
                 <span>CONTINUE TO ENTITLEMENTS</span>
                 <ArrowRight className="w-3.5 h-3.5 stroke-[2.5]" />
@@ -453,7 +453,7 @@ export function JoinerWizardPage() {
               </button>
               <button
                 onClick={handleNext}
-                className="px-6 py-2.5 rounded-full bg-[#D4E84A] hover:bg-[#c2d73b] text-[#0E0E0E] font-mono text-xs font-black flex items-center gap-2 shadow-md btn-interactive"
+                className="px-6 py-2.5 rounded-full bg-[#D4E84A] hover:bg-[#c2d73b] text-[#0E0E0E] font-mono text-xs font-semibold flex items-center gap-2 shadow-md btn-interactive"
               >
                 <span>PRE-FLIGHT REVIEW</span>
                 <ArrowRight className="w-3.5 h-3.5 stroke-[2.5]" />
@@ -469,7 +469,7 @@ export function JoinerWizardPage() {
             <div className="bg-[#1b1b1b] p-5 rounded-[24px] border border-white/10 space-y-3 card-interactive hover-glow-lime">
               <div className="flex items-center justify-between border-b border-white/10 pb-3">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-[12px] bg-[#D4E84A] text-[#0E0E0E] flex items-center justify-center font-black font-mono">
+                  <div className="w-10 h-10 rounded-[12px] bg-[#D4E84A] text-[#0E0E0E] flex items-center justify-center font-semibold font-mono">
                     {formData.name.slice(0, 2).toUpperCase()}
                   </div>
                   <div>
@@ -541,7 +541,7 @@ export function JoinerWizardPage() {
               <button
                 onClick={handleSubmit}
                 disabled={loading}
-                className="px-8 py-2.5 rounded-full bg-[#D4E84A] hover:bg-[#c2d73b] text-[#0E0E0E] font-mono text-xs font-black flex items-center gap-2 shadow-lg btn-interactive"
+                className="px-8 py-2.5 rounded-full bg-[#D4E84A] hover:bg-[#c2d73b] text-[#0E0E0E] font-mono text-xs font-semibold flex items-center gap-2 shadow-lg btn-interactive"
               >
                 <UserPlus className="w-4 h-4" />
                 <span>{loading ? "PROVISIONING IN OKTA..." : "AUTHORIZE & CREATE USER"}</span>
@@ -564,7 +564,7 @@ export function JoinerWizardPage() {
                   OKTA REST HTTP 201
                 </span>
               </div>
-              <h2 className="text-2xl font-black text-white">Identity Provisioned Successfully</h2>
+              <h2 className="text-2xl font-semibold text-white">Identity Provisioned Successfully</h2>
               <p className="text-xs text-[#8E8E86] max-w-md mx-auto leading-relaxed">
                 Created worker account for <span className="text-white font-bold">{formData.name}</span> with{" "}
                 <span className="text-[#D4E84A] font-bold">{selectedGroups.length} birthright groups</span> and{" "}
@@ -584,7 +584,7 @@ export function JoinerWizardPage() {
               </button>
               <button
                 onClick={() => navigate({ to: "/users" })}
-                className="px-6 py-2.5 rounded-full bg-[#D4E84A] hover:bg-[#c2d73b] text-[#0E0E0E] font-mono text-xs font-black shadow-md btn-interactive"
+                className="px-6 py-2.5 rounded-full bg-[#D4E84A] hover:bg-[#c2d73b] text-[#0E0E0E] font-mono text-xs font-semibold shadow-md btn-interactive"
               >
                 VIEW IN DIRECTORY
               </button>

@@ -118,7 +118,7 @@ export function WhatIfSimulatorPage() {
             <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
             <span>04 / PREDICTIVE MODELING</span>
           </div>
-          <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-white leading-tight">
+          <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight text-white leading-tight">
             What-If Blast Radius Simulator
           </h1>
           <p className="text-xs sm:text-[13px] text-neutral-300 leading-[1.65] max-w-xl font-light">
@@ -182,7 +182,7 @@ export function WhatIfSimulatorPage() {
             onClick={handleRunSimulation}
             disabled={loading}
             onMouseEnter={() => cyberSound.playHover()}
-            className="px-6 py-2.5 rounded-full bg-cyan-400 hover:bg-cyan-300 text-[#0E0E0E] font-mono text-xs font-black flex items-center gap-2 shadow-md btn-interactive disabled:opacity-50"
+            className="px-6 py-2.5 rounded-full bg-cyan-400 hover:bg-cyan-300 text-[#0E0E0E] font-mono text-xs font-semibold flex items-center gap-2 shadow-md btn-interactive disabled:opacity-50"
           >
             {loading ? <RefreshCw className="w-3.5 h-3.5 animate-spin" /> : <Play className="w-3.5 h-3.5 fill-current" />}
             <span>{loading ? "SIMULATING IMPACT..." : "DRY-RUN SIMULATION"}</span>
@@ -260,7 +260,7 @@ export function WhatIfSimulatorPage() {
                       cyberSound.playClick();
                     }}
                     onMouseEnter={() => cyberSound.playHover()}
-                    className="px-6 py-2.5 rounded-full bg-[#D4E84A] hover:bg-[#c2d73b] text-[#141414] font-mono text-xs font-black shadow-md btn-interactive"
+                    className="px-6 py-2.5 rounded-full bg-[#D4E84A] hover:bg-[#c2d73b] text-[#141414] font-mono text-xs font-semibold shadow-md btn-interactive"
                   >
                     REVIEW & APPROVE
                   </button>
@@ -271,7 +271,7 @@ export function WhatIfSimulatorPage() {
                     onClick={() => handleExecute(simResult.id)}
                     disabled={executing}
                     onMouseEnter={() => cyberSound.playHover()}
-                    className="px-6 py-2.5 rounded-full bg-[#D4E84A] hover:bg-[#c2d73b] text-[#141414] font-mono text-xs font-black shadow-md btn-interactive flex items-center gap-1.5"
+                    className="px-6 py-2.5 rounded-full bg-[#D4E84A] hover:bg-[#c2d73b] text-[#141414] font-mono text-xs font-semibold shadow-md btn-interactive flex items-center gap-1.5"
                   >
                     {executing ? <RefreshCw className="w-3.5 h-3.5 animate-spin" /> : <CheckCircle2 className="w-3.5 h-3.5" />}
                     <span>{executing ? "EXECUTING..." : "EXECUTE IN OKTA"}</span>

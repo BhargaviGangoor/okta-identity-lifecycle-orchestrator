@@ -52,9 +52,12 @@ export function UserTable({ users, onSelectUser }: UserTableProps) {
         u.title.toLowerCase().includes(q) ||
         u.id.toLowerCase().includes(q);
 
-      const matchesDept = selectedDept === "ALL" || u.department.toLowerCase() === selectedDept.toLowerCase();
-      const matchesStatus = selectedStatus === "ALL" || u.status === selectedStatus;
-      const matchesRisk = selectedRisk === "ALL" || u.riskLevel === selectedRisk;
+      const matchesDept = selectedDept === "ALL" || (u.department && u.department.toLowerCase() === selectedDept.toLowerCase());
+      const matchesStatus =
+        selectedStatus === "ALL" ||
+        u.status === selectedStatus ||
+        (selectedStatus === "ACTIVE" && (u.status === "ACTIVE" || (u.status as string) === "PROVISIONED" || (u.status as string) === "STAGED"));
+      const matchesRisk = selectedRisk === "ALL" || (u.riskLevel || (u as any).risk) === selectedRisk;
 
       return matchesSearch && matchesDept && matchesStatus && matchesRisk;
     });
@@ -98,17 +101,17 @@ export function UserTable({ users, onSelectUser }: UserTableProps) {
   return (
     <div className="space-y-4">
       {/* Controls Bar */}
-      <div className="flex flex-col gap-3 bg-[#1b1b1b] p-4 rounded-[24px] border border-white/10 card-interactive">
+      <div className="flex flex-col gap-3 bg-[#15161C]/50 backdrop-blur-md p-4 rounded-[24px] border border-white/10 card-interactive shadow-md">
         {/* Search & Dept Selector */}
         <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3">
           <div className="relative flex-1 max-w-md">
-            <Search className="w-4 h-4 text-[#8A8A82] absolute left-3.5 top-1/2 -translate-y-1/2" />
+            <Search className="w-4 h-4 text-neutral-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
             <input
               type="text"
               placeholder="Search identities by name, email, title, or Okta ID..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full bg-[#141414] text-white pl-10 pr-8 py-2.5 rounded-full text-xs border border-white/10 focus:outline-none focus:border-[#D4E84A] hover:border-white/30 transition-colors placeholder-[#8A8A82] font-sans"
+              className="w-full bg-[#0D0E12]/60 text-slate-200 pl-10 pr-8 py-2.5 rounded-full text-xs border border-white/15 focus:outline-none focus:border-[#D4E84A] hover:border-white/30 transition-colors placeholder:text-neutral-500 font-normal"
             />
             {searchTerm && (
               <button
@@ -126,10 +129,10 @@ export function UserTable({ users, onSelectUser }: UserTableProps) {
               <button
                 key={dept}
                 onClick={() => setSelectedDept(dept)}
-                className={`px-3.5 py-1.5 rounded-full text-[11px] font-mono tracking-wider transition-all shrink-0 btn-interactive ${
+                className={`px-3.5 py-1.5 rounded-full text-xs font-mono tracking-wider transition-all shrink-0 btn-interactive ${
                   selectedDept === dept
-                    ? "bg-[#D4E84A] text-[#141414] font-bold shadow-md"
-                    : "bg-[#141414] text-[#8A8A82] hover:text-white border border-white/10 hover:border-white/30"
+                    ? "bg-[#D4E84A] text-[#141414] font-bold shadow-xs"
+                    : "bg-[#0D0E12]/60 text-neutral-400 hover:text-slate-200 border border-white/10 hover:border-white/25 font-normal"
                 }`}
               >
                 {dept}
@@ -139,20 +142,20 @@ export function UserTable({ users, onSelectUser }: UserTableProps) {
         </div>
 
         {/* Secondary Filter Row (Status, Risk, Bulk Actions) */}
-        <div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-white/5 text-xs">
+        <div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-white/10 text-xs">
           <div className="flex flex-wrap items-center gap-3">
             {/* Status Filter */}
             <div className="flex items-center gap-1.5">
-              <span className="text-[10px] font-mono text-[#8E8E86] uppercase">Status:</span>
+              <span className="text-[11px] font-mono text-neutral-400 uppercase font-medium">Status:</span>
               <div className="flex items-center gap-1">
                 {statuses.map((st) => (
                   <button
                     key={st}
                     onClick={() => setSelectedStatus(st)}
-                    className={`px-2.5 py-1 rounded-full text-[10px] font-mono font-medium transition-all btn-interactive ${
+                    className={`px-2.5 py-1 rounded-full text-[11px] font-mono transition-all btn-interactive ${
                       selectedStatus === st
-                        ? "bg-white text-[#141414] font-bold shadow-sm"
-                        : "bg-[#141414] text-neutral-400 hover:text-white hover:bg-white/5"
+                        ? "bg-slate-200 text-[#141414] font-bold shadow-xs"
+                        : "bg-[#0D0E12]/60 text-neutral-400 hover:text-slate-200 hover:bg-white/5 border border-white/10 font-normal"
                     }`}
                   >
                     {st}
@@ -163,16 +166,16 @@ export function UserTable({ users, onSelectUser }: UserTableProps) {
 
             {/* Risk Filter */}
             <div className="flex items-center gap-1.5">
-              <span className="text-[10px] font-mono text-[#8E8E86] uppercase">Risk:</span>
+              <span className="text-[11px] font-mono text-neutral-400 uppercase font-medium">Risk:</span>
               <div className="flex items-center gap-1">
                 {riskLevels.map((rk) => (
                   <button
                     key={rk}
                     onClick={() => setSelectedRisk(rk)}
-                    className={`px-2.5 py-1 rounded-full text-[10px] font-mono font-medium transition-all btn-interactive ${
+                    className={`px-2.5 py-1 rounded-full text-[11px] font-mono transition-all btn-interactive ${
                       selectedRisk === rk
-                        ? "bg-[#D4E84A] text-[#141414] font-bold shadow-sm"
-                        : "bg-[#141414] text-neutral-400 hover:text-white hover:bg-white/5"
+                        ? "bg-[#D4E84A] text-[#141414] font-bold shadow-xs"
+                        : "bg-[#0D0E12]/60 text-neutral-400 hover:text-slate-200 hover:bg-white/5 border border-white/10 font-normal"
                     }`}
                   >
                     {rk}
@@ -184,19 +187,19 @@ export function UserTable({ users, onSelectUser }: UserTableProps) {
 
           {/* Bulk Selection Actions */}
           {selectedUserIds.length > 0 && (
-            <div className="flex items-center gap-2 bg-[#141414] px-3.5 py-1.5 rounded-full border border-[#D4E84A]/30 shadow-md animate-in fade-in">
-              <span className="text-[11px] font-mono text-[#D4E84A] font-bold">
+            <div className="flex items-center gap-2 bg-[#0D0E12]/80 px-3.5 py-1.5 rounded-full border border-[#D4E84A]/30 shadow-xs animate-in fade-in">
+              <span className="text-xs font-mono text-[#D4E84A] font-bold">
                 {selectedUserIds.length} Selected
               </span>
               <button
                 onClick={handleBulkExport}
-                className="text-[10px] font-mono text-white hover:text-[#D4E84A] flex items-center gap-1 btn-interactive"
+                className="text-xs font-mono text-slate-200 hover:text-[#D4E84A] flex items-center gap-1 btn-interactive font-medium"
               >
-                <Download className="w-3 h-3" /> Export CSV
+                <Download className="w-3.5 h-3.5" /> Export CSV
               </button>
               <button
                 onClick={() => setSelectedUserIds([])}
-                className="text-[10px] font-mono text-neutral-400 hover:text-white ml-1"
+                className="text-xs font-mono text-neutral-400 hover:text-white ml-1 font-normal"
               >
                 Clear
               </button>
@@ -206,10 +209,10 @@ export function UserTable({ users, onSelectUser }: UserTableProps) {
       </div>
 
       {/* Table Container */}
-      <div className="bg-[#1b1b1b] rounded-[24px] border border-white/10 overflow-hidden shadow-2xl card-interactive">
+      <div className="bg-[#15161C]/50 backdrop-blur-md rounded-[24px] border border-white/10 overflow-hidden shadow-lg card-interactive">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
-            <thead className="bg-[#141414] text-[#8A8A82] font-mono text-[10px] uppercase tracking-wider border-b border-white/10">
+            <thead className="bg-[#0D0E12]/60 text-neutral-400 font-mono text-[10px] uppercase tracking-wider border-b border-white/10 font-medium">
               <tr>
                 <th className="py-3.5 px-4 w-10 text-center">
                   <button
@@ -223,15 +226,15 @@ export function UserTable({ users, onSelectUser }: UserTableProps) {
                     )}
                   </button>
                 </th>
-                <th className="py-3.5 px-4">Identity & Okta ID</th>
-                <th className="py-3.5 px-4">Department & Role</th>
-                <th className="py-3.5 px-4">Status</th>
-                <th className="py-3.5 px-4">Risk Profile</th>
-                <th className="py-3.5 px-4">Entitlements</th>
-                <th className="py-3.5 px-5 text-right">Quick Actions</th>
+                <th className="py-3.5 px-4 text-neutral-300 font-medium">Identity & Okta ID</th>
+                <th className="py-3.5 px-4 text-neutral-300 font-medium">Department & Role</th>
+                <th className="py-3.5 px-4 text-neutral-300 font-medium">Status</th>
+                <th className="py-3.5 px-4 text-neutral-300 font-medium">Risk Profile</th>
+                <th className="py-3.5 px-4 text-neutral-300 font-medium">Entitlements</th>
+                <th className="py-3.5 px-5 text-right text-neutral-300 font-medium">Quick Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-white/5 font-sans text-neutral-200">
+            <tbody className="divide-y divide-white/5 font-sans text-slate-300">
               {filteredUsers.length === 0 ? (
                 <tr>
                   <td colSpan={7} className="text-center py-12 text-[#8A8A82] font-mono space-y-2">
@@ -308,7 +311,7 @@ export function UserTable({ users, onSelectUser }: UserTableProps) {
 
                       {/* Risk */}
                       <td className="py-3.5 px-4">
-                        <RiskBadge level={user.riskLevel} score={user.riskScore} />
+                        <RiskBadge level={user.riskLevel || (user as any).risk || "LOW"} score={user.riskScore} />
                       </td>
 
                       {/* Entitlements */}
