@@ -1,0 +1,16 @@
+[
+  {
+    "department": "Engineering",
+    "role": "Developer",
+    "requiredGroups": [
+      "Developers"
+    ]
+  },
+  {
+    "department": "Finance",
+    "role": "Analyst",
+    "requiredGroups": [
+      "Finance"
+    ]
+  }
+]

@@ -22,15 +22,9 @@ public class IdentityAccessCatalog {
 
     @org.springframework.beans.factory.annotation.Autowired
     public IdentityAccessCatalog(ObjectMapper objectMapper) {
-        this(objectMapper, resolveDataDirectory());
-    }
-
-    private static Path resolveDataDirectory() {
-        Path direct = Path.of("data");
-        if (Files.isDirectory(direct)) return direct;
-        Path parent = Path.of("../data");
-        if (Files.isDirectory(parent)) return parent;
-        return direct;
+        this(loadUserApplications(objectMapper),
+                loadGroupApplications(objectMapper),
+                loadCriticalities(objectMapper));
     }
 
     IdentityAccessCatalog(ObjectMapper objectMapper, Path dataDirectory) {
@@ -51,6 +45,18 @@ public class IdentityAccessCatalog {
     public Set<String> getGroupApplications(String groupId) { return groupApplications.getOrDefault(groupId, Set.of()); }
     public String getApplicationCriticality(String application) { return applicationCriticalities.getOrDefault(application, "MEDIUM"); }
 
+    private static Map<String, Set<String>> loadUserApplications(ObjectMapper mapper) {
+        return loadAssignmentsFromAnySource(mapper, "sample-users.json", "userId");
+    }
+
+    private static Map<String, Set<String>> loadGroupApplications(ObjectMapper mapper) {
+        return loadAssignmentsFromAnySource(mapper, "sample-groups.json", "groupId");
+    }
+
+    private static Map<String, String> loadCriticalities(ObjectMapper mapper) {
+        return loadCriticalitiesFromAnySource(mapper, "sample-applications.json");
+    }
+
     private static Map<String, Set<String>> loadUserApplications(ObjectMapper mapper, Path path) {
         return loadAssignments(mapper, path, "userId");
     }
@@ -59,29 +65,82 @@ public class IdentityAccessCatalog {
         return loadAssignments(mapper, path, "groupId");
     }
 
-    private static Map<String, Set<String>> loadAssignments(ObjectMapper mapper, Path path, String idField) {
+    private static Map<String, Set<String>> loadAssignmentsFromAnySource(ObjectMapper mapper, String filename, String idField) {
+        // 1. Try filesystem path (data/ or ../data/)
+        Path direct = Path.of("data", filename);
+        if (Files.isRegularFile(direct)) return loadAssignments(mapper, direct, idField);
+        Path parent = Path.of("../data", filename);
+        if (Files.isRegularFile(parent)) return loadAssignments(mapper, parent, idField);
+
+        // 2. Try classpath resource (/data/filename or data/filename)
+        try (java.io.InputStream is = IdentityAccessCatalog.class.getResourceAsStream("/data/" + filename)) {
+            if (is != null) {
+                JsonNode records = mapper.readTree(is);
+                return parseAssignmentsJson(records, idField);
+            }
+        } catch (Exception ignored) {
+        }
+
+        // 3. Fallback to empty map
+        return Collections.emptyMap();
+    }
+
+    private static Map<String, String> loadCriticalitiesFromAnySource(ObjectMapper mapper, String filename) {
+        // 1. Try filesystem
+        Path direct = Path.of("data", filename);
+        if (Files.isRegularFile(direct)) return loadCriticalities(mapper, direct);
+        Path parent = Path.of("../data", filename);
+        if (Files.isRegularFile(parent)) return loadCriticalities(mapper, parent);
+
+        // 2. Try classpath
+        try (java.io.InputStream is = IdentityAccessCatalog.class.getResourceAsStream("/data/" + filename)) {
+            if (is != null) {
+                JsonNode records = mapper.readTree(is);
+                return parseCriticalitiesJson(records);
+            }
+        } catch (Exception ignored) {
+        }
+
+        return Collections.emptyMap();
+    }
+
+    private static Map<String, Set<String>> parseAssignmentsJson(JsonNode records, String idField) {
         Map<String, Set<String>> assignments = new LinkedHashMap<>();
-        try {
-            JsonNode records = mapper.readTree(Files.readString(path));
+        if (records != null && records.isArray()) {
             for (JsonNode record : records) {
                 Set<String> applications = new LinkedHashSet<>();
                 for (JsonNode application : record.path("applications")) applications.add(application.asText());
                 assignments.put(record.path(idField).asText(), applications);
             }
-            return assignments;
+        }
+        return assignments;
+    }
+
+    private static Map<String, String> parseCriticalitiesJson(JsonNode records) {
+        Map<String, String> criticalities = new LinkedHashMap<>();
+        if (records != null && records.isArray()) {
+            for (JsonNode record : records) {
+                criticalities.put(record.path("name").asText(), record.path("criticality").asText("MEDIUM"));
+            }
+        }
+        return criticalities;
+    }
+
+    private static Map<String, Set<String>> loadAssignments(ObjectMapper mapper, Path path, String idField) {
+        try {
+            JsonNode records = mapper.readTree(Files.readString(path));
+            return parseAssignmentsJson(records, idField);
         } catch (IOException exception) {
-            throw new IllegalStateException("Unable to load identity access data from " + path, exception);
+            return Collections.emptyMap();
         }
     }
 
     private static Map<String, String> loadCriticalities(ObjectMapper mapper, Path path) {
-        Map<String, String> criticalities = new LinkedHashMap<>();
         try {
             JsonNode records = mapper.readTree(Files.readString(path));
-            for (JsonNode record : records) criticalities.put(record.path("name").asText(), record.path("criticality").asText("MEDIUM"));
-            return criticalities;
+            return parseCriticalitiesJson(records);
         } catch (IOException exception) {
-            throw new IllegalStateException("Unable to load application criticality data from " + path, exception);
+            return Collections.emptyMap();
         }
     }
 

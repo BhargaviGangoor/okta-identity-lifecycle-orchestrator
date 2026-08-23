@@ -9,9 +9,11 @@ RUN mvn clean package -DskipTests
 FROM eclipse-temurin:17-jre-alpine
 WORKDIR /app
 COPY --from=build /app/target/identity-orchestrator-backend-0.0.1-SNAPSHOT.jar app.jar
+COPY --from=build /app/src/main/resources/data /app/data
 
-ENV SERVER_PORT=8080
+ENV PORT=8080
 ENV API_CONTEXT_PATH=/api
 EXPOSE 8080
 
 ENTRYPOINT ["java", "-jar", "app.jar"]
+
