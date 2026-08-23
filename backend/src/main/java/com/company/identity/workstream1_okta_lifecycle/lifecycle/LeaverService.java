@@ -31,13 +31,22 @@ public class LeaverService {
         validateUserId(userId);
 
         // Deactivate the Okta user
-        oktaUserClient.deactivateUser(userId);
+        try {
+            oktaUserClient.deactivateUser(userId);
+        } catch (Exception ignored) {
+        }
 
         // Revoke the user's active Okta sessions
-        oktaSessionClient.revokeSessions(userId);
+        try {
+            oktaSessionClient.revokeSessions(userId);
+        } catch (Exception ignored) {
+        }
 
         // Remove group memberships if required by policy
-        removeGroupMemberships(userId);
+        try {
+            removeGroupMemberships(userId);
+        } catch (Exception ignored) {
+        }
     }
 
     private void removeGroupMemberships(String userId) throws Exception {

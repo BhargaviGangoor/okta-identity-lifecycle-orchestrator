@@ -4,9 +4,9 @@ server:
     context-path: ${API_CONTEXT_PATH:/api}
 spring:
   datasource:
-    url: ${DB_URL:jdbc:mysql://localhost:3306/identity_orchestrator}
-    username: ${DB_USERNAME:root}
-    password: ${DB_PASSWORD:root}
+    url: ${DB_URL:jdbc:h2:mem:identity_orchestrator;DB_CLOSE_DELAY=-1;MODE=MySQL}
+    username: ${DB_USERNAME:sa}
+    password: ${DB_PASSWORD:}
   jpa:
     hibernate:
       ddl-auto: update

@@ -184,6 +184,25 @@ export function LeaverDeprovisionPage() {
               ))}
             </div>
 
+            {/* Individual Assigned Entitlements Preview */}
+            {selectedUser && selectedUser.groups && selectedUser.groups.length > 0 && (
+              <div className="pt-2">
+                <div className="text-[11px] font-mono uppercase text-[#8A8A82] mb-2">
+                  Active Group Entitlements Target for Immediate Revocation ({selectedUser.groups.length}):
+                </div>
+                <div className="flex flex-wrap gap-1.5">
+                  {selectedUser.groups.map((g) => (
+                    <span
+                      key={g}
+                      className="px-2.5 py-1 rounded-full text-xs font-mono bg-[#E8703A]/10 text-[#E8703A] border border-[#E8703A]/25"
+                    >
+                      &times; {g}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+
             <div className="flex justify-end pt-3">
               <button
                 onClick={handleExecuteLeaver}

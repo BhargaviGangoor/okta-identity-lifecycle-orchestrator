@@ -20,6 +20,7 @@ export function Navbar() {
   const navItems = [
     { to: "/", label: "Overview" },
     { to: "/users", label: "Identities" },
+    { to: "/graph", label: "Graph" },
     { to: "/joiner", label: "Joiner" },
     { to: "/mover", label: "Mover" },
     { to: "/leaver", label: "Leaver" },

@@ -79,4 +79,5 @@ export const ENDPOINTS = {
 
   audit: "/audit",
   bulk: "/bulk",
+  graph: (params?: string) => `/graph${params ? `?${params}` : ""}`,
 } as const;

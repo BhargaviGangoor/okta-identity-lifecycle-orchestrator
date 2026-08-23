@@ -13,9 +13,18 @@ export function UsersPage() {
   const [users, setUsers] = useState<User[]>([]);
 
   useEffect(() => {
-    getUsers().then((data) => {
-      setUsers(data);
-    });
+    let mounted = true;
+    const fetchUsers = () => {
+      getUsers().then((data) => {
+        if (mounted) setUsers(data);
+      });
+    };
+    fetchUsers();
+    const interval = setInterval(fetchUsers, 5000);
+    return () => {
+      mounted = false;
+      clearInterval(interval);
+    };
   }, []);
 
   const handleExport = async () => {
@@ -47,7 +56,7 @@ export function UsersPage() {
 
         <div className="flex items-center gap-3">
           <div className="hidden sm:flex items-center gap-2 px-3.5 py-2 rounded-full bg-black/5 text-[#0E0E0E] text-xs font-mono font-bold border border-black/10">
-            <span>{users.length || 15} IDENTITIES</span>
+            <span>{users.length} IDENTITIES</span>
           </div>
           <button
             onClick={handleExport}

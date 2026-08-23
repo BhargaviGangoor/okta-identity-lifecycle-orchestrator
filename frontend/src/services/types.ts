@@ -85,3 +85,39 @@ export interface DashboardMetrics {
   privilegedAccounts: number;
   avgProvisionMinutes: number;
 }
+
+export type GraphNodeType = "USER" | "GROUP" | "APPLICATION";
+
+export interface GraphNode {
+  id: string;
+  label: string;
+  type: GraphNodeType;
+  department?: string;
+  role?: string;
+  status?: string;
+  riskScore?: number;
+  criticality?: "HIGH" | "MEDIUM" | "LOW" | "NONE";
+}
+
+export interface GraphEdge {
+  id: string;
+  source: string;
+  target: string;
+  relationship: "MEMBER_OF" | "GRANTS_ACCESS" | "DIRECT_ACCESS";
+}
+
+export interface GraphMetrics {
+  totalUsers: number;
+  totalGroups: number;
+  totalApplications: number;
+  totalNodes: number;
+  totalEdges: number;
+  highCriticalityApps: number;
+}
+
+export interface GraphData {
+  nodes: GraphNode[];
+  edges: GraphEdge[];
+  metrics: GraphMetrics;
+}
+

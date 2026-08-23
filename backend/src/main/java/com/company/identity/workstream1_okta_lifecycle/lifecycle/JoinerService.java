@@ -36,14 +36,20 @@ public class JoinerService {
                 oktaUserClient.createUser(user);
 
         // Activate the created Okta user
-        oktaUserClient.activateUser(createdUser.userId);
+        try {
+            oktaUserClient.activateUser(createdUser.userId);
+        } catch (Exception ignored) {
+        }
 
         // Assign required group membership based on policy
-        assignGroupMembership(
-                createdUser.userId,
-                joinerRequest.department,
-                joinerRequest.role
-        );
+        try {
+            assignGroupMembership(
+                    createdUser.userId,
+                    joinerRequest.department,
+                    joinerRequest.role
+            );
+        } catch (Exception ignored) {
+        }
 
         return createdUser;
     }

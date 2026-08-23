@@ -1,6 +1,7 @@
 package com.company.identity.workstream3;
 
 import com.company.identity.common.model.Action;
+import com.company.identity.workstream3_simulation_security.approval.ApprovalService;
 import com.company.identity.workstream3_simulation_security.simulation.WhatIfService;
 import com.company.identity.workstream4_dashboard_integration.controller.WhatIfController;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -31,7 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         controllers = WhatIfController.class,
         excludeAutoConfiguration = SecurityAutoConfiguration.class
 )
-@Import(WhatIfService.class)
+@Import({WhatIfService.class, ApprovalService.class})
 class WhatIfControllerTest {
 
     @Autowired

@@ -26,8 +26,42 @@ export function JoinerWizardPage() {
   const [createdSim, setCreatedSim] = useState<Simulation | null>(null);
   const [loading, setLoading] = useState(false);
 
-  const calculatedGroups = GROUP_CATALOG[formData.department] || [];
-  const calculatedApps = APP_CATALOG[formData.department] || [];
+  const [selectedGroups, setSelectedGroups] = useState<string[]>(
+    GROUP_CATALOG["Engineering"] || []
+  );
+  const [selectedApps, setSelectedApps] = useState<string[]>(
+    APP_CATALOG["Engineering"] || []
+  );
+  const [newGroupInput, setNewGroupInput] = useState("");
+  const [newAppInput, setNewAppInput] = useState("");
+
+  const handleDepartmentChange = (dept: string) => {
+    setFormData({ ...formData, department: dept });
+    setSelectedGroups(GROUP_CATALOG[dept] || []);
+    setSelectedApps(APP_CATALOG[dept] || []);
+  };
+
+  const handleAddGroup = () => {
+    if (newGroupInput.trim() && !selectedGroups.includes(newGroupInput.trim())) {
+      setSelectedGroups([...selectedGroups, newGroupInput.trim()]);
+      setNewGroupInput("");
+    }
+  };
+
+  const handleRemoveGroup = (group: string) => {
+    setSelectedGroups(selectedGroups.filter((g) => g !== group));
+  };
+
+  const handleAddApp = () => {
+    if (newAppInput.trim() && !selectedApps.includes(newAppInput.trim())) {
+      setSelectedApps([...selectedApps, newAppInput.trim()]);
+      setNewAppInput("");
+    }
+  };
+
+  const handleRemoveApp = (app: string) => {
+    setSelectedApps(selectedApps.filter((a) => a !== app));
+  };
 
   const handleNext = () => setStep((s) => s + 1);
   const handlePrev = () => setStep((s) => s - 1);
@@ -121,7 +155,7 @@ export function JoinerWizardPage() {
                 <label className="text-[11px] font-mono uppercase text-[#8A8A82]">Department</label>
                 <select
                   value={formData.department}
-                  onChange={(e) => setFormData({ ...formData, department: e.target.value })}
+                  onChange={(e) => handleDepartmentChange(e.target.value)}
                   className="w-full bg-[#1b1b1b] text-white px-4 py-2.5 rounded-[14px] text-xs border border-white/10 focus:outline-none focus:border-[#D4E84A]"
                 >
                   {DEPARTMENTS.map((dept) => (
@@ -177,43 +211,99 @@ export function JoinerWizardPage() {
 
         {step === 2 && (
           <div className="space-y-5">
-            <h2 className="text-base font-bold text-white flex items-center gap-2">
-              <span className="text-[#D4E84A] font-mono">02.</span> Automated Birthright Entitlements
-            </h2>
-            <p className="text-xs text-[#8A8A82] leading-relaxed">
-              Target baseline for <span className="text-white font-bold">{formData.department}</span> ({formData.title}):
-            </p>
+            <div className="flex items-center justify-between">
+              <h2 className="text-base font-bold text-white flex items-center gap-2">
+                <span className="text-[#D4E84A] font-mono">02.</span> Tailor Entitlements & Application Access
+              </h2>
+              <span className="text-[11px] font-mono text-[#8E8E86]">Click &times; to remove or add custom below</span>
+            </div>
 
-            <div className="space-y-3">
-              <div className="bg-[#1b1b1b] p-4 rounded-[18px] border border-white/10 space-y-2">
-                <span className="text-[10px] font-mono uppercase text-[#D4E84A] font-bold">
-                  Okta Group Memberships ({calculatedGroups.length})
-                </span>
-                <div className="flex flex-wrap gap-1.5">
-                  {calculatedGroups.map((g) => (
+            <div className="space-y-4">
+              {/* Groups Management */}
+              <div className="bg-[#1b1b1b] p-4 rounded-[18px] border border-white/10 space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] font-mono uppercase text-[#D4E84A] font-bold">
+                    Okta Group Memberships ({selectedGroups.length})
+                  </span>
+                </div>
+                <div className="flex flex-wrap gap-1.5 min-h-[32px]">
+                  {selectedGroups.map((g) => (
                     <span
                       key={g}
-                      className="px-3 py-1 rounded-full text-xs font-mono bg-[#141414] text-neutral-200 border border-white/10"
+                      className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono bg-[#141414] text-neutral-200 border border-white/10 group"
                     >
-                      + {g}
+                      <span>{g}</span>
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveGroup(g)}
+                        className="text-[#8E8E86] hover:text-[#E8703A] text-xs font-bold transition-colors ml-0.5"
+                        title="Remove group"
+                      >
+                        &times;
+                      </button>
                     </span>
                   ))}
                 </div>
+                <div className="flex items-center gap-2 pt-1 border-t border-white/5">
+                  <input
+                    type="text"
+                    value={newGroupInput}
+                    onChange={(e) => setNewGroupInput(e.target.value)}
+                    onKeyDown={(e) => e.key === "Enter" && (e.preventDefault(), handleAddGroup())}
+                    placeholder="Add custom group (e.g. sec-analysts-l2)..."
+                    className="flex-1 bg-[#141414] text-white px-3 py-1.5 rounded-full text-xs border border-white/10 focus:outline-none focus:border-[#D4E84A] font-mono"
+                  />
+                  <button
+                    type="button"
+                    onClick={handleAddGroup}
+                    className="px-3.5 py-1.5 rounded-full bg-white/10 hover:bg-white/20 text-white text-xs font-mono font-bold shrink-0"
+                  >
+                    + Add Group
+                  </button>
+                </div>
               </div>
 
-              <div className="bg-[#1b1b1b] p-4 rounded-[18px] border border-white/10 space-y-2">
-                <span className="text-[10px] font-mono uppercase text-[#D4E84A] font-bold">
-                  SSO Application Tiles ({calculatedApps.length})
-                </span>
-                <div className="flex flex-wrap gap-1.5">
-                  {calculatedApps.map((a) => (
+              {/* SSO Applications Management */}
+              <div className="bg-[#1b1b1b] p-4 rounded-[18px] border border-white/10 space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] font-mono uppercase text-[#D4E84A] font-bold">
+                    SSO Application Tiles ({selectedApps.length})
+                  </span>
+                </div>
+                <div className="flex flex-wrap gap-1.5 min-h-[32px]">
+                  {selectedApps.map((a) => (
                     <span
                       key={a}
-                      className="px-3 py-1 rounded-full text-xs font-mono bg-[#D4E84A]/10 text-[#D4E84A] border border-[#D4E84A]/25"
+                      className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono bg-[#D4E84A]/10 text-[#D4E84A] border border-[#D4E84A]/25 group"
                     >
-                      + {a}
+                      <span>{a}</span>
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveApp(a)}
+                        className="text-[#D4E84A]/60 hover:text-[#E8703A] text-xs font-bold transition-colors ml-0.5"
+                        title="Remove application"
+                      >
+                        &times;
+                      </button>
                     </span>
                   ))}
+                </div>
+                <div className="flex items-center gap-2 pt-1 border-t border-white/5">
+                  <input
+                    type="text"
+                    value={newAppInput}
+                    onChange={(e) => setNewAppInput(e.target.value)}
+                    onKeyDown={(e) => e.key === "Enter" && (e.preventDefault(), handleAddApp())}
+                    placeholder="Add custom app (e.g. Datadog, Splunk)..."
+                    className="flex-1 bg-[#141414] text-white px-3 py-1.5 rounded-full text-xs border border-white/10 focus:outline-none focus:border-[#D4E84A] font-mono"
+                  />
+                  <button
+                    type="button"
+                    onClick={handleAddApp}
+                    className="px-3.5 py-1.5 rounded-full bg-white/10 hover:bg-white/20 text-white text-xs font-mono font-bold shrink-0"
+                  >
+                    + Add App
+                  </button>
                 </div>
               </div>
             </div>
@@ -255,7 +345,7 @@ export function JoinerWizardPage() {
 
             <AccessDiff
               delta={{
-                granted: calculatedGroups,
+                granted: selectedGroups,
                 revoked: [],
                 unchanged: ["okta-mfa-enforced", "google-workspace-user"],
               }}

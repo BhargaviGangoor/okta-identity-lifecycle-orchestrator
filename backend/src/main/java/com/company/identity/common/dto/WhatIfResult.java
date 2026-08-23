@@ -14,6 +14,9 @@ import java.util.List;
  */
 public class WhatIfResult {
 
+    /** Unique identifier for this simulation instance. */
+    public String simulationId;
+
     /** Okta user ID from the original request. */
     public String userId;
 

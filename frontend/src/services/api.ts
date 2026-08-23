@@ -3,6 +3,8 @@ import {
   simulations as initialSimulations,
   drift as initialDrift,
   auditEvents as initialAudit,
+  GROUP_CATALOG,
+  APP_CATALOG,
 } from "./mock-data";
 import type {
   AuditEvent,
@@ -10,6 +12,9 @@ import type {
   Simulation,
   User,
   Impact,
+  GraphData,
+  GraphNode,
+  GraphEdge,
 } from "./types";
 import { apiFetch, ENDPOINTS, API_BASE_URL } from "../lib/api-client";
 
@@ -21,25 +26,77 @@ let currentAudit: AuditEvent[] = [...initialAudit];
 
 const delay = (ms = 60) => new Promise((resolve) => setTimeout(resolve, ms));
 
+export function computeUserRisk(department: string, role: string, groupsCount: number, appsCount: number): number {
+  let score = 15;
+  const d = (department || "").toLowerCase();
+  const r = (role || "").toLowerCase();
+
+  if (d.includes("sec") || d.includes("it")) score += 30;
+  else if (d.includes("eng") || d.includes("dev")) score += 20;
+  else if (d.includes("fin")) score += 25;
+  else if (d.includes("sales")) score += 10;
+  else if (d.includes("legal")) score += 15;
+
+  if (
+    r.includes("admin") ||
+    r.includes("lead") ||
+    r.includes("architect") ||
+    r.includes("principal") ||
+    r.includes("director") ||
+    r.includes("head") ||
+    r.includes("vp")
+  ) {
+    score += 30;
+  } else if (r.includes("senior") || r.includes("manager") || r.includes("staff") || r.includes("partner")) {
+    score += 18;
+  } else if (r.includes("intern") || r.includes("associate")) {
+    score -= 8;
+  }
+
+  score += groupsCount * 6 + appsCount * 4;
+  return Math.min(95, Math.max(12, score));
+}
+
+function resolveUserEntitlements(department: string, existingGroups?: string[], existingApps?: string[]) {
+  const dept = department || "Engineering";
+  const defaultGroups = (GROUP_CATALOG as Record<string, string[]>)[dept] || ["okta-general-all", "google-workspace-user"];
+  const defaultApps = (APP_CATALOG as Record<string, string[]>)[dept] || ["Google Workspace", "Slack", "Zoom"];
+
+  const groups = Array.isArray(existingGroups) && existingGroups.length > 0 ? existingGroups : defaultGroups;
+  const apps = Array.isArray(existingApps) && existingApps.length > 0 ? existingApps : defaultApps;
+
+  return { groups, apps };
+}
+
 // ── GET /api/users ────────────────────────────────────────────────
 export async function getUsers(): Promise<User[]> {
   const remote = await apiFetch<User[]>(ENDPOINTS.users);
   if (remote && Array.isArray(remote)) {
-    return remote.map((u: any) => ({
-      id: u.id || u.userId || u.employeeId || `usr_${Math.floor(100 + Math.random() * 900)}`,
-      name: u.name || `${u.firstName || ""} ${u.lastName || ""}`.trim() || "Unknown User",
-      email: u.email || "",
-      title: u.title || u.role || "Team Member",
-      department: u.department || "General",
-      manager: u.manager || "—",
-      location: u.location || "Global",
-      status: (u.status as User["status"]) || "ACTIVE",
-      riskScore: typeof u.riskScore === "number" ? u.riskScore : 20,
-      groups: Array.isArray(u.groups) ? u.groups : [],
-      apps: Array.isArray(u.apps) ? u.apps : [],
-      lastLogin: u.lastLogin || new Date().toISOString(),
-      startDate: u.startDate || "2024-01-01",
-    }));
+    return remote.map((u: any) => {
+      const dept = u.department || "General";
+      const title = u.title || u.role || "Team Member";
+      const { groups, apps } = resolveUserEntitlements(dept, u.groups, u.apps);
+      const computedRisk =
+        typeof u.riskScore === "number" && u.riskScore > 0
+          ? u.riskScore
+          : computeUserRisk(dept, title, groups.length, apps.length);
+
+      return {
+        id: u.id || u.userId || u.employeeId || `usr_${Math.floor(100 + Math.random() * 900)}`,
+        name: u.name || `${u.firstName || ""} ${u.lastName || ""}`.trim() || "Unknown User",
+        email: u.email || "",
+        title,
+        department: dept,
+        manager: u.manager || "—",
+        location: u.location || "Global",
+        status: (u.status as User["status"]) || "ACTIVE",
+        riskScore: computedRisk,
+        groups,
+        apps,
+        lastLogin: u.lastLogin || new Date().toISOString(),
+        startDate: u.startDate || "2024-01-01",
+      };
+    });
   }
   await delay();
   return [...currentUsers];
@@ -50,18 +107,26 @@ export async function getUser(id: string): Promise<User | undefined> {
   const remote = await apiFetch<User>(ENDPOINTS.user(id));
   if (remote) {
     const u: any = remote;
+    const dept = u.department || "General";
+    const title = u.title || u.role || "Team Member";
+    const { groups, apps } = resolveUserEntitlements(dept, u.groups, u.apps);
+    const computedRisk =
+      typeof u.riskScore === "number" && u.riskScore > 0
+        ? u.riskScore
+        : computeUserRisk(dept, title, groups.length, apps.length);
+
     return {
       id: u.id || u.userId || u.employeeId || id,
       name: u.name || `${u.firstName || ""} ${u.lastName || ""}`.trim() || "Unknown User",
       email: u.email || "",
-      title: u.title || u.role || "Team Member",
-      department: u.department || "General",
+      title,
+      department: dept,
       manager: u.manager || "—",
       location: u.location || "Global",
       status: (u.status as User["status"]) || "ACTIVE",
-      riskScore: typeof u.riskScore === "number" ? u.riskScore : 20,
-      groups: Array.isArray(u.groups) ? u.groups : [],
-      apps: Array.isArray(u.apps) ? u.apps : [],
+      riskScore: computedRisk,
+      groups,
+      apps,
       lastLogin: u.lastLogin || new Date().toISOString(),
       startDate: u.startDate || "2024-01-01",
     };
@@ -100,8 +165,32 @@ export async function createJoiner(data: {
     body: JSON.stringify(payload),
   });
   if (remote) {
-    currentSimulations = [remote, ...currentSimulations];
-    return remote;
+    const raw: any = remote;
+    const sim: Simulation = {
+      id: raw.id || raw.userId || `sim_${Math.floor(1000 + Math.random() * 9000)}`,
+      kind: "JOINER",
+      subject: data.name || raw.name || `${raw.firstName || ""} ${raw.lastName || ""}`.trim(),
+      subjectEmail: data.email || raw.email || "",
+      summary: `New hire, ${data.title} (${data.department}) — starts ${data.startDate}`,
+      risk: "LOW",
+      riskScore: 18,
+      requiresApproval: false,
+      status: "APPROVED",
+      createdAt: new Date().toISOString(),
+      delta: {
+        granted: [`okta-${data.department.toLowerCase().replace(/\s+/g, "")}-all`, "google-workspace-user"],
+        revoked: [],
+        unchanged: [],
+      },
+      impact: {
+        groups: 2,
+        apps: 3,
+        privileged: 0,
+        notes: ["Created and provisioned in Okta."],
+      },
+    };
+    currentSimulations = [sim, ...currentSimulations];
+    return sim;
   }
   await delay(100);
   const newSim: Simulation = {
@@ -239,13 +328,52 @@ export async function simulate(data: {
   action: string;
   targetRole?: string;
 }): Promise<Simulation> {
-  const remote = await apiFetch<Simulation>(ENDPOINTS.whatIf, {
+  let actionEnum = "DEACTIVATE";
+  const a = data.action.toUpperCase();
+  if (a.includes("UNSUSPEND") || a.includes("RE-ENABLE")) {
+    actionEnum = "UNSUSPEND";
+  } else if (a.includes("SUSPEND") || a.includes("FREEZE")) {
+    actionEnum = "SUSPEND";
+  } else if (a.includes("ACTIVATE") || a.includes("GRANT") || a.includes("ADD") || a.includes("ASSIGN")) {
+    actionEnum = "ACTIVATE";
+  } else if (a.includes("DEACTIVATE") || a.includes("REVOKE") || a.includes("OFFBOARD")) {
+    actionEnum = "DEACTIVATE";
+  }
+
+  const remote = await apiFetch<any>(ENDPOINTS.whatIf, {
     method: "POST",
-    body: JSON.stringify(data),
+    body: JSON.stringify({
+      userId: data.userId,
+      action: actionEnum,
+    }),
   });
   if (remote) {
-    currentSimulations = [remote, ...currentSimulations];
-    return remote;
+    const raw: any = remote;
+    const sim: Simulation = {
+      id: raw.simulationId || `sim_${Math.floor(1000 + Math.random() * 9000)}`,
+      kind: "WHATIF",
+      subject: raw.userId || data.userId,
+      subjectEmail: "",
+      summary: `Simulation: ${data.action} on ${raw.userId || data.userId}`,
+      risk: (raw.riskLevel as "LOW" | "MEDIUM" | "HIGH" | "CRITICAL") || "HIGH",
+      riskScore: raw.riskLevel === "HIGH" ? 78 : raw.riskLevel === "MEDIUM" ? 50 : 20,
+      requiresApproval: raw.riskLevel === "HIGH" || raw.riskLevel === "MEDIUM",
+      status: "PENDING",
+      createdAt: new Date().toISOString(),
+      delta: {
+        granted: raw.accessEffect?.gains || raw.affectedGroups || [],
+        revoked: raw.accessEffect?.loses || [],
+        unchanged: [],
+      },
+      impact: {
+        groups: Array.isArray(raw.affectedGroups) ? raw.affectedGroups.length : 0,
+        apps: Array.isArray(raw.affectedApplications) ? raw.affectedApplications.length : 0,
+        privileged: raw.riskLevel === "HIGH" ? 1 : 0,
+        notes: raw.reasons || ["Impact analysis projected successfully."],
+      },
+    };
+    currentSimulations = [sim, ...currentSimulations];
+    return sim;
   }
   await delay(120);
   const user = currentUsers.find((u) => u.id === data.userId);
@@ -333,15 +461,31 @@ export async function reject(simulationId: string): Promise<Simulation | null> {
 
 // ── POST /api/execution/{simulationId} ────────────────────────────
 export async function execute(simulationId: string): Promise<Simulation | null> {
-  const remote = await apiFetch<Simulation>(ENDPOINTS.execute(simulationId), {
+  const remote = await apiFetch<any>(ENDPOINTS.execute(simulationId), {
     method: "POST",
   });
-  if (remote) return remote;
-  await delay(100);
   const sim = currentSimulations.find((s) => s.id === simulationId);
   if (sim) {
     sim.status = "EXECUTED";
   }
+  if (remote) {
+    if (sim) return sim;
+    return {
+      id: simulationId,
+      kind: "WHATIF",
+      subject: remote.userId || "Identity",
+      subjectEmail: "",
+      summary: remote.message || "Executed",
+      risk: "LOW",
+      riskScore: 20,
+      requiresApproval: false,
+      status: "EXECUTED",
+      createdAt: new Date().toISOString(),
+      delta: { granted: [], revoked: [], unchanged: [] },
+      impact: { groups: 0, apps: 0, privileged: 0, notes: [] },
+    };
+  }
+  await delay(100);
   return sim || null;
 }
 
@@ -393,3 +537,185 @@ export async function exportUsers(): Promise<string> {
     .join("\n");
   return header + rows;
 }
+
+// ── GET /api/graph ────────────────────────────────────────────────
+export async function getGraphData(params?: { userId?: string; department?: string }): Promise<GraphData> {
+  const queryParts: string[] = [];
+  if (params?.userId) queryParts.push(`userId=${encodeURIComponent(params.userId)}`);
+  if (params?.department && params.department !== "ALL") queryParts.push(`department=${encodeURIComponent(params.department)}`);
+  const query = queryParts.join("&");
+
+  try {
+    const remote = await apiFetch<GraphData>(ENDPOINTS.graph(query));
+    if (remote && Array.isArray(remote.nodes) && remote.nodes.length > 0) {
+      return remote;
+    }
+  } catch (err) {
+    console.warn("[IAM Graph] Remote graph fetch fallback:", err);
+  }
+
+  // Fallback: build graph using live Okta identities
+  const liveUsers = await getUsers();
+  const sourceUsers = (liveUsers && liveUsers.length > 0) ? liveUsers : currentUsers;
+
+  const filteredUsers = sourceUsers.filter((u) => {
+    if (params?.userId && u.id !== params.userId) return false;
+    if (params?.department && params.department !== "ALL" && u.department !== params.department) return false;
+    return true;
+  });
+
+  const nodes: GraphNode[] = [];
+  const edges: GraphEdge[] = [];
+  const groupSet = new Set<string>();
+  const appSet = new Set<string>();
+  const groupAppMap: Record<string, string[]> = {};
+
+  // Standard RBAC group to app catalog
+  const catalogForDept = (dept: string): { groups: string[]; apps: string[] } => {
+    const d = dept.toLowerCase();
+    if (d.includes("eng") || d.includes("dev")) {
+      return {
+        groups: ["okta-engineering-all", "aws-developers", "github-committers"],
+        apps: ["AWS Production", "GitHub Enterprise", "Jira Software", "Datadog Monitoring"],
+      };
+    }
+    if (d.includes("sec")) {
+      return {
+        groups: ["okta-security-all", "security-super-admins"],
+        apps: ["AWS Production", "Okta Admin Console", "CrowdStrike Falcon", "Splunk SIEM"],
+      };
+    }
+    if (d.includes("fin")) {
+      return {
+        groups: ["okta-finance-all", "netsuite-auditors"],
+        apps: ["Finance-Reporting", "Workday HR", "Salesforce CRM", "Expensify"],
+      };
+    }
+    if (d.includes("sales")) {
+      return {
+        groups: ["okta-sales-all", "salesforce-standard-users"],
+        apps: ["Salesforce CRM", "HubSpot", "Slack Workspace", "Google Workspace"],
+      };
+    }
+    if (d.includes("it") || d.includes("ops")) {
+      return {
+        groups: ["okta-it-all", "helpdesk-tier2"],
+        apps: ["Google Workspace", "Slack Workspace", "Jira Service Desk", "Zoom Enterprise"],
+      };
+    }
+    return {
+      groups: [`okta-${d.replace(/[^a-z0-9]/g, "") || "general"}-all`],
+      apps: ["Google Workspace", "Slack Workspace", "Workday HR"],
+    };
+  };
+
+  const appCriticalityMap: Record<string, "HIGH" | "MEDIUM" | "LOW"> = {
+    "AWS Production": "HIGH",
+    "Okta Admin Console": "HIGH",
+    "CrowdStrike Falcon": "HIGH",
+    "Splunk SIEM": "HIGH",
+    "Finance-Reporting": "HIGH",
+    "Salesforce CRM": "HIGH",
+    "Workday HR": "HIGH",
+    "AWS Staging": "MEDIUM",
+    "GitHub Enterprise": "MEDIUM",
+    "Datadog Monitoring": "MEDIUM",
+    "Google Workspace": "MEDIUM",
+    "Jira Software": "LOW",
+    "Slack Workspace": "LOW",
+    "Jira Service Desk": "LOW",
+    "Zoom Enterprise": "LOW",
+    "Expensify": "LOW",
+    "HubSpot": "LOW",
+  };
+
+  for (const user of filteredUsers) {
+    const deptInfo = catalogForDept(user.department || "General");
+    const userGroups = user.groups && user.groups.length > 0 ? user.groups : deptInfo.groups;
+    const userApps = user.apps && user.apps.length > 0 ? user.apps : deptInfo.apps;
+
+    nodes.push({
+      id: user.id,
+      label: user.name,
+      type: "USER",
+      department: user.department,
+      role: user.title,
+      status: user.status,
+      riskScore: user.riskScore || 25,
+      criticality: "NONE",
+    });
+
+    for (const group of userGroups) {
+      groupSet.add(group);
+      edges.push({
+        id: `${user.id}->${group}`,
+        source: user.id,
+        target: group,
+        relationship: "MEMBER_OF",
+      });
+
+      if (!groupAppMap[group]) {
+        groupAppMap[group] = deptInfo.apps;
+      }
+    }
+
+    for (const app of userApps) {
+      appSet.add(app);
+    }
+  }
+
+  for (const group of groupSet) {
+    nodes.push({
+      id: group,
+      label: group,
+      type: "GROUP",
+      department: "Directory",
+      role: "Okta Group",
+      status: "ACTIVE",
+      riskScore: 10,
+      criticality: "NONE",
+    });
+
+    const appsForGroup = groupAppMap[group] || ["Google Workspace", "Slack Workspace"];
+    for (const app of appsForGroup) {
+      appSet.add(app);
+      edges.push({
+        id: `${group}->${app}`,
+        source: group,
+        target: app,
+        relationship: "GRANTS_ACCESS",
+      });
+    }
+  }
+
+  for (const app of appSet) {
+    const crit = appCriticalityMap[app] || "MEDIUM";
+    nodes.push({
+      id: app,
+      label: app,
+      type: "APPLICATION",
+      department: "SSO",
+      role: "Target System",
+      status: "ACTIVE",
+      riskScore: crit === "HIGH" ? 80 : crit === "MEDIUM" ? 40 : 15,
+      criticality: crit,
+    });
+  }
+
+  const highCriticalityApps = nodes.filter((n) => n.type === "APPLICATION" && n.criticality === "HIGH").length;
+
+  return {
+    nodes,
+    edges,
+    metrics: {
+      totalUsers: filteredUsers.length,
+      totalGroups: groupSet.size,
+      totalApplications: appSet.size,
+      totalNodes: nodes.length,
+      totalEdges: edges.length,
+      highCriticalityApps,
+    },
+  };
+}
+
+

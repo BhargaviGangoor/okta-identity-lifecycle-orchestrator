@@ -123,6 +123,24 @@ public class OktaUserClient {
         );
     }
 
+    public void suspendUser(String userId) throws Exception {
+        validateUserId(userId);
+        oktaClient.post(
+                "/api/v1/users/"
+                        + userId
+                        + "/lifecycle/suspend"
+        );
+    }
+
+    public void unsuspendUser(String userId) throws Exception {
+        validateUserId(userId);
+        oktaClient.post(
+                "/api/v1/users/"
+                        + userId
+                        + "/lifecycle/unsuspend"
+        );
+    }
+
     private User mapUser(JsonNode userNode) {
 
         User user = new User();
@@ -154,13 +172,13 @@ public class OktaUserClient {
                 profile.path("email").asText("");
 
         user.employeeId =
-                profile.path("employeeId").asText("");
+                profile.hasNonNull("employeeNumber") ? profile.path("employeeNumber").asText("") : profile.path("employeeId").asText("");
 
         user.department =
                 profile.path("department").asText("");
 
         user.role =
-                profile.path("role").asText("");
+                profile.hasNonNull("title") ? profile.path("title").asText("") : profile.path("role").asText("");
 
         return user;
     }
@@ -192,25 +210,16 @@ public class OktaUserClient {
         profile.put("email", user.email);
         profile.put("login", user.email);
 
-        if (user.employeeId != null) {
-            profile.put(
-                    "employeeId",
-                    user.employeeId
-            );
+        if (user.employeeId != null && !user.employeeId.isBlank()) {
+            profile.put("employeeNumber", user.employeeId);
         }
 
-        if (user.department != null) {
-            profile.put(
-                    "department",
-                    user.department
-            );
+        if (user.department != null && !user.department.isBlank()) {
+            profile.put("department", user.department);
         }
 
-        if (user.role != null) {
-            profile.put(
-                    "role",
-                    user.role
-            );
+        if (user.role != null && !user.role.isBlank()) {
+            profile.put("title", user.role);
         }
 
         var requestBody =
