@@ -7,6 +7,7 @@ import { UserTable } from "../components/UserTable";
 import { useToast } from "../components/Toast";
 import { Link } from "@tanstack/react-router";
 import { DataStreamBackground } from "../components/backgrounds/DataStreamBackground";
+import { UnifiedPageBackground } from "../components/backgrounds/UnifiedPageBackground";
 
 export const Route = createFileRoute("/users")({
   component: UsersPage,
@@ -51,7 +52,7 @@ export function UsersPage() {
 
   return (
     <div className="space-y-6 animate-in fade-in duration-200 relative">
-      <DataStreamBackground />
+      <UnifiedPageBackground mode="stream" accentColor="#D4E84A" />
       {/* Hero Panel */}
       <section className="bg-gradient-to-r from-[#121316]/50 via-[#181920]/40 to-[#121316]/50 backdrop-blur-md rounded-[32px] p-6 sm:p-8 border border-white/10 text-white flex flex-col md:flex-row items-start md:items-center justify-between gap-5 shadow-[0_8px_30px_rgba(0,0,0,0.3)] card-interactive relative overflow-hidden">
         <div className="space-y-2.5 relative z-10">

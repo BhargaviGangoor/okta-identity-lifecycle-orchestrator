@@ -20,6 +20,7 @@ import { RiskBadge } from "../components/RiskBadge";
 import { AccessDiff } from "../components/AccessDiff";
 import { useToast } from "../components/Toast";
 import { DissolveBackground } from "../components/backgrounds/DissolveBackground";
+import { UnifiedPageBackground } from "../components/backgrounds/UnifiedPageBackground";
 
 export const Route = createFileRoute("/leaver")({
   component: LeaverDeprovisionPage,
@@ -90,7 +91,7 @@ export function LeaverDeprovisionPage() {
 
   return (
     <div className="space-y-6 max-w-4xl mx-auto animate-in fade-in duration-200 relative">
-      <DissolveBackground />
+      <UnifiedPageBackground mode="dissolve" accentColor="#D4E84A" />
       {/* Hero Panel */}
       <section className="bg-gradient-to-r from-[#121316]/90 via-[#181920]/90 to-[#121316]/90 backdrop-blur-xl rounded-[32px] p-6 sm:p-8 border border-white/15 text-white flex items-center justify-between shadow-[0_12px_40px_rgba(0,0,0,0.6)] card-interactive hover-glow-orange relative overflow-hidden">
         <div className="absolute -top-24 -left-24 w-48 h-48 bg-[#E8703A]/10 rounded-full blur-3xl pointer-events-none"></div>
