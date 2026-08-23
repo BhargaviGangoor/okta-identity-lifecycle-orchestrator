@@ -126,12 +126,10 @@ function RootComponent() {
           {/* Quick-Nav Right Arrow & Spinwheel Dock */}
           <CyberSpinWheelNav />
 
-          {/* Main Layout Area — overarching frosted glass card containing Navbar and all platform tools */}
-          <div className="w-full max-w-[1600px] mx-auto bg-[#0B0C10]/85 backdrop-blur-xl rounded-[36px] border border-white/15 p-4 sm:p-6 md:p-8 shadow-[0_25px_60px_rgba(0,0,0,0.85)] flex flex-col flex-1 min-h-[calc(100vh-2.5rem)] relative z-10 space-y-6">
+          {/* Main Content Area — deep high-contrast backdrop so background animation glows organically without washing out text */}
+          <div className="w-full max-w-[1600px] mx-auto bg-[#0B0C10]/92 backdrop-blur-2xl text-white rounded-[28px] sm:rounded-[36px] p-3 sm:p-6 md:p-7 shadow-[0_0_100px_rgba(0,0,0,0.95)] border border-white/20 flex flex-col flex-1 min-h-[calc(100vh-2.5rem)] relative z-10">
             <Navbar />
-
-            {/* Content Area */}
-            <main className="flex-1 w-full">
+            <main className="flex-1 w-full mt-4">
               <Outlet />
             </main>
           </div>
