@@ -449,17 +449,17 @@ export function TeamEchoEditorialExperience() {
               <span>IDENTITY GOVERNANCE FOR OKTA</span>
             </div>
 
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.1] text-slate-100">
-              <span ref={headlineLine1Ref} className="block">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.08] text-white">
+              <span ref={headlineLine1Ref} className="block font-extrabold">
                 There Is a
               </span>
               <span ref={headlineLine2Ref} className="inline-flex items-center gap-3 flex-wrap my-1">
-                <span className="inline-flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 shadow-md border border-white/20 shrink-0">
-                  <Lock className="w-5 h-5 sm:w-6 sm:h-6 text-white stroke-[2]" />
+                <span className="inline-flex items-center justify-center w-11 h-11 sm:w-13 sm:h-13 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 shadow-md border border-white/20 shrink-0">
+                  <Lock className="w-5 h-5 sm:w-6 sm:h-6 text-white stroke-[2.5]" />
                 </span>
-                <span className="text-slate-100">Better Way</span>
+                <span className="text-white font-extrabold">Better Way</span>
               </span>
-              <span ref={headlineLine3Ref} className="block text-slate-200">
+              <span ref={headlineLine3Ref} className="block text-white font-extrabold">
                 to Govern Identity.
               </span>
             </h1>
