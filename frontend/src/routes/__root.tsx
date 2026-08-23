@@ -4,6 +4,7 @@ import {
   Link,
   createRootRouteWithContext,
   useRouter,
+  useRouterState,
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
@@ -12,8 +13,12 @@ import { type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { Navbar } from "../components/Navbar";
 import { ToastProvider } from "../components/Toast";
-import { LivingMeshBackground } from "../components/LivingMeshBackground";
 import { CyberSpinWheelNav } from "../components/CyberSpinWheelNav";
+import { HolographicCyberCityBackground } from "../components/backgrounds/HolographicCyberCityBackground";
+import { QuantumNebulaBackground } from "../components/backgrounds/QuantumNebulaBackground";
+import { ElectricLightningBackground } from "../components/backgrounds/ElectricLightningBackground";
+import { PlasmaRibbonBackground } from "../components/backgrounds/PlasmaRibbonBackground";
+import { HyperspaceWarpBackground } from "../components/backgrounds/HyperspaceWarpBackground";
 
 function NotFoundComponent() {
   return (
@@ -114,17 +119,26 @@ function RootShell({ children }: { children: ReactNode }) {
 }
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const routerState = useRouterState();
+  const pathname = routerState.location.pathname;
 
   return (
     <QueryClientProvider client={queryClient}>
       <ToastProvider>
-        {/* Full-bleed dark backdrop frame */}
-        <div className="min-h-screen min-h-[100dvh] bg-[#08090C] p-2 sm:p-4 md:p-6 flex flex-col justify-start selection:bg-[#D4E84A] selection:text-[#0E0E0E] relative overflow-x-hidden w-full">
+        {/* Dynamic Global Root-Level Canvas Background (Always 100vw x 100vh on scroll) */}
+        {pathname === "/" && <HolographicCyberCityBackground />}
+        {(pathname === "/users" || pathname === "/graph") && <QuantumNebulaBackground />}
+        {(pathname === "/joiner" || pathname === "/whatif") && <ElectricLightningBackground />}
+        {(pathname === "/mover" || pathname === "/audit") && <PlasmaRibbonBackground />}
+        {(pathname === "/leaver" || pathname === "/drift") && <HyperspaceWarpBackground />}
+
+        {/* Full-bleed transparent outer frame */}
+        <div className="min-h-screen min-h-[100dvh] bg-transparent p-2 sm:p-4 md:p-6 flex flex-col justify-start selection:bg-[#D4E84A] selection:text-[#0E0E0E] relative overflow-x-hidden w-full z-10">
           {/* Quick-Nav Right Arrow & Spinwheel Dock */}
           <CyberSpinWheelNav />
 
-          {/* Main Content Area — airy translucent frosted glass frame allowing animated living mesh to shine through clearly */}
-          <div className="w-full max-w-[1600px] mx-auto bg-[#0B0C10]/15 backdrop-blur-sm text-white rounded-[20px] sm:rounded-[28px] md:rounded-[36px] p-3 sm:p-5 md:p-7 shadow-[0_8px_32px_rgba(0,0,0,0.25)] border border-white/10 flex flex-col flex-1 min-h-[calc(100vh-2rem)] min-h-[calc(100dvh-2rem)] relative z-10">
+          {/* Main Content Area — maximum-translucency glass frame so animated canvas shines through on all scroll positions */}
+          <div className="w-full max-w-[1600px] mx-auto glass-card text-white rounded-[20px] sm:rounded-[28px] md:rounded-[36px] p-3 sm:p-5 md:p-7 shadow-[0_8px_48px_rgba(0,0,0,0.35)] flex flex-col flex-1 min-h-[calc(100vh-2rem)] min-h-[calc(100dvh-2rem)] relative z-10">
             <Navbar />
             <main className="flex-1 w-full mt-3 sm:mt-4">
               <Outlet />
