@@ -1,26 +1,86 @@
 import { useState } from "react";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { ArrowRight, ArrowLeft, CheckCircle2, Sparkles, UserPlus } from "lucide-react";
+import {
+  ArrowRight,
+  ArrowLeft,
+  CheckCircle2,
+  Sparkles,
+  UserPlus,
+  Layers,
+  AppWindow,
+  ShieldCheck,
+  ShieldAlert,
+  User,
+  Mail,
+  MapPin,
+  Briefcase,
+  Calendar,
+  Zap,
+  Check,
+  Plus,
+  X,
+} from "lucide-react";
 import { createJoiner } from "../services/api";
 import { DEPARTMENTS, GROUP_CATALOG, APP_CATALOG } from "../services/mock-data";
 import { AccessDiff } from "../components/AccessDiff";
 import { RiskBadge } from "../components/RiskBadge";
 import type { Simulation } from "../services/types";
+import { useToast } from "../components/Toast";
 
 export const Route = createFileRoute("/joiner")({
   component: JoinerWizardPage,
 });
 
+interface PresetTemplate {
+  name: string;
+  department: string;
+  title: string;
+  manager: string;
+  location: string;
+}
+
+const PRESET_TEMPLATES: PresetTemplate[] = [
+  {
+    name: "Alex Thorne",
+    department: "Engineering",
+    title: "Senior Backend Engineer",
+    manager: "Dana Whitfield",
+    location: "San Francisco, CA (Hybrid)",
+  },
+  {
+    name: "Elena Rostova",
+    department: "Finance",
+    title: "FinOps Lead Analyst",
+    manager: "Grace Lindqvist",
+    location: "New York, NY (Remote)",
+  },
+  {
+    name: "Marcus Vance",
+    department: "Sales",
+    title: "Enterprise Account Executive",
+    manager: "Devin Brooks",
+    location: "London, UK (Hybrid)",
+  },
+  {
+    name: "Priya Sharma",
+    department: "IT",
+    title: "IAM Security Administrator",
+    manager: "Victor Chen",
+    location: "Bengaluru, IN (Remote)",
+  },
+];
+
 export function JoinerWizardPage() {
   const navigate = useNavigate();
+  const { success, error } = useToast();
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
+    name: "Alex Thorne",
+    email: "alex.thorne@company.com",
     department: "Engineering",
-    title: "Software Engineer",
+    title: "Senior Backend Engineer",
     manager: "Dana Whitfield",
-    location: "Bengaluru, IN",
+    location: "San Francisco, CA (Hybrid)",
     startDate: "2026-09-01",
   });
   const [createdSim, setCreatedSim] = useState<Simulation | null>(null);
@@ -34,6 +94,22 @@ export function JoinerWizardPage() {
   );
   const [newGroupInput, setNewGroupInput] = useState("");
   const [newAppInput, setNewAppInput] = useState("");
+
+  const handleApplyPreset = (tpl: PresetTemplate) => {
+    const email = `${tpl.name.toLowerCase().replace(/\s+/g, ".")}@company.com`;
+    setFormData({
+      ...formData,
+      name: tpl.name,
+      email,
+      department: tpl.department,
+      title: tpl.title,
+      manager: tpl.manager,
+      location: tpl.location,
+    });
+    setSelectedGroups(GROUP_CATALOG[tpl.department] || []);
+    setSelectedApps(APP_CATALOG[tpl.department] || []);
+    success("Applied Template", `Pre-filled form with ${tpl.title} (${tpl.department}) parameters.`);
+  };
 
   const handleDepartmentChange = (dept: string) => {
     setFormData({ ...formData, department: dept });
@@ -69,9 +145,16 @@ export function JoinerWizardPage() {
   const handleSubmit = async () => {
     setLoading(true);
     try {
-      const sim = await createJoiner(formData);
+      const sim = await createJoiner({
+        ...formData,
+        groups: selectedGroups,
+        apps: selectedApps,
+      });
       setCreatedSim(sim);
       setStep(4);
+      success("Identity Provisioned in Okta", `Created ${formData.name} with ${selectedGroups.length} birthright groups.`);
+    } catch (err: any) {
+      error("Provisioning Failed", err?.message || "Failed to create joiner identity.");
     } finally {
       setLoading(false);
     }
@@ -80,83 +163,127 @@ export function JoinerWizardPage() {
   return (
     <div className="space-y-6 max-w-4xl mx-auto animate-in fade-in duration-200">
       {/* Hero Panel */}
-      <section className="bg-[#F7F4EE] rounded-[32px] p-6 sm:p-8 border border-black/10 text-[#0E0E0E] flex items-center justify-between">
-        <div className="space-y-2">
-          <div className="text-[11px] font-mono font-bold tracking-[0.2em] text-[#8E8E86] uppercase">
-            01 / LIFECYCLE ONBOARDING
+      <section className="bg-gradient-to-r from-[#121316]/90 via-[#181920]/90 to-[#121316]/90 backdrop-blur-xl rounded-[32px] p-6 sm:p-8 border border-white/15 text-white flex items-center justify-between shadow-[0_12px_40px_rgba(0,0,0,0.6)] card-interactive hover-glow-lime relative overflow-hidden">
+        <div className="absolute -top-24 -left-24 w-48 h-48 bg-[#D4E84A]/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div className="space-y-2.5 relative z-10">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[11px] font-mono font-bold tracking-[0.2em] text-[#D4E84A] uppercase shadow-xs">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#D4E84A] animate-pulse"></span>
+            <span>01 / LIFECYCLE ONBOARDING</span>
           </div>
-          <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight leading-tight">
-            Joiner Provisioning
+          <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-white leading-tight">
+            Joiner Provisioning Wizard
           </h1>
-          <p className="text-xs sm:text-[13px] text-[#666] leading-[1.65] max-w-lg">
+          <p className="text-xs sm:text-[13px] text-neutral-300 leading-[1.65] max-w-xl font-light">
             Birthright entitlement computation, duplicate identity validation, and automated SSO application bundle staging.
           </p>
         </div>
-        <div className="w-12 h-12 rounded-[16px] bg-[#0E0E0E] text-[#D4E84A] hidden sm:flex items-center justify-center font-bold shadow-md">
-          <UserPlus className="w-6 h-6" />
+        <div className="w-14 h-14 rounded-[20px] bg-[#141416] text-[#D4E84A] border border-white/15 hidden sm:flex items-center justify-center font-bold shadow-lg hover:scale-105 transition-transform relative z-10">
+          <UserPlus className="w-7 h-7" />
         </div>
       </section>
 
       {/* Step Progress Pills */}
-      <div className="grid grid-cols-3 gap-3">
+      <div className="grid grid-cols-4 gap-2 text-xs font-mono">
         {[
-          { num: "01", title: "Identity Details" },
-          { num: "02", title: "Birthright Policy" },
-          { num: "03", title: "Review & Commit" },
-        ].map((s, idx) => (
-          <div
-            key={s.num}
-            className={`p-4 rounded-[22px] border transition-all ${
-              step === idx + 1
-                ? "bg-[#D4E84A] text-[#0E0E0E] border-[#D4E84A] font-bold shadow-sm"
-                : step > idx + 1
-                ? "bg-[#1b1b1b] text-neutral-200 border-white/10"
-                : "bg-[#141414] text-[#8E8E86] border-white/5"
-            }`}
-          >
-            <div className="flex items-center justify-between text-[10px] font-mono uppercase">
-              <span>Step {s.num}</span>
-              {step > idx + 1 && <CheckCircle2 className="w-3.5 h-3.5 text-[#D4E84A]" />}
+          { num: "01", label: "Identity Profile" },
+          { num: "02", label: "Entitlements" },
+          { num: "03", label: "Pre-Flight Review" },
+          { num: "04", label: "Okta Sealed" },
+        ].map((st, idx) => {
+          const stepNum = idx + 1;
+          const isActive = step === stepNum;
+          const isDone = step > stepNum;
+          return (
+            <div
+              key={st.num}
+              className={`p-3 rounded-[16px] border flex items-center gap-2 transition-all card-interactive ${
+                isActive
+                  ? "bg-[#141414] border-[#D4E84A] text-white shadow-lg hover-glow-lime"
+                  : isDone
+                  ? "bg-[#141414] border-white/20 text-[#D4E84A]"
+                  : "bg-[#141414]/50 border-white/5 text-neutral-500"
+              }`}
+            >
+              <div
+                className={`w-6 h-6 rounded-full flex items-center justify-center font-bold text-[10px] ${
+                  isActive
+                    ? "bg-[#D4E84A] text-[#141414]"
+                    : isDone
+                    ? "bg-[#D4E84A]/20 text-[#D4E84A]"
+                    : "bg-white/10 text-neutral-400"
+                }`}
+              >
+                {isDone ? <Check className="w-3 h-3 stroke-[3]" /> : st.num}
+              </div>
+              <span className="truncate hidden sm:inline">{st.label}</span>
             </div>
-            <div className="text-xs font-bold mt-0.5 truncate">{s.title}</div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
-      {/* Wizard Body */}
-      <section className="bg-[#141414] rounded-[32px] p-6 sm:p-8 border border-white/10 space-y-6 shadow-xl">
+      {/* Wizard Steps */}
+      <div className="bg-[#141414] rounded-[32px] p-6 sm:p-8 border border-white/10 shadow-xl space-y-6 card-interactive">
+        {/* Step 1: Profile & Presets */}
         {step === 1 && (
-          <div className="space-y-5">
-            <h2 className="text-base font-bold text-white flex items-center gap-2">
-              <span className="text-[#D4E84A] font-mono">01.</span> Candidate Profile Information
-            </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="space-y-1.5">
-                <label className="text-[11px] font-mono uppercase text-[#8A8A82]">Full Name</label>
+          <div className="space-y-6 animate-in fade-in duration-150">
+            {/* Quick Templates Bar */}
+            <div className="bg-[#1b1b1b] p-4 rounded-[20px] border border-white/10 space-y-2.5">
+              <div className="flex items-center gap-2">
+                <Zap className="w-3.5 h-3.5 text-[#D4E84A]" />
+                <span className="text-[11px] font-mono font-bold uppercase text-[#D4E84A]">
+                  Quick Role Templates
+                </span>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {PRESET_TEMPLATES.map((tpl) => (
+                  <button
+                    key={tpl.name}
+                    onClick={() => handleApplyPreset(tpl)}
+                    className="px-3.5 py-1.5 rounded-full bg-[#141414] hover:bg-[#252525] border border-white/10 hover:border-[#D4E84A]/50 text-xs text-neutral-300 hover:text-white transition-all flex items-center gap-1.5 btn-interactive shadow-xs"
+                  >
+                    <span className="font-bold text-white">{tpl.title}</span>
+                    <span className="text-[10px] font-mono text-[#8E8E86]">({tpl.department})</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Profile Form */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+              <div>
+                <label className="text-[11px] font-mono uppercase text-[#8E8E86] block mb-1.5 font-bold">
+                  Full Name
+                </label>
                 <input
                   type="text"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  placeholder="e.g. Maya Chen"
-                  className="w-full bg-[#1b1b1b] text-white px-4 py-2.5 rounded-[14px] text-xs border border-white/10 focus:outline-none focus:border-[#D4E84A]"
+                  className="w-full bg-[#1b1b1b] text-white p-3 rounded-[16px] border border-white/10 focus:outline-none focus:border-[#D4E84A] hover:border-white/30 transition-colors font-sans"
+                  placeholder="e.g. Sarah Chen"
                 />
               </div>
-              <div className="space-y-1.5">
-                <label className="text-[11px] font-mono uppercase text-[#8A8A82]">Email Address</label>
+
+              <div>
+                <label className="text-[11px] font-mono uppercase text-[#8E8E86] block mb-1.5 font-bold">
+                  Company Email
+                </label>
                 <input
                   type="email"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  placeholder="e.g. maya.chen@northwind.io"
-                  className="w-full bg-[#1b1b1b] text-white px-4 py-2.5 rounded-[14px] text-xs border border-white/10 focus:outline-none focus:border-[#D4E84A]"
+                  className="w-full bg-[#1b1b1b] text-white p-3 rounded-[16px] border border-white/10 focus:outline-none focus:border-[#D4E84A] hover:border-white/30 transition-colors font-sans"
+                  placeholder="e.g. sarah.chen@company.com"
                 />
               </div>
-              <div className="space-y-1.5">
-                <label className="text-[11px] font-mono uppercase text-[#8A8A82]">Department</label>
+
+              <div>
+                <label className="text-[11px] font-mono uppercase text-[#8E8E86] block mb-1.5 font-bold">
+                  Department
+                </label>
                 <select
                   value={formData.department}
                   onChange={(e) => handleDepartmentChange(e.target.value)}
-                  className="w-full bg-[#1b1b1b] text-white px-4 py-2.5 rounded-[14px] text-xs border border-white/10 focus:outline-none focus:border-[#D4E84A]"
+                  className="w-full bg-[#1b1b1b] text-white p-3 rounded-[16px] border border-white/10 focus:outline-none focus:border-[#D4E84A] hover:border-white/30 transition-colors font-sans cursor-pointer"
                 >
                   {DEPARTMENTS.map((dept) => (
                     <option key={dept} value={dept}>
@@ -165,196 +292,248 @@ export function JoinerWizardPage() {
                   ))}
                 </select>
               </div>
-              <div className="space-y-1.5">
-                <label className="text-[11px] font-mono uppercase text-[#8A8A82]">Job Title</label>
+
+              <div>
+                <label className="text-[11px] font-mono uppercase text-[#8E8E86] block mb-1.5 font-bold">
+                  Job Title
+                </label>
                 <input
                   type="text"
                   value={formData.title}
                   onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                  placeholder="e.g. Security Architect"
-                  className="w-full bg-[#1b1b1b] text-white px-4 py-2.5 rounded-[14px] text-xs border border-white/10 focus:outline-none focus:border-[#D4E84A]"
+                  className="w-full bg-[#1b1b1b] text-white p-3 rounded-[16px] border border-white/10 focus:outline-none focus:border-[#D4E84A] hover:border-white/30 transition-colors font-sans"
+                  placeholder="e.g. Software Engineer II"
                 />
               </div>
-              <div className="space-y-1.5">
-                <label className="text-[11px] font-mono uppercase text-[#8A8A82]">Manager</label>
+
+              <div>
+                <label className="text-[11px] font-mono uppercase text-[#8E8E86] block mb-1.5 font-bold">
+                  Reporting Manager
+                </label>
                 <input
                   type="text"
                   value={formData.manager}
                   onChange={(e) => setFormData({ ...formData, manager: e.target.value })}
-                  placeholder="e.g. Aisha Bello"
-                  className="w-full bg-[#1b1b1b] text-white px-4 py-2.5 rounded-[14px] text-xs border border-white/10 focus:outline-none focus:border-[#D4E84A]"
+                  className="w-full bg-[#1b1b1b] text-white p-3 rounded-[16px] border border-white/10 focus:outline-none focus:border-[#D4E84A] hover:border-white/30 transition-colors font-sans"
+                  placeholder="e.g. Dana Whitfield"
                 />
               </div>
-              <div className="space-y-1.5">
-                <label className="text-[11px] font-mono uppercase text-[#8A8A82]">Start Date</label>
+
+              <div>
+                <label className="text-[11px] font-mono uppercase text-[#8E8E86] block mb-1.5 font-bold">
+                  Work Location & Onboarding Date
+                </label>
                 <input
-                  type="date"
-                  value={formData.startDate}
-                  onChange={(e) => setFormData({ ...formData, startDate: e.target.value })}
-                  className="w-full bg-[#1b1b1b] text-white px-4 py-2.5 rounded-[14px] text-xs border border-white/10 focus:outline-none focus:border-[#D4E84A]"
+                  type="text"
+                  value={formData.location}
+                  onChange={(e) => setFormData({ ...formData, location: e.target.value })}
+                  className="w-full bg-[#1b1b1b] text-white p-3 rounded-[16px] border border-white/10 focus:outline-none focus:border-[#D4E84A] hover:border-white/30 transition-colors font-sans"
+                  placeholder="e.g. San Francisco HQ (Hybrid)"
                 />
               </div>
             </div>
 
-            <div className="flex justify-end pt-3">
+            <div className="flex justify-end pt-4">
               <button
                 onClick={handleNext}
                 disabled={!formData.name || !formData.email}
-                className="px-5 py-2.5 rounded-full bg-[#D4E84A] hover:bg-[#c2d73b] disabled:opacity-50 text-[#141414] font-mono text-xs font-black flex items-center gap-2"
+                className="px-6 py-2.5 rounded-full bg-[#D4E84A] hover:bg-[#c2d73b] text-[#0E0E0E] font-mono text-xs font-black flex items-center gap-2 shadow-md btn-interactive disabled:opacity-50"
               >
-                <span>CONTINUE TO POLICY</span>
-                <ArrowRight className="w-3.5 h-3.5" />
+                <span>CONTINUE TO ENTITLEMENTS</span>
+                <ArrowRight className="w-3.5 h-3.5 stroke-[2.5]" />
               </button>
             </div>
           </div>
         )}
 
+        {/* Step 2: Entitlement & App Bundle Builder */}
         {step === 2 && (
-          <div className="space-y-5">
-            <div className="flex items-center justify-between">
-              <h2 className="text-base font-bold text-white flex items-center gap-2">
-                <span className="text-[#D4E84A] font-mono">02.</span> Tailor Entitlements & Application Access
-              </h2>
-              <span className="text-[11px] font-mono text-[#8E8E86]">Click &times; to remove or add custom below</span>
-            </div>
-
-            <div className="space-y-4">
-              {/* Groups Management */}
-              <div className="bg-[#1b1b1b] p-4 rounded-[18px] border border-white/10 space-y-3">
-                <div className="flex items-center justify-between">
-                  <span className="text-[10px] font-mono uppercase text-[#D4E84A] font-bold">
-                    Okta Group Memberships ({selectedGroups.length})
+          <div className="space-y-6 animate-in fade-in duration-150">
+            {/* Birthright Okta Groups */}
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Layers className="w-4 h-4 text-[#D4E84A]" />
+                  <span className="text-xs font-mono font-bold uppercase text-white">
+                    Computed Birthright Groups ({selectedGroups.length})
                   </span>
                 </div>
-                <div className="flex flex-wrap gap-1.5 min-h-[32px]">
-                  {selectedGroups.map((g) => (
-                    <span
-                      key={g}
-                      className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono bg-[#141414] text-neutral-200 border border-white/10 group"
-                    >
-                      <span>{g}</span>
-                      <button
-                        type="button"
-                        onClick={() => handleRemoveGroup(g)}
-                        className="text-[#8E8E86] hover:text-[#E8703A] text-xs font-bold transition-colors ml-0.5"
-                        title="Remove group"
-                      >
-                        &times;
-                      </button>
-                    </span>
-                  ))}
-                </div>
-                <div className="flex items-center gap-2 pt-1 border-t border-white/5">
-                  <input
-                    type="text"
-                    value={newGroupInput}
-                    onChange={(e) => setNewGroupInput(e.target.value)}
-                    onKeyDown={(e) => e.key === "Enter" && (e.preventDefault(), handleAddGroup())}
-                    placeholder="Add custom group (e.g. sec-analysts-l2)..."
-                    className="flex-1 bg-[#141414] text-white px-3 py-1.5 rounded-full text-xs border border-white/10 focus:outline-none focus:border-[#D4E84A] font-mono"
-                  />
-                  <button
-                    type="button"
-                    onClick={handleAddGroup}
-                    className="px-3.5 py-1.5 rounded-full bg-white/10 hover:bg-white/20 text-white text-xs font-mono font-bold shrink-0"
-                  >
-                    + Add Group
-                  </button>
-                </div>
+                <span className="text-[10px] font-mono text-[#D4E84A]">AUTONOMOUS POLICY</span>
               </div>
 
-              {/* SSO Applications Management */}
-              <div className="bg-[#1b1b1b] p-4 rounded-[18px] border border-white/10 space-y-3">
-                <div className="flex items-center justify-between">
-                  <span className="text-[10px] font-mono uppercase text-[#D4E84A] font-bold">
-                    SSO Application Tiles ({selectedApps.length})
-                  </span>
-                </div>
-                <div className="flex flex-wrap gap-1.5 min-h-[32px]">
-                  {selectedApps.map((a) => (
-                    <span
-                      key={a}
-                      className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono bg-[#D4E84A]/10 text-[#D4E84A] border border-[#D4E84A]/25 group"
-                    >
-                      <span>{a}</span>
-                      <button
-                        type="button"
-                        onClick={() => handleRemoveApp(a)}
-                        className="text-[#D4E84A]/60 hover:text-[#E8703A] text-xs font-bold transition-colors ml-0.5"
-                        title="Remove application"
-                      >
-                        &times;
-                      </button>
-                    </span>
-                  ))}
-                </div>
-                <div className="flex items-center gap-2 pt-1 border-t border-white/5">
-                  <input
-                    type="text"
-                    value={newAppInput}
-                    onChange={(e) => setNewAppInput(e.target.value)}
-                    onKeyDown={(e) => e.key === "Enter" && (e.preventDefault(), handleAddApp())}
-                    placeholder="Add custom app (e.g. Datadog, Splunk)..."
-                    className="flex-1 bg-[#141414] text-white px-3 py-1.5 rounded-full text-xs border border-white/10 focus:outline-none focus:border-[#D4E84A] font-mono"
-                  />
-                  <button
-                    type="button"
-                    onClick={handleAddApp}
-                    className="px-3.5 py-1.5 rounded-full bg-white/10 hover:bg-white/20 text-white text-xs font-mono font-bold shrink-0"
+              <div className="flex flex-wrap gap-2">
+                {selectedGroups.map((grp) => (
+                  <span
+                    key={grp}
+                    className="px-3.5 py-1.5 rounded-full text-xs font-mono bg-[#D4E84A]/10 text-[#D4E84A] border border-[#D4E84A]/30 flex items-center gap-1.5 font-bold hover:bg-[#D4E84A]/20 transition-all btn-interactive"
                   >
-                    + Add App
-                  </button>
-                </div>
+                    <span>{grp}</span>
+                    <button
+                      onClick={() => handleRemoveGroup(grp)}
+                      className="hover:text-white p-0.5 rounded-full"
+                    >
+                      <X className="w-3 h-3" />
+                    </button>
+                  </span>
+                ))}
+              </div>
+
+              <div className="flex gap-2 max-w-sm pt-1">
+                <input
+                  type="text"
+                  value={newGroupInput}
+                  onChange={(e) => setNewGroupInput(e.target.value)}
+                  onKeyDown={(e) => e.key === "Enter" && handleAddGroup()}
+                  placeholder="+ Add custom group..."
+                  className="flex-1 bg-[#1b1b1b] text-white px-3.5 py-1.5 rounded-full text-xs border border-white/10 focus:outline-none focus:border-[#D4E84A] hover:border-white/30 transition-colors font-mono"
+                />
+                <button
+                  onClick={handleAddGroup}
+                  className="px-4 py-1.5 rounded-full bg-[#1b1b1b] hover:bg-neutral-800 text-[#D4E84A] text-xs font-mono font-bold border border-white/10 btn-interactive"
+                >
+                  ADD
+                </button>
               </div>
             </div>
 
-            <div className="flex items-center justify-between pt-3">
+            {/* SaaS Applications Staging */}
+            <div className="space-y-3 pt-3 border-t border-white/10">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <AppWindow className="w-4 h-4 text-cyan-400" />
+                  <span className="text-xs font-mono font-bold uppercase text-white">
+                    Provisioned SaaS Tiles ({selectedApps.length})
+                  </span>
+                </div>
+                <span className="text-[10px] font-mono text-cyan-400">SAML 2.0 / OIDC</span>
+              </div>
+
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
+                {selectedApps.map((app) => (
+                  <div
+                    key={app}
+                    className="p-3.5 rounded-[16px] bg-[#1b1b1b] border border-white/10 flex items-center justify-between gap-2 text-xs card-interactive hover-glow-cyan"
+                  >
+                    <span className="font-bold text-white truncate">{app}</span>
+                    <button
+                      onClick={() => handleRemoveApp(app)}
+                      className="text-neutral-500 hover:text-red-400 p-1"
+                    >
+                      <X className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                ))}
+              </div>
+
+              <div className="flex gap-2 max-w-sm pt-1">
+                <input
+                  type="text"
+                  value={newAppInput}
+                  onChange={(e) => setNewAppInput(e.target.value)}
+                  onKeyDown={(e) => e.key === "Enter" && handleAddApp()}
+                  placeholder="+ Add custom application tile..."
+                  className="flex-1 bg-[#1b1b1b] text-white px-3.5 py-1.5 rounded-full text-xs border border-white/10 focus:outline-none focus:border-cyan-400 hover:border-white/30 transition-colors font-mono"
+                />
+                <button
+                  onClick={handleAddApp}
+                  className="px-4 py-1.5 rounded-full bg-[#1b1b1b] hover:bg-neutral-800 text-cyan-400 text-xs font-mono font-bold border border-white/10 btn-interactive"
+                >
+                  ADD
+                </button>
+              </div>
+            </div>
+
+            <div className="flex justify-between pt-4 border-t border-white/10">
               <button
                 onClick={handlePrev}
-                className="px-4 py-2 rounded-full bg-[#1b1b1b] hover:bg-neutral-800 text-white font-mono text-xs font-bold flex items-center gap-2"
+                className="px-5 py-2 rounded-full border border-white/20 text-neutral-300 hover:bg-white/5 font-mono text-xs flex items-center gap-2 btn-interactive"
               >
                 <ArrowLeft className="w-3.5 h-3.5" />
                 <span>BACK</span>
               </button>
               <button
                 onClick={handleNext}
-                className="px-5 py-2.5 rounded-full bg-[#D4E84A] hover:bg-[#c2d73b] text-[#141414] font-mono text-xs font-black flex items-center gap-2"
+                className="px-6 py-2.5 rounded-full bg-[#D4E84A] hover:bg-[#c2d73b] text-[#0E0E0E] font-mono text-xs font-black flex items-center gap-2 shadow-md btn-interactive"
               >
-                <span>REVIEW & SUBMIT</span>
-                <ArrowRight className="w-3.5 h-3.5" />
+                <span>PRE-FLIGHT REVIEW</span>
+                <ArrowRight className="w-3.5 h-3.5 stroke-[2.5]" />
               </button>
             </div>
           </div>
         )}
 
+        {/* Step 3: Pre-Flight Review */}
         {step === 3 && (
-          <div className="space-y-5">
-            <h2 className="text-base font-bold text-white flex items-center gap-2">
-              <span className="text-[#D4E84A] font-mono">03.</span> Final Review & Simulation Delta
-            </h2>
+          <div className="space-y-6 animate-in fade-in duration-150">
+            {/* Identity Summary Card */}
+            <div className="bg-[#1b1b1b] p-5 rounded-[24px] border border-white/10 space-y-3 card-interactive hover-glow-lime">
+              <div className="flex items-center justify-between border-b border-white/10 pb-3">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-[12px] bg-[#D4E84A] text-[#0E0E0E] flex items-center justify-center font-black font-mono">
+                    {formData.name.slice(0, 2).toUpperCase()}
+                  </div>
+                  <div>
+                    <h3 className="text-base font-bold text-white">{formData.name}</h3>
+                    <p className="text-xs text-[#8E8E86] font-mono">{formData.email}</p>
+                  </div>
+                </div>
+                <RiskBadge level="LOW" score={12} />
+              </div>
 
-            <div className="bg-[#1b1b1b] p-4 rounded-[18px] border border-white/10 flex items-center justify-between">
-              <div>
-                <div className="text-sm font-bold text-white">{formData.name}</div>
-                <div className="text-xs text-[#8A8A82] font-mono">
-                  {formData.email} · {formData.department} ({formData.title})
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs pt-1">
+                <div className="bg-[#141414] p-2.5 rounded-[12px] border border-white/5">
+                  <span className="text-[10px] font-mono text-[#8E8E86] block">DEPARTMENT</span>
+                  <span className="font-bold text-white mt-0.5 block">{formData.department}</span>
+                </div>
+                <div className="bg-[#141414] p-2.5 rounded-[12px] border border-white/5">
+                  <span className="text-[10px] font-mono text-[#8E8E86] block">TITLE</span>
+                  <span className="font-bold text-white mt-0.5 block truncate">{formData.title}</span>
+                </div>
+                <div className="bg-[#141414] p-2.5 rounded-[12px] border border-white/5">
+                  <span className="text-[10px] font-mono text-[#8E8E86] block">MANAGER</span>
+                  <span className="font-bold text-white mt-0.5 block">{formData.manager}</span>
+                </div>
+                <div className="bg-[#141414] p-2.5 rounded-[12px] border border-white/5">
+                  <span className="text-[10px] font-mono text-[#8E8E86] block">LOCATION</span>
+                  <span className="font-bold text-white mt-0.5 block truncate">{formData.location}</span>
                 </div>
               </div>
-              <RiskBadge level="LOW" score={18} />
             </div>
 
-            <AccessDiff
-              delta={{
-                granted: selectedGroups,
-                revoked: [],
-                unchanged: ["okta-mfa-enforced", "google-workspace-user"],
-              }}
-            />
+            {/* Access Diff Preview */}
+            <div className="space-y-2">
+              <span className="text-xs font-mono uppercase font-bold text-[#8E8E86]">
+                Birthright Provisioning Delta
+              </span>
+              <AccessDiff
+                delta={{
+                  granted: selectedGroups,
+                  revoked: [],
+                  unchanged: [],
+                }}
+              />
+            </div>
 
-            <div className="flex items-center justify-between pt-3">
+            {/* Pre-Flight Checklist */}
+            <div className="bg-[#181818] p-4 rounded-[20px] border border-white/10 space-y-2 text-xs card-interactive">
+              <div className="text-[10px] font-mono font-bold uppercase text-[#D4E84A]">
+                Pre-Flight Automated Checks
+              </div>
+              <div className="flex items-center gap-2 text-neutral-300">
+                <Check className="w-3.5 h-3.5 text-[#D4E84A]" /> Okta user directory duplicate check: 0 collisions found
+              </div>
+              <div className="flex items-center gap-2 text-neutral-300">
+                <Check className="w-3.5 h-3.5 text-[#D4E84A]" /> Toxic Segregation-of-Duties (SoD) boundary verified: 0 risks
+              </div>
+              <div className="flex items-center gap-2 text-neutral-300">
+                <Check className="w-3.5 h-3.5 text-[#D4E84A]" /> Automated Welcome & MFA enrollment push staged
+              </div>
+            </div>
+
+            <div className="flex justify-between pt-4 border-t border-white/10">
               <button
                 onClick={handlePrev}
-                className="px-4 py-2 rounded-full bg-[#1b1b1b] hover:bg-neutral-800 text-white font-mono text-xs font-bold flex items-center gap-2"
+                className="px-5 py-2 rounded-full border border-white/20 text-neutral-300 hover:bg-white/5 font-mono text-xs flex items-center gap-2 btn-interactive"
               >
                 <ArrowLeft className="w-3.5 h-3.5" />
                 <span>BACK</span>
@@ -362,56 +541,57 @@ export function JoinerWizardPage() {
               <button
                 onClick={handleSubmit}
                 disabled={loading}
-                className="px-6 py-2.5 rounded-full bg-[#D4E84A] hover:bg-[#c2d73b] text-[#141414] font-mono text-xs font-black flex items-center gap-2 shadow-sm"
+                className="px-8 py-2.5 rounded-full bg-[#D4E84A] hover:bg-[#c2d73b] text-[#0E0E0E] font-mono text-xs font-black flex items-center gap-2 shadow-lg btn-interactive"
               >
-                <Sparkles className="w-3.5 h-3.5" />
-                <span>{loading ? "PROVISIONING..." : "CONFIRM & CREATE JOINER"}</span>
+                <UserPlus className="w-4 h-4" />
+                <span>{loading ? "PROVISIONING IN OKTA..." : "AUTHORIZE & CREATE USER"}</span>
               </button>
             </div>
           </div>
         )}
 
+        {/* Step 4: Completion & Sealed Result */}
         {step === 4 && createdSim && (
-          <div className="space-y-5 text-center py-6">
-            <div className="w-14 h-14 rounded-full bg-[#D4E84A] text-[#141414] flex items-center justify-center mx-auto shadow-md">
-              <CheckCircle2 className="w-7 h-7 stroke-[2.5]" />
+          <div className="text-center space-y-6 py-4 animate-in zoom-in-95 duration-150">
+            <div className="w-16 h-16 rounded-full bg-[#D4E84A] text-[#0E0E0E] flex items-center justify-center mx-auto shadow-[0_0_24px_rgba(212,232,74,0.4)] hover:scale-110 transition-transform">
+              <CheckCircle2 className="w-8 h-8 stroke-[2.5]" />
             </div>
-            <div className="space-y-1">
-              <span className="font-mono text-xs font-bold text-[#D4E84A]">{createdSim.id}</span>
-              <h2 className="text-xl font-extrabold text-white">Joiner Simulation Created</h2>
-              <p className="text-xs text-[#8A8A82] max-w-sm mx-auto leading-relaxed">
-                Identity for <span className="text-white font-bold">{formData.name}</span> staged in orchestrator queue.
+
+            <div className="space-y-2">
+              <div className="flex items-center justify-center gap-2">
+                <span className="font-mono text-xs font-bold text-[#D4E84A]">{createdSim.id}</span>
+                <span className="text-[10px] font-mono bg-white/10 px-2.5 py-0.5 rounded-full text-white">
+                  OKTA REST HTTP 201
+                </span>
+              </div>
+              <h2 className="text-2xl font-black text-white">Identity Provisioned Successfully</h2>
+              <p className="text-xs text-[#8E8E86] max-w-md mx-auto leading-relaxed">
+                Created worker account for <span className="text-white font-bold">{formData.name}</span> with{" "}
+                <span className="text-[#D4E84A] font-bold">{selectedGroups.length} birthright groups</span> and{" "}
+                <span className="text-white font-bold">{selectedApps.length} SaaS applications</span>.
               </p>
             </div>
 
-            <div className="flex justify-center gap-3 pt-3">
+            <div className="flex flex-wrap justify-center gap-3 pt-3">
               <button
                 onClick={() => {
-                  setFormData({
-                    name: "",
-                    email: "",
-                    department: "Engineering",
-                    title: "Software Engineer",
-                    manager: "Dana Whitfield",
-                    location: "Bengaluru, IN",
-                    startDate: "2026-09-01",
-                  });
                   setStep(1);
+                  setCreatedSim(null);
                 }}
-                className="px-4 py-2 rounded-full bg-[#1b1b1b] hover:bg-neutral-800 text-white font-mono text-xs font-bold"
+                className="px-5 py-2.5 rounded-full bg-[#1b1b1b] hover:bg-neutral-800 text-white font-mono text-xs font-bold btn-interactive border border-white/10"
               >
-                ONBOARD ANOTHER
+                PROVISION ANOTHER HIRE
               </button>
               <button
-                onClick={() => navigate({ to: "/" })}
-                className="px-5 py-2 rounded-full bg-[#D4E84A] text-[#141414] font-mono text-xs font-black"
+                onClick={() => navigate({ to: "/users" })}
+                className="px-6 py-2.5 rounded-full bg-[#D4E84A] hover:bg-[#c2d73b] text-[#0E0E0E] font-mono text-xs font-black shadow-md btn-interactive"
               >
-                RETURN TO DASHBOARD
+                VIEW IN DIRECTORY
               </button>
             </div>
           </div>
         )}
-      </section>
+      </div>
     </div>
   );
 }
