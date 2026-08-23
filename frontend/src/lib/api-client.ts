@@ -11,7 +11,9 @@
  */
 
 export const API_BASE_URL = (
-  (import.meta.env as Record<string, string | undefined>)["VITE_API_BASE_URL"] || ""
+  (import.meta.env as Record<string, string | undefined>)["VITE_API_BASE_URL"] ||
+  (import.meta.env as Record<string, string | undefined>)["VITE_API_URL"] ||
+  ""
 ).replace(/\/$/, "");
 
 /** True when a real backend URL has been configured */
