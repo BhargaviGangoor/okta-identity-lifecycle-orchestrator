@@ -15,7 +15,7 @@
 
 | Service | Environment | URL |
 | :--- | :--- | :--- |
-| **🎨 Web Application (Console)** | Vercel Production | [https://okta-identity-lifecycle-orchestrator-ixa14lyhd.vercel.app/]https://okta-identity-lifecycle-orchestrator-ixa14lyhd.vercel.app/) |
+| **🎨 Web Application (Console)** | Vercel Production | [https://okta-identity-lifecycle-orchestrator-ixa14lyhd.vercel.app/](https://okta-identity-lifecycle-orchestrator-ixa14lyhd.vercel.app/) |
 | **⚙️ REST API Root** | Render Web Service | [https://okta-identity-lifecycle-orchestrator.onrender.com/api](https://okta-identity-lifecycle-orchestrator.onrender.com/api) |
 | **🩺 Health Check API** | Render Web Service | [https://okta-identity-lifecycle-orchestrator.onrender.com/api/health](https://okta-identity-lifecycle-orchestrator.onrender.com/api/health) |
 | **👥 Users Directory API** | Render Web Service | [https://okta-identity-lifecycle-orchestrator.onrender.com/api/users](https://okta-identity-lifecycle-orchestrator.onrender.com/api/users) |
