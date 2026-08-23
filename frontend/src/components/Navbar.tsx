@@ -1,11 +1,36 @@
 import { useState, useEffect } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
-import { ChevronDown, ArrowRight, Menu, X } from "lucide-react";
+import {
+  ChevronDown,
+  ArrowRight,
+  Menu,
+  X,
+  Search,
+  Check,
+  Globe,
+  Radio,
+  Sparkles,
+  Volume2,
+  VolumeX,
+} from "lucide-react";
+import { CommandPalette } from "./CommandPalette";
+import { useToast } from "./Toast";
+import { cyberSound } from "../utils/cyberSound";
 
 export function Navbar() {
   const routerState = useRouterState();
   const pathname = routerState.location.pathname;
+  const { info } = useToast();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [commandPaletteOpen, setCommandPaletteOpen] = useState(false);
+  const [envDropdownOpen, setEnvDropdownOpen] = useState(false);
+  const [soundMuted, setSoundMuted] = useState(cyberSound.isMuted());
+  const [currentEnv, setCurrentEnv] = useState({
+    name: "Okta Prod-US",
+    region: "us-east-1",
+    status: "HEALTHY",
+    latency: "24ms",
+  });
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -16,7 +41,29 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // All 8 Primary Lifecycle Navigation Items directly in Main Navbar
+  // Global keyboard shortcut for ⌘K / Ctrl+K
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        setCommandPaletteOpen((prev) => !prev);
+        cyberSound.playClick();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
+  const handleToggleSound = () => {
+    const newMuted = cyberSound.toggleMute();
+    setSoundMuted(newMuted);
+    if (!newMuted) {
+      info("Cyber Sound Effects Enabled", "Synthesized Web Audio UI feedback active.");
+    } else {
+      info("Audio Muted", "Interface sound effects muted.");
+    }
+  };
+
   const navItems = [
     { to: "/", label: "Overview" },
     { to: "/users", label: "Identities" },
@@ -29,98 +76,204 @@ export function Navbar() {
     { to: "/audit", label: "Audit" },
   ];
 
+  const environments = [
+    { name: "Okta Prod-US", region: "us-east-1", status: "HEALTHY", latency: "24ms" },
+    { name: "Okta Preview (Sandbox)", region: "us-west-2", status: "HEALTHY", latency: "38ms" },
+    { name: "Okta EU-Staging", region: "eu-central-1", status: "HEALTHY", latency: "82ms" },
+  ];
+
   return (
-    <header
-      className={`w-full flex items-center justify-between gap-4 px-3 sticky top-2 z-50 transition-all duration-300 ${
-        scrolled
-          ? "py-2 bg-[#141414]/90 backdrop-blur-md rounded-[24px] border border-white/10 shadow-xl"
-          : "py-3 bg-transparent"
-      }`}
-    >
-      {/* Left: TEAM ECHO logo */}
-      <Link to="/" className="flex items-center gap-2.5 shrink-0 group">
-        <div className="w-8 h-8 rounded-[10px] border border-white/20 bg-black flex items-center justify-center p-1 group-hover:scale-105 transition-transform shadow-xs">
-          <div className="w-2.5 h-2.5 rounded-[2px] bg-[#D4E84A] shadow-[0_0_8px_#D4E84A] group-hover:shadow-[0_0_12px_#D4E84A] transition-shadow"></div>
-        </div>
-        <div className="flex items-baseline gap-1.5">
-          <span className="font-extrabold tracking-tight text-white text-lg font-sans">TEAM ECHO</span>
-          <span className="text-[10px] font-mono text-[#8E8E86] tracking-widest uppercase">/ IAM</span>
-        </div>
-      </Link>
-
-      {/* Center: Editorial floating pill nav bar with all lifecycle modules */}
-      <nav className="hidden lg:flex items-center gap-1 bg-[#FAF8F5] text-[#0E0E0E] px-3.5 py-1.5 rounded-full shadow-lg border border-white/20">
-        {navItems.map((item) => {
-          const isActive = pathname === item.to || (item.to !== "/" && pathname.startsWith(item.to));
-          return (
-            <Link
-              key={item.to}
-              to={item.to}
-              className={`text-[12px] font-semibold px-3 py-1 rounded-full transition-all duration-200 relative ${
-                isActive
-                  ? "bg-[#0E0E0E] text-white font-bold shadow-xs"
-                  : "text-[#555] hover:text-[#0E0E0E] hover:bg-black/5"
-              }`}
-            >
-              <span>{item.label}</span>
-              {isActive && (
-                <span className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-1 h-1 rounded-full bg-[#D4E84A]"></span>
-              )}
-            </Link>
-          );
-        })}
-      </nav>
-
-      {/* Right: Environment dropdown + Simulate CTA + Mobile Menu Button */}
-      <div className="flex items-center gap-2.5 shrink-0">
-        <div className="hidden sm:flex items-center gap-1.5 bg-[#141414] border border-white/20 hover:border-white/40 px-3.5 py-1.5 rounded-full text-xs text-white cursor-pointer transition-colors font-medium">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#D4E84A] animate-pulse"></span>
-          <span className="text-[11px] font-mono">Okta Prod-US</span>
-          <ChevronDown className="w-3.5 h-3.5 text-neutral-400" />
-        </div>
-
+    <>
+      <header
+        className={`w-full flex items-center justify-between gap-3 px-3 sticky top-2 z-50 transition-all duration-300 ${
+          scrolled
+            ? "py-2 bg-[#141416]/95 backdrop-blur-md rounded-[24px] border border-white/15 shadow-2xl"
+            : "py-3 bg-transparent"
+        }`}
+      >
+        {/* Left: TEAM ECHO logo */}
         <Link
-          to="/whatif"
-          className="hidden md:flex items-center gap-2 bg-[#141414] hover:bg-white hover:text-[#0E0E0E] border border-white/30 hover:border-white px-4 py-1.5 rounded-full text-xs font-semibold text-white transition-all duration-200 shadow-xs group"
+          to="/"
+          onMouseEnter={() => cyberSound.playHover()}
+          onClick={() => cyberSound.playClick()}
+          className="flex items-center gap-2.5 shrink-0 group"
         >
-          <div className="w-4 h-4 rounded-full bg-white text-[#0E0E0E] group-hover:bg-[#0E0E0E] group-hover:text-white flex items-center justify-center transition-colors">
-            <ArrowRight className="w-2.5 h-2.5 stroke-[2.5] group-hover:translate-x-0.5 transition-transform" />
+          <div className="w-8 h-8 rounded-[10px] border border-white/20 bg-black flex items-center justify-center p-1 group-hover:scale-105 transition-transform shadow-xs">
+            <div className="w-2.5 h-2.5 rounded-[2px] bg-[#D4E84A] shadow-[0_0_8px_#D4E84A] group-hover:shadow-[0_0_14px_#D4E84A] transition-shadow"></div>
           </div>
-          <span>Simulate Access</span>
+          <div className="flex items-baseline gap-1.5">
+            <span className="font-black tracking-tight text-white text-lg font-sans">TEAM ECHO</span>
+            <span className="text-[10px] font-mono text-[#8E8E86] tracking-widest uppercase">/ IAM</span>
+          </div>
         </Link>
 
-        {/* Mobile menu hamburger toggle */}
-        <button
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="lg:hidden w-8 h-8 rounded-full bg-[#1b1b1b] border border-white/20 flex items-center justify-center text-white"
-          aria-label="Toggle Navigation Menu"
-        >
-          {mobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
-        </button>
-      </div>
-
-      {/* Mobile Navigation Dropdown */}
-      {mobileMenuOpen && (
-        <div className="absolute top-full left-0 right-0 mt-2 bg-[#141414] border border-white/15 rounded-[24px] p-4 shadow-2xl flex flex-col gap-1.5 lg:hidden animate-in fade-in slide-in-from-top-2 duration-150 z-50">
+        {/* Center: Editorial floating pill nav bar */}
+        <nav className="hidden xl:flex items-center gap-1 bg-[#FAF8F5] text-[#0E0E0E] px-3.5 py-1.5 rounded-full shadow-lg border border-white/20">
           {navItems.map((item) => {
             const isActive = pathname === item.to || (item.to !== "/" && pathname.startsWith(item.to));
             return (
               <Link
                 key={item.to}
                 to={item.to}
-                onClick={() => setMobileMenuOpen(false)}
-                className={`px-4 py-2.5 rounded-[14px] text-xs font-medium transition-colors ${
+                onMouseEnter={() => cyberSound.playHover()}
+                onClick={() => cyberSound.playClick()}
+                className={`text-[12px] font-semibold px-3 py-1 rounded-full transition-all duration-200 relative ${
                   isActive
-                    ? "bg-[#D4E84A] text-[#0E0E0E] font-bold"
-                    : "text-neutral-300 hover:bg-white/5"
+                    ? "bg-[#0E0E0E] text-white font-bold shadow-xs"
+                    : "text-[#555] hover:text-[#0E0E0E] hover:bg-black/5"
                 }`}
               >
-                {item.label}
+                <span>{item.label}</span>
+                {isActive && (
+                  <span className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-1 h-1 rounded-full bg-[#D4E84A]"></span>
+                )}
               </Link>
             );
           })}
+        </nav>
+
+        {/* Right: Sound Toggle + Spotlight ⌘K + Environment Switcher + CTA */}
+        <div className="flex items-center gap-2 shrink-0">
+          {/* Audio Synthesizer Toggle */}
+          <button
+            onClick={handleToggleSound}
+            className={`w-8 h-8 rounded-full border flex items-center justify-center transition-all ${
+              !soundMuted
+                ? "bg-[#D4E84A]/15 border-[#D4E84A]/40 text-[#D4E84A] shadow-[0_0_12px_rgba(212,232,74,0.3)] hover:scale-105"
+                : "bg-[#1b1b1b] border-white/10 text-neutral-400 hover:text-white"
+            }`}
+            title={soundMuted ? "Enable Cyber Sound Effects" : "Mute Sound Effects"}
+          >
+            {!soundMuted ? <Volume2 className="w-3.5 h-3.5" /> : <VolumeX className="w-3.5 h-3.5" />}
+          </button>
+
+          {/* Quick Search Button */}
+          <button
+            onClick={() => {
+              setCommandPaletteOpen(true);
+              cyberSound.playClick();
+            }}
+            onMouseEnter={() => cyberSound.playHover()}
+            className="flex items-center gap-2 bg-[#1b1b1b] hover:bg-[#252525] border border-white/15 hover:border-white/30 px-3 py-1.5 rounded-full text-xs text-neutral-300 transition-all group btn-interactive"
+            title="Search Actions & Identities (⌘K)"
+          >
+            <Search className="w-3.5 h-3.5 text-[#D4E84A]" />
+            <span className="hidden sm:inline font-sans text-[11px]">Quick Find</span>
+            <kbd className="text-[9px] font-mono text-neutral-400 bg-white/10 px-1.5 py-0.5 rounded ml-1">
+              ⌘K
+            </kbd>
+          </button>
+
+          {/* Environment dropdown */}
+          <div className="relative hidden md:block">
+            <button
+              onClick={() => {
+                setEnvDropdownOpen(!envDropdownOpen);
+                cyberSound.playClick();
+              }}
+              onMouseEnter={() => cyberSound.playHover()}
+              className="flex items-center gap-1.5 bg-[#141414] hover:bg-[#1f1f1f] border border-white/20 hover:border-white/40 px-3 py-1.5 rounded-full text-xs text-white cursor-pointer transition-colors font-medium btn-interactive"
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-[#D4E84A] animate-pulse"></span>
+              <span className="text-[11px] font-mono">{currentEnv.name}</span>
+              <ChevronDown className="w-3.5 h-3.5 text-neutral-400" />
+            </button>
+
+            {envDropdownOpen && (
+              <div
+                className="absolute right-0 mt-2 w-64 bg-[#181818] border border-white/15 rounded-[20px] p-2 shadow-2xl z-50 animate-in fade-in zoom-in-95 duration-150 card-interactive"
+                onClick={() => setEnvDropdownOpen(false)}
+              >
+                <div className="px-3 py-1.5 text-[10px] font-mono text-[#8E8E86] uppercase tracking-wider">
+                  Target Okta Tenant
+                </div>
+                {environments.map((env) => (
+                  <button
+                    key={env.name}
+                    onClick={() => {
+                      setCurrentEnv(env);
+                      cyberSound.playSuccess();
+                      info("Switched Okta Environment", `Active tenant changed to ${env.name}`);
+                    }}
+                    onMouseEnter={() => cyberSound.playHover()}
+                    className={`w-full text-left px-3 py-2 rounded-[12px] flex items-center justify-between text-xs transition-colors ${
+                      currentEnv.name === env.name
+                        ? "bg-[#D4E84A] text-[#0E0E0E] font-bold shadow-xs"
+                        : "text-neutral-300 hover:bg-white/5"
+                    }`}
+                  >
+                    <div>
+                      <div className="truncate">{env.name}</div>
+                      <div
+                        className={`text-[10px] font-mono ${
+                          currentEnv.name === env.name ? "text-neutral-800" : "text-neutral-500"
+                        }`}
+                      >
+                        {env.region} · {env.latency}
+                      </div>
+                    </div>
+                    {currentEnv.name === env.name && <Check className="w-4 h-4 text-black shrink-0" />}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <Link
+            to="/whatif"
+            onMouseEnter={() => cyberSound.playHover()}
+            onClick={() => cyberSound.playClick()}
+            className="hidden sm:flex items-center gap-2 bg-[#141414] hover:bg-white hover:text-[#0E0E0E] border border-white/30 hover:border-white px-3.5 py-1.5 rounded-full text-xs font-semibold text-white transition-all duration-200 shadow-xs group btn-interactive"
+          >
+            <div className="w-4 h-4 rounded-full bg-white text-[#0E0E0E] group-hover:bg-[#0E0E0E] group-hover:text-white flex items-center justify-center transition-colors">
+              <ArrowRight className="w-2.5 h-2.5 stroke-[2.5] group-hover:translate-x-0.5 transition-transform" />
+            </div>
+            <span>Simulate</span>
+          </Link>
+
+          {/* Mobile menu toggle */}
+          <button
+            onClick={() => {
+              setMobileMenuOpen(!mobileMenuOpen);
+              cyberSound.playClick();
+            }}
+            className="xl:hidden w-8 h-8 rounded-full bg-[#1b1b1b] border border-white/20 flex items-center justify-center text-white"
+            aria-label="Toggle Navigation Menu"
+          >
+            {mobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
+          </button>
         </div>
-      )}
-    </header>
+
+        {/* Mobile Navigation Dropdown */}
+        {mobileMenuOpen && (
+          <div className="absolute top-full left-0 right-0 mt-2 bg-[#141414] border border-white/15 rounded-[24px] p-4 shadow-2xl flex flex-col gap-1.5 xl:hidden animate-in fade-in slide-in-from-top-2 duration-150 z-50">
+            {navItems.map((item) => {
+              const isActive = pathname === item.to || (item.to !== "/" && pathname.startsWith(item.to));
+              return (
+                <Link
+                  key={item.to}
+                  to={item.to}
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    cyberSound.playClick();
+                  }}
+                  onMouseEnter={() => cyberSound.playHover()}
+                  className={`px-4 py-2.5 rounded-[14px] text-xs font-medium transition-colors ${
+                    isActive
+                      ? "bg-[#D4E84A] text-[#0E0E0E] font-bold"
+                      : "text-neutral-300 hover:bg-white/5"
+                  }`}
+                >
+                  {item.label}
+                </Link>
+              );
+            })}
+          </div>
+        )}
+      </header>
+
+      {/* Global Command Palette */}
+      <CommandPalette open={commandPaletteOpen} onClose={() => setCommandPaletteOpen(false)} />
+    </>
   );
 }
