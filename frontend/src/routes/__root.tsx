@@ -118,11 +118,8 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <ToastProvider>
-        {/* Full-bleed living canvas background */}
-        <div className="min-h-screen min-h-[100dvh] bg-transparent p-2 sm:p-4 md:p-6 flex flex-col justify-start selection:bg-[#D4E84A] selection:text-[#0E0E0E] relative overflow-x-hidden w-full">
-          {/* Animated Living Identity Mesh Canvas */}
-          <LivingMeshBackground />
-
+        {/* Full-bleed dark backdrop frame */}
+        <div className="min-h-screen min-h-[100dvh] bg-[#08090C] p-2 sm:p-4 md:p-6 flex flex-col justify-start selection:bg-[#D4E84A] selection:text-[#0E0E0E] relative overflow-x-hidden w-full">
           {/* Quick-Nav Right Arrow & Spinwheel Dock */}
           <CyberSpinWheelNav />
 

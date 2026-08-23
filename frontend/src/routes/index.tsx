@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { SonarRadarBackground } from "../components/backgrounds/SonarRadarBackground";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -412,6 +413,7 @@ export function TeamEchoEditorialExperience() {
       ref={containerRef}
       className="space-y-28 sm:space-y-36 pb-28 text-white selection:bg-[#D4E84A] selection:text-[#0E0E0E] relative"
     >
+      <SonarRadarBackground />
       {/* ── Subtle Floating Side Progress Tracker ──────────────────────── */}
       <div className="hidden 2xl:flex fixed right-8 top-1/2 -translate-y-1/2 flex-col gap-2.5 font-mono text-[10px] text-neutral-300 z-40 bg-[#141415]/90 backdrop-blur-md p-3 rounded-full border border-white/10 shadow-2xl">
         {[
