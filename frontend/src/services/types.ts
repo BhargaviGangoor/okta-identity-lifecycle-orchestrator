@@ -12,6 +12,8 @@ export interface User {
   location: string;
   status: UserStatus;
   riskScore: number;
+  risk?: RiskLevel;
+  riskLevel?: RiskLevel;
   groups: string[];
   apps: string[];
   lastLogin: string;

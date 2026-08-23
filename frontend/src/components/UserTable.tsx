@@ -52,9 +52,12 @@ export function UserTable({ users, onSelectUser }: UserTableProps) {
         u.title.toLowerCase().includes(q) ||
         u.id.toLowerCase().includes(q);
 
-      const matchesDept = selectedDept === "ALL" || u.department.toLowerCase() === selectedDept.toLowerCase();
-      const matchesStatus = selectedStatus === "ALL" || u.status === selectedStatus;
-      const matchesRisk = selectedRisk === "ALL" || u.riskLevel === selectedRisk;
+      const matchesDept = selectedDept === "ALL" || (u.department && u.department.toLowerCase() === selectedDept.toLowerCase());
+      const matchesStatus =
+        selectedStatus === "ALL" ||
+        u.status === selectedStatus ||
+        (selectedStatus === "ACTIVE" && (u.status === "ACTIVE" || (u.status as string) === "PROVISIONED" || (u.status as string) === "STAGED"));
+      const matchesRisk = selectedRisk === "ALL" || (u.riskLevel || (u as any).risk) === selectedRisk;
 
       return matchesSearch && matchesDept && matchesStatus && matchesRisk;
     });
@@ -308,7 +311,7 @@ export function UserTable({ users, onSelectUser }: UserTableProps) {
 
                       {/* Risk */}
                       <td className="py-3.5 px-4">
-                        <RiskBadge level={user.riskLevel} score={user.riskScore} />
+                        <RiskBadge level={user.riskLevel || (user as any).risk || "LOW"} score={user.riskScore} />
                       </td>
 
                       {/* Entitlements */}
