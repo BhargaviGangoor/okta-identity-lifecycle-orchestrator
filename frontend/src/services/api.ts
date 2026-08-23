@@ -81,6 +81,9 @@ export async function getUsers(): Promise<User[]> {
           ? u.riskScore
           : computeUserRisk(dept, title, groups.length, apps.length);
 
+      const computedRiskLevel: "LOW" | "MEDIUM" | "HIGH" | "CRITICAL" =
+        computedRisk >= 75 ? "CRITICAL" : computedRisk >= 50 ? "HIGH" : computedRisk >= 30 ? "MEDIUM" : "LOW";
+
       return {
         id: u.id || u.userId || u.employeeId || `usr_${Math.floor(100 + Math.random() * 900)}`,
         name: u.name || `${u.firstName || ""} ${u.lastName || ""}`.trim() || "Unknown User",
@@ -90,6 +93,7 @@ export async function getUsers(): Promise<User[]> {
         manager: u.manager || "—",
         location: u.location || "Global",
         status: (u.status as User["status"]) || "ACTIVE",
+        risk: (u.risk as User["risk"]) || computedRiskLevel,
         riskScore: computedRisk,
         groups,
         apps,
@@ -115,6 +119,9 @@ export async function getUser(id: string): Promise<User | undefined> {
         ? u.riskScore
         : computeUserRisk(dept, title, groups.length, apps.length);
 
+    const computedRiskLevel: "LOW" | "MEDIUM" | "HIGH" | "CRITICAL" =
+      computedRisk >= 75 ? "CRITICAL" : computedRisk >= 50 ? "HIGH" : computedRisk >= 30 ? "MEDIUM" : "LOW";
+
     return {
       id: u.id || u.userId || u.employeeId || id,
       name: u.name || `${u.firstName || ""} ${u.lastName || ""}`.trim() || "Unknown User",
@@ -124,6 +131,7 @@ export async function getUser(id: string): Promise<User | undefined> {
       manager: u.manager || "—",
       location: u.location || "Global",
       status: (u.status as User["status"]) || "ACTIVE",
+      risk: (u.risk as User["risk"]) || computedRiskLevel,
       riskScore: computedRisk,
       groups,
       apps,
