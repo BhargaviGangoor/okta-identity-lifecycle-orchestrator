@@ -76,7 +76,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   head: () => ({
     meta: [
       { charSet: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
+      { name: "viewport", content: "width=device-width, initial-scale=1, maximum-scale=5, viewport-fit=cover" },
       { title: "TEAM ECHO IAM — Identity Governance for Okta" },
       { name: "description", content: "TEAM ECHO: Authoritative identity governance for Okta. Validate policy, simulate impact, execute safely, and reconcile continuously." },
       { name: "author", content: "TEAM ECHO" },
@@ -101,11 +101,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" className="dark">
       <head>
         <HeadContent />
       </head>
-      <body>
+      <body className="safe-p-top safe-p-bottom safe-p-left safe-p-right">
         {children}
         <Scripts />
       </body>
@@ -119,7 +119,7 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <ToastProvider>
         {/* Full-bleed living canvas background */}
-        <div className="min-h-screen bg-transparent p-2.5 sm:p-5 md:p-6 flex flex-col justify-start selection:bg-[#D4E84A] selection:text-[#0E0E0E] relative overflow-x-hidden">
+        <div className="min-h-screen min-h-[100dvh] bg-transparent p-2 sm:p-4 md:p-6 flex flex-col justify-start selection:bg-[#D4E84A] selection:text-[#0E0E0E] relative overflow-x-hidden w-full">
           {/* Animated Living Identity Mesh Canvas */}
           <LivingMeshBackground />
 
@@ -127,9 +127,9 @@ function RootComponent() {
           <CyberSpinWheelNav />
 
           {/* Main Content Area — airy translucent frosted glass frame allowing animated living mesh to shine through clearly */}
-          <div className="w-full max-w-[1600px] mx-auto bg-[#0B0C10]/15 backdrop-blur-sm text-white rounded-[28px] sm:rounded-[36px] p-3 sm:p-6 md:p-7 shadow-[0_8px_32px_rgba(0,0,0,0.25)] border border-white/10 flex flex-col flex-1 min-h-[calc(100vh-2.5rem)] relative z-10">
+          <div className="w-full max-w-[1600px] mx-auto bg-[#0B0C10]/15 backdrop-blur-sm text-white rounded-[20px] sm:rounded-[28px] md:rounded-[36px] p-3 sm:p-5 md:p-7 shadow-[0_8px_32px_rgba(0,0,0,0.25)] border border-white/10 flex flex-col flex-1 min-h-[calc(100vh-2rem)] min-h-[calc(100dvh-2rem)] relative z-10">
             <Navbar />
-            <main className="flex-1 w-full mt-4">
+            <main className="flex-1 w-full mt-3 sm:mt-4">
               <Outlet />
             </main>
           </div>

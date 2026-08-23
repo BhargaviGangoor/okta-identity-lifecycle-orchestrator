@@ -238,30 +238,93 @@ export function Navbar() {
           </button>
         </div>
 
-        {/* Mobile Navigation Dropdown */}
+        {/* Mobile Navigation Dropdown Overlay */}
         {mobileMenuOpen && (
-          <div className="absolute top-full left-0 right-0 mt-2 bg-[#141414] border border-white/15 rounded-[24px] p-4 shadow-2xl flex flex-col gap-1.5 xl:hidden animate-in fade-in slide-in-from-top-2 duration-150 z-50">
-            {navItems.map((item) => {
-              const isActive = pathname === item.to || (item.to !== "/" && pathname.startsWith(item.to));
-              return (
+          <div
+            className="fixed inset-0 top-[70px] bg-black/60 backdrop-blur-md z-50 xl:hidden p-3 sm:p-4 animate-in fade-in duration-150 overflow-y-auto touch-scroll"
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            <div
+              className="bg-[#141416] border border-white/15 rounded-[24px] p-4 sm:p-5 shadow-2xl flex flex-col gap-2 max-w-lg mx-auto"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex items-center justify-between pb-2 border-b border-white/10 px-2">
+                <span className="text-[10px] font-mono uppercase text-[#8E8E86] tracking-wider font-bold">
+                  Navigation Menu
+                </span>
+                <span className="text-[10px] font-mono text-[#D4E84A]">9 SECTIONS</span>
+              </div>
+
+              {/* Navigation Links Grid (2-cols on mobile for faster navigation without excessive scrolling) */}
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-1.5 py-1">
+                {navItems.map((item) => {
+                  const isActive = pathname === item.to || (item.to !== "/" && pathname.startsWith(item.to));
+                  return (
+                    <Link
+                      key={item.to}
+                      to={item.to}
+                      onClick={() => {
+                        setMobileMenuOpen(false);
+                        cyberSound.playClick();
+                      }}
+                      onMouseEnter={() => cyberSound.playHover()}
+                      className={`px-3 py-2.5 rounded-[14px] text-xs font-medium transition-all text-center flex items-center justify-center gap-1.5 ${
+                        isActive
+                          ? "bg-[#D4E84A] text-[#0E0E0E] font-bold shadow-md"
+                          : "bg-white/5 text-neutral-300 hover:bg-white/10 hover:text-white"
+                      }`}
+                    >
+                      {item.label}
+                    </Link>
+                  );
+                })}
+              </div>
+
+              {/* Environment Switcher for Mobile */}
+              <div className="pt-2 border-t border-white/10 space-y-2">
+                <span className="text-[10px] font-mono uppercase text-[#8E8E86] tracking-wider font-bold block px-2">
+                  Target Okta Tenant
+                </span>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-1.5">
+                  {environments.map((env) => (
+                    <button
+                      key={env.name}
+                      onClick={() => {
+                        setCurrentEnv(env);
+                        cyberSound.playSuccess();
+                        info("Switched Okta Environment", `Active tenant changed to ${env.name}`);
+                      }}
+                      className={`px-3 py-2 rounded-[12px] text-left text-xs transition-colors flex items-center justify-between ${
+                        currentEnv.name === env.name
+                          ? "bg-[#D4E84A] text-[#0E0E0E] font-bold shadow-xs"
+                          : "bg-white/5 text-neutral-300 hover:bg-white/10"
+                      }`}
+                    >
+                      <div className="truncate">
+                        <div className="truncate text-[11px] font-semibold">{env.name}</div>
+                        <div className="text-[9px] font-mono opacity-70">{env.latency}</div>
+                      </div>
+                      {currentEnv.name === env.name && <Check className="w-3.5 h-3.5 shrink-0" />}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Mobile CTA */}
+              <div className="pt-2 border-t border-white/10">
                 <Link
-                  key={item.to}
-                  to={item.to}
+                  to="/whatif"
                   onClick={() => {
                     setMobileMenuOpen(false);
                     cyberSound.playClick();
                   }}
-                  onMouseEnter={() => cyberSound.playHover()}
-                  className={`px-4 py-2.5 rounded-[14px] text-xs font-medium transition-colors ${
-                    isActive
-                      ? "bg-[#D4E84A] text-[#0E0E0E] font-bold"
-                      : "text-neutral-300 hover:bg-white/5"
-                  }`}
+                  className="w-full py-2.5 rounded-full bg-[#D4E84A] text-[#0E0E0E] text-xs font-mono font-bold flex items-center justify-center gap-2 shadow-md hover:bg-[#c2d73b]"
                 >
-                  {item.label}
+                  <ArrowRight className="w-4 h-4 stroke-[2.5]" />
+                  <span>LAUNCH WHAT-IF SIMULATOR</span>
                 </Link>
-              );
-            })}
+              </div>
+            </div>
           </div>
         )}
       </header>

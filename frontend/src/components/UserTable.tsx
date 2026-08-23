@@ -227,10 +227,10 @@ export function UserTable({ users, onSelectUser }: UserTableProps) {
                   </button>
                 </th>
                 <th className="py-3.5 px-4 text-neutral-300 font-medium">Identity & Okta ID</th>
-                <th className="py-3.5 px-4 text-neutral-300 font-medium">Department & Role</th>
+                <th className="py-3.5 px-4 text-neutral-300 font-medium hidden sm:table-cell">Department & Role</th>
                 <th className="py-3.5 px-4 text-neutral-300 font-medium">Status</th>
                 <th className="py-3.5 px-4 text-neutral-300 font-medium">Risk Profile</th>
-                <th className="py-3.5 px-4 text-neutral-300 font-medium">Entitlements</th>
+                <th className="py-3.5 px-4 text-neutral-300 font-medium hidden md:table-cell">Entitlements</th>
                 <th className="py-3.5 px-5 text-right text-neutral-300 font-medium">Quick Actions</th>
               </tr>
             </thead>
@@ -297,7 +297,7 @@ export function UserTable({ users, onSelectUser }: UserTableProps) {
                       </td>
 
                       {/* Department & Role */}
-                      <td className="py-3.5 px-4">
+                      <td className="py-3.5 px-4 hidden sm:table-cell">
                         <div className="font-semibold text-neutral-200 group-hover:text-white transition-colors">{user.title}</div>
                         <div className="text-[11px] text-[#8A8A82] font-mono">
                           {user.department} {user.location ? `· ${user.location.split(",")[0]}` : ""}
@@ -315,7 +315,7 @@ export function UserTable({ users, onSelectUser }: UserTableProps) {
                       </td>
 
                       {/* Entitlements */}
-                      <td className="py-3.5 px-4">
+                      <td className="py-3.5 px-4 hidden md:table-cell">
                         <div className="flex items-center gap-1.5">
                           <span className="px-2.5 py-1 rounded-full text-[11px] font-mono bg-[#141414] text-neutral-300 border border-white/10 font-medium group-hover:border-white/30 transition-colors">
                             {groups.length} Groups

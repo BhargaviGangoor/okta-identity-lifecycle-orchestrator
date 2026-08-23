@@ -171,9 +171,9 @@ export function IdentityGraphCanvas({
     return activeSet;
   }, [activeFocusNode, data.edges]);
 
-  // Pan / Drag handlers
+  // Pan / Drag handlers for both Mouse and Touch (Mobile/Tablet)
   const handleMouseDown = (e: React.MouseEvent) => {
-    if (e.target instanceof SVGElement && e.target.tagName === "svg") {
+    if (e.target instanceof SVGElement && (e.target.tagName === "svg" || e.target.tagName === "defs" || e.target.tagName === "g")) {
       setIsDragging(true);
       setDragStart({ x: e.clientX - panOffset.x, y: e.clientY - panOffset.y });
     }
@@ -190,6 +190,27 @@ export function IdentityGraphCanvas({
 
   const handleMouseUp = () => setIsDragging(false);
 
+  // Touch pan handling for mobile/tablet portrait & landscape
+  const handleTouchStart = (e: React.TouchEvent) => {
+    if (e.touches.length === 1) {
+      const touch = e.touches[0]!;
+      setIsDragging(true);
+      setDragStart({ x: touch.clientX - panOffset.x, y: touch.clientY - panOffset.y });
+    }
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (isDragging && e.touches.length === 1) {
+      const touch = e.touches[0]!;
+      setPanOffset({
+        x: touch.clientX - dragStart.x,
+        y: touch.clientY - dragStart.y,
+      });
+    }
+  };
+
+  const handleTouchEnd = () => setIsDragging(false);
+
   const resetView = () => {
     setZoomLevel(1);
     setPanOffset({ x: 0, y: 0 });
@@ -201,64 +222,64 @@ export function IdentityGraphCanvas({
   const canvasHeight = Math.max(650, maxRows * 76 + 100);
 
   return (
-    <div className="space-y-4 font-sans select-none">
+    <div className="space-y-4 font-sans select-none w-full">
       {/* Metrics Summary Strip */}
-      <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
-        <div className="bg-[#141414] p-4 rounded-[20px] border border-white/10 flex items-center gap-3 shadow-md">
-          <div className="w-10 h-10 rounded-[12px] bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 flex items-center justify-center font-bold">
-            <Users className="w-5 h-5" />
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5 sm:gap-3">
+        <div className="bg-[#141414] p-3.5 sm:p-4 rounded-[20px] border border-white/10 flex items-center gap-3 shadow-md">
+          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-[12px] bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 flex items-center justify-center font-bold shrink-0">
+            <Users className="w-4 h-4 sm:w-5 sm:h-5" />
           </div>
-          <div>
-            <div className="text-[10px] font-mono uppercase text-[#8A8A82]">Identities</div>
-            <div className="text-xl font-extrabold text-white mt-0.5">{data.metrics.totalUsers}</div>
-          </div>
-        </div>
-
-        <div className="bg-[#141414] p-4 rounded-[20px] border border-white/10 flex items-center gap-3 shadow-md">
-          <div className="w-10 h-10 rounded-[12px] bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 flex items-center justify-center font-bold">
-            <Layers className="w-5 h-5" />
-          </div>
-          <div>
-            <div className="text-[10px] font-mono uppercase text-[#8A8A82]">Okta Groups</div>
-            <div className="text-xl font-extrabold text-white mt-0.5">{data.metrics.totalGroups}</div>
+          <div className="truncate">
+            <div className="text-[9px] sm:text-[10px] font-mono uppercase text-[#8A8A82]">Identities</div>
+            <div className="text-lg sm:text-xl font-extrabold text-white mt-0.5">{data.metrics.totalUsers}</div>
           </div>
         </div>
 
-        <div className="bg-[#141414] p-4 rounded-[20px] border border-white/10 flex items-center gap-3 shadow-md">
-          <div className="w-10 h-10 rounded-[12px] bg-purple-500/10 text-purple-400 border border-purple-500/20 flex items-center justify-center font-bold">
-            <AppWindow className="w-5 h-5" />
+        <div className="bg-[#141414] p-3.5 sm:p-4 rounded-[20px] border border-white/10 flex items-center gap-3 shadow-md">
+          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-[12px] bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 flex items-center justify-center font-bold shrink-0">
+            <Layers className="w-4 h-4 sm:w-5 sm:h-5" />
           </div>
-          <div>
-            <div className="text-[10px] font-mono uppercase text-[#8A8A82]">Applications</div>
-            <div className="text-xl font-extrabold text-white mt-0.5">{data.metrics.totalApplications}</div>
-          </div>
-        </div>
-
-        <div className="bg-[#141414] p-4 rounded-[20px] border border-white/10 flex items-center gap-3 shadow-md">
-          <div className="w-10 h-10 rounded-[12px] bg-amber-500/10 text-amber-400 border border-amber-500/20 flex items-center justify-center font-bold">
-            <ShieldAlert className="w-5 h-5" />
-          </div>
-          <div>
-            <div className="text-[10px] font-mono uppercase text-[#8A8A82]">Critical Apps</div>
-            <div className="text-xl font-extrabold text-amber-400 mt-0.5">{data.metrics.highCriticalityApps}</div>
+          <div className="truncate">
+            <div className="text-[9px] sm:text-[10px] font-mono uppercase text-[#8A8A82]">Okta Groups</div>
+            <div className="text-lg sm:text-xl font-extrabold text-white mt-0.5">{data.metrics.totalGroups}</div>
           </div>
         </div>
 
-        <div className="bg-[#141414] p-4 rounded-[20px] border border-white/10 flex items-center gap-3 shadow-md col-span-2 sm:col-span-1">
-          <div className="w-10 h-10 rounded-[12px] bg-[#D4E84A]/10 text-[#D4E84A] border border-[#D4E84A]/20 flex items-center justify-center font-bold">
-            <Activity className="w-5 h-5" />
+        <div className="bg-[#141414] p-3.5 sm:p-4 rounded-[20px] border border-white/10 flex items-center gap-3 shadow-md">
+          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-[12px] bg-purple-500/10 text-purple-400 border border-purple-500/20 flex items-center justify-center font-bold shrink-0">
+            <AppWindow className="w-4 h-4 sm:w-5 sm:h-5" />
           </div>
-          <div>
-            <div className="text-[10px] font-mono uppercase text-[#8A8A82]">Graph Edges</div>
-            <div className="text-xl font-extrabold text-white mt-0.5">{data.metrics.totalEdges}</div>
+          <div className="truncate">
+            <div className="text-[9px] sm:text-[10px] font-mono uppercase text-[#8A8A82]">Applications</div>
+            <div className="text-lg sm:text-xl font-extrabold text-white mt-0.5">{data.metrics.totalApplications}</div>
+          </div>
+        </div>
+
+        <div className="bg-[#141414] p-3.5 sm:p-4 rounded-[20px] border border-white/10 flex items-center gap-3 shadow-md">
+          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-[12px] bg-amber-500/10 text-amber-400 border border-amber-500/20 flex items-center justify-center font-bold shrink-0">
+            <ShieldAlert className="w-4 h-4 sm:w-5 sm:h-5" />
+          </div>
+          <div className="truncate">
+            <div className="text-[9px] sm:text-[10px] font-mono uppercase text-[#8A8A82]">Critical Apps</div>
+            <div className="text-lg sm:text-xl font-extrabold text-amber-400 mt-0.5">{data.metrics.highCriticalityApps}</div>
+          </div>
+        </div>
+
+        <div className="bg-[#141414] p-3.5 sm:p-4 rounded-[20px] border border-white/10 flex items-center gap-3 shadow-md col-span-2 sm:col-span-1">
+          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-[12px] bg-[#D4E84A]/10 text-[#D4E84A] border border-[#D4E84A]/20 flex items-center justify-center font-bold shrink-0">
+            <Activity className="w-4 h-4 sm:w-5 sm:h-5" />
+          </div>
+          <div className="truncate">
+            <div className="text-[9px] sm:text-[10px] font-mono uppercase text-[#8A8A82]">Graph Edges</div>
+            <div className="text-lg sm:text-xl font-extrabold text-white mt-0.5">{data.metrics.totalEdges}</div>
           </div>
         </div>
       </div>
 
       {/* Canvas Controls Toolbar */}
-      <div className="bg-[#1b1b1b] p-3 sm:p-4 rounded-[24px] border border-white/10 flex flex-col lg:flex-row items-center justify-between gap-3 shadow-lg">
+      <div className="bg-[#1b1b1b] p-3 sm:p-4 rounded-[24px] border border-white/10 flex flex-col xl:flex-row items-stretch xl:items-center justify-between gap-3 shadow-lg">
         {/* Search */}
-        <div className="relative w-full lg:w-72">
+        <div className="relative w-full xl:w-72">
           <Search className="w-4 h-4 text-[#8A8A82] absolute left-3.5 top-1/2 -translate-y-1/2" />
           <input
             type="text"
@@ -270,14 +291,14 @@ export function IdentityGraphCanvas({
         </div>
 
         {/* Filters */}
-        <div className="flex items-center gap-2 overflow-x-auto w-full lg:w-auto pb-1 lg:pb-0 scrollbar-none">
+        <div className="flex flex-wrap items-center gap-2 overflow-x-auto w-full xl:w-auto pb-1 xl:pb-0 scrollbar-none">
           {/* Node Type Pills */}
-          <div className="flex items-center bg-[#141414] p-1 rounded-full border border-white/10">
+          <div className="flex items-center bg-[#141414] p-1 rounded-full border border-white/10 overflow-x-auto scrollbar-none">
             {(["ALL", "USER", "GROUP", "APPLICATION"] as const).map((t) => (
               <button
                 key={t}
                 onClick={() => setSelectedType(t)}
-                className={`px-3 py-1 rounded-full text-[11px] font-mono uppercase transition-colors ${
+                className={`px-2.5 sm:px-3 py-1 rounded-full text-[10px] sm:text-[11px] font-mono uppercase transition-colors shrink-0 ${
                   selectedType === t
                     ? "bg-[#D4E84A] text-[#141414] font-bold"
                     : "text-[#8A8A82] hover:text-white"
@@ -292,11 +313,11 @@ export function IdentityGraphCanvas({
           <select
             value={selectedDept}
             onChange={(e) => setSelectedDept(e.target.value)}
-            className="bg-[#141414] text-white px-3 py-1.5 rounded-full text-xs font-mono border border-white/10 focus:outline-none focus:border-[#D4E84A]"
+            className="bg-[#141414] text-white px-3 py-1.5 rounded-full text-xs font-mono border border-white/10 focus:outline-none focus:border-[#D4E84A] cursor-pointer"
           >
             {departments.map((d) => (
               <option key={d} value={d}>
-                {d === "ALL" ? "All Departments" : d}
+                {d === "ALL" ? "All Depts" : d}
               </option>
             ))}
           </select>
@@ -311,30 +332,37 @@ export function IdentityGraphCanvas({
             }`}
           >
             <Flame className="w-3.5 h-3.5" />
-            <span>High Criticality</span>
+            <span className="hidden sm:inline">High Criticality</span>
+            <span className="sm:hidden">Critical</span>
           </button>
         </div>
 
         {/* Zoom & Canvas Actions */}
-        <div className="flex items-center gap-1.5 shrink-0">
+        <div className="flex items-center justify-end gap-1.5 shrink-0">
+          <span className="text-[10px] font-mono text-neutral-400 mr-1 hidden sm:inline">
+            Drag to pan ·
+          </span>
           <button
             onClick={() => setZoomLevel((z) => Math.min(1.6, z + 0.15))}
-            className="w-8 h-8 rounded-full bg-[#141414] hover:bg-neutral-800 border border-white/10 flex items-center justify-center text-[#8A8A82] hover:text-white"
+            className="w-8 h-8 rounded-full bg-[#141414] hover:bg-neutral-800 border border-white/10 flex items-center justify-center text-[#8A8A82] hover:text-white btn-interactive"
             title="Zoom In"
+            aria-label="Zoom In"
           >
             <ZoomIn className="w-3.5 h-3.5" />
           </button>
           <button
-            onClick={() => setZoomLevel((z) => Math.max(0.6, z - 0.15))}
-            className="w-8 h-8 rounded-full bg-[#141414] hover:bg-neutral-800 border border-white/10 flex items-center justify-center text-[#8A8A82] hover:text-white"
+            onClick={() => setZoomLevel((z) => Math.max(0.5, z - 0.15))}
+            className="w-8 h-8 rounded-full bg-[#141414] hover:bg-neutral-800 border border-white/10 flex items-center justify-center text-[#8A8A82] hover:text-white btn-interactive"
             title="Zoom Out"
+            aria-label="Zoom Out"
           >
             <ZoomOut className="w-3.5 h-3.5" />
           </button>
           <button
             onClick={resetView}
-            className="w-8 h-8 rounded-full bg-[#141414] hover:bg-neutral-800 border border-white/10 flex items-center justify-center text-[#8A8A82] hover:text-white"
+            className="w-8 h-8 rounded-full bg-[#141414] hover:bg-neutral-800 border border-white/10 flex items-center justify-center text-[#8A8A82] hover:text-white btn-interactive"
             title="Reset Canvas View"
+            aria-label="Reset Canvas View"
           >
             <RotateCcw className="w-3.5 h-3.5" />
           </button>
@@ -348,23 +376,26 @@ export function IdentityGraphCanvas({
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
         onMouseLeave={handleMouseUp}
-        className="relative bg-[#0E0E10] rounded-[32px] border border-white/10 overflow-hidden shadow-2xl min-h-[620px] cursor-grab active:cursor-grabbing"
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+        className="relative bg-[#0E0E10] rounded-[24px] sm:rounded-[32px] border border-white/10 overflow-hidden shadow-2xl min-h-[500px] sm:min-h-[620px] cursor-grab active:cursor-grabbing touch-none"
       >
         {/* Tier Column Headers Overlay */}
-        <div className="absolute top-4 left-6 right-6 z-10 grid grid-cols-3 pointer-events-none text-center">
-          <div className="bg-[#141414]/80 backdrop-blur-md py-1.5 px-3 rounded-full border border-white/10 mx-auto max-w-[200px] w-full">
-            <span className="text-[10px] font-mono uppercase font-bold text-emerald-400 tracking-wider">
-              01 · Authoritative Identities ({userNodes.length})
+        <div className="absolute top-3 sm:top-4 left-3 sm:left-6 right-3 sm:right-6 z-10 grid grid-cols-3 gap-1.5 sm:gap-4 pointer-events-none text-center">
+          <div className="bg-[#141414]/85 backdrop-blur-md py-1 sm:py-1.5 px-2 sm:px-3 rounded-full border border-white/10 mx-auto max-w-[200px] w-full">
+            <span className="text-[8px] sm:text-[10px] font-mono uppercase font-bold text-emerald-400 tracking-wider truncate block">
+              01 · Users ({userNodes.length})
             </span>
           </div>
-          <div className="bg-[#141414]/80 backdrop-blur-md py-1.5 px-3 rounded-full border border-white/10 mx-auto max-w-[200px] w-full">
-            <span className="text-[10px] font-mono uppercase font-bold text-cyan-400 tracking-wider">
-              02 · Okta Groups ({groupNodes.length})
+          <div className="bg-[#141414]/85 backdrop-blur-md py-1 sm:py-1.5 px-2 sm:px-3 rounded-full border border-white/10 mx-auto max-w-[200px] w-full">
+            <span className="text-[8px] sm:text-[10px] font-mono uppercase font-bold text-cyan-400 tracking-wider truncate block">
+              02 · Groups ({groupNodes.length})
             </span>
           </div>
-          <div className="bg-[#141414]/80 backdrop-blur-md py-1.5 px-3 rounded-full border border-white/10 mx-auto max-w-[200px] w-full">
-            <span className="text-[10px] font-mono uppercase font-bold text-purple-400 tracking-wider">
-              03 · Target SSO Apps ({appNodes.length})
+          <div className="bg-[#141414]/85 backdrop-blur-md py-1 sm:py-1.5 px-2 sm:px-3 rounded-full border border-white/10 mx-auto max-w-[200px] w-full">
+            <span className="text-[8px] sm:text-[10px] font-mono uppercase font-bold text-purple-400 tracking-wider truncate block">
+              03 · Apps ({appNodes.length})
             </span>
           </div>
         </div>
