@@ -2,7 +2,7 @@
 
 > **Enterprise-Grade Identity Governance, Blast Radius Simulation, and JML Automation for Okta**
 
-[![Deploy Frontend](https://img.shields.io/badge/Frontend-Live_on_Vercel-black?style=for-the-badge&logo=vercel)](https://okta-identity-lifecycle-orchestrator.vercel.app)
+[![Deploy Frontend](https://img.shields.io/badge/Frontend-Live_on_Vercel-black?style=for-the-badge&logo=vercel)](https://okta-identity-lifecycle-orchestrator-ixa14lyhd.vercel.app/)
 [![Deploy Backend](https://img.shields.io/badge/Backend-Live_on_Render-46E3B7?style=for-the-badge&logo=render)](https://okta-identity-lifecycle-orchestrator.onrender.com/api)
 [![Java 17](https://img.shields.io/badge/Java-17_LTS-ED8B00?style=for-the-badge&logo=openjdk)](https://www.oracle.com/java/)
 [![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.x-6DB33F?style=for-the-badge&logo=springboot)](https://spring.io/projects/spring-boot)
@@ -15,7 +15,7 @@
 
 | Service | Environment | URL |
 | :--- | :--- | :--- |
-| **🎨 Web Application (Console)** | Vercel Production | [https://okta-identity-lifecycle-orchestrator.vercel.app](https://okta-identity-lifecycle-orchestrator.vercel.app) |
+| **🎨 Web Application (Console)** | Vercel Production | [https://okta-identity-lifecycle-orchestrator-ixa14lyhd.vercel.app/]https://okta-identity-lifecycle-orchestrator-ixa14lyhd.vercel.app/) |
 | **⚙️ REST API Root** | Render Web Service | [https://okta-identity-lifecycle-orchestrator.onrender.com/api](https://okta-identity-lifecycle-orchestrator.onrender.com/api) |
 | **🩺 Health Check API** | Render Web Service | [https://okta-identity-lifecycle-orchestrator.onrender.com/api/health](https://okta-identity-lifecycle-orchestrator.onrender.com/api/health) |
 | **👥 Users Directory API** | Render Web Service | [https://okta-identity-lifecycle-orchestrator.onrender.com/api/users](https://okta-identity-lifecycle-orchestrator.onrender.com/api/users) |
