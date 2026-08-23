@@ -182,25 +182,25 @@ export function AuditTimelinePage() {
 
       {/* JSON Payload Inspection Modal */}
       {selectedEventForModal && (
-        <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-150">
-          <div className="bg-[#141414] text-white w-full max-w-2xl rounded-[28px] border border-white/15 shadow-2xl p-6 space-y-4 max-h-[85vh] flex flex-col card-interactive">
+        <div className="fixed inset-0 z-[9999] flex items-end sm:items-center justify-center sm:p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-150">
+          <div className="bg-[#141414] text-white w-full max-w-2xl rounded-t-[28px] sm:rounded-[28px] border border-white/15 shadow-2xl p-5 sm:p-6 space-y-4 max-h-[92vh] sm:max-h-[85vh] flex flex-col card-interactive">
             <div className="flex items-center justify-between border-b border-white/10 pb-3">
-              <div className="flex items-center gap-2.5">
-                <FileCode className="w-5 h-5 text-[#D4E84A]" />
-                <div>
-                  <span className="font-mono text-xs text-[#D4E84A] font-bold">{selectedEventForModal.id}</span>
+              <div className="flex items-center gap-2.5 min-w-0">
+                <FileCode className="w-5 h-5 text-[#D4E84A] shrink-0" />
+                <div className="min-w-0">
+                  <span className="font-mono text-xs text-[#D4E84A] font-bold block truncate">{selectedEventForModal.id}</span>
                   <h3 className="text-base font-bold text-white">Immutable Event Payload</h3>
                 </div>
               </div>
               <button
                 onClick={() => setSelectedEventForModal(null)}
-                className="w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-neutral-400 hover:text-white"
+                className="w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-neutral-400 hover:text-white shrink-0 ml-2"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
 
-            <div className="flex-1 overflow-y-auto bg-[#111] p-4 rounded-[18px] border border-white/10 font-mono text-xs text-[#D4E84A] leading-relaxed">
+            <div className="flex-1 overflow-y-auto bg-[#111] p-4 rounded-[18px] border border-white/10 font-mono text-xs text-[#D4E84A] leading-relaxed touch-scroll">
               <pre className="whitespace-pre-wrap">
                 {JSON.stringify(
                   {
@@ -221,15 +221,15 @@ export function AuditTimelinePage() {
               </pre>
             </div>
 
-            <div className="flex items-center justify-between pt-2 border-t border-white/10 text-xs font-mono">
-              <span className="text-[#8E8E86]">Compliance Scope: SOC2 Type II · ISO-27001</span>
+            <div className="flex flex-col xs:flex-row items-start xs:items-center justify-between gap-2 pt-2 border-t border-white/10 text-xs font-mono">
+              <span className="text-[#8E8E86] truncate">Compliance Scope: SOC2 Type II · ISO-27001</span>
               <button
                 onClick={() =>
                   handleCopyPayload(
                     JSON.stringify(selectedEventForModal, null, 2)
                   )
                 }
-                className="px-4 py-1.5 rounded-full bg-[#1b1b1b] hover:bg-neutral-800 text-white font-mono text-xs flex items-center gap-1.5 btn-interactive"
+                className="px-4 py-1.5 rounded-full bg-[#1b1b1b] hover:bg-neutral-800 text-white font-mono text-xs flex items-center gap-1.5 btn-interactive shrink-0"
               >
                 {copied ? <Check className="w-3.5 h-3.5 text-[#D4E84A]" /> : <Copy className="w-3.5 h-3.5" />}
                 <span>{copied ? "COPIED" : "COPY JSON"}</span>
