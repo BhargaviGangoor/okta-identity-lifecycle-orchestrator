@@ -50,19 +50,24 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: 'npm'
           cache-dependency-path: frontend/package-lock.json
 
       - name: Install Dependencies
         run: |
           cd frontend
-          npm  install
+          npm ci || npm install
 
       - name: Build Frontend with Vite & TanStack
         run: |
           cd frontend
           npm run build
+          # Ensure public artifact directory exists for GitHub Pages
+          if [ -d "dist/client" ] && [ ! -d ".output/public" ]; then
+            mkdir -p .output/public
+            cp -r dist/client/* .output/public/
+          fi
 
       - name: Setup GitHub Pages
         uses: actions/configure-pages@v5
