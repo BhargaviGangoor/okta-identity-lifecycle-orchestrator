@@ -13,7 +13,9 @@
 export const API_BASE_URL = (
   (import.meta.env as Record<string, string | undefined>)["VITE_API_BASE_URL"] ||
   (import.meta.env as Record<string, string | undefined>)["VITE_API_URL"] ||
-  ""
+  (typeof window !== "undefined" && window.location.hostname === "localhost"
+    ? "http://localhost:8080/api"
+    : "https://okta-identity-lifecycle-orchestrator.onrender.com/api")
 ).replace(/\/$/, "");
 
 /** True when a real backend URL has been configured */
