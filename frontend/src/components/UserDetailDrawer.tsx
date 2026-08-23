@@ -53,23 +53,26 @@ export function UserDetailDrawer({ user, open, onClose }: UserDetailDrawerProps)
     : (APP_CATALOG[user.department] || ["Google Workspace", "Slack", "Jira"]);
 
   return (
-    <div className="fixed inset-0 z-[9990] flex justify-end bg-black/60 backdrop-blur-xs animate-in fade-in duration-200">
+    <div
+      className="fixed inset-0 z-[9990] flex justify-end bg-black/60 backdrop-blur-xs animate-in fade-in duration-200"
+      onClick={onClose}
+    >
       <div
-        className="w-full max-w-xl bg-[#141414] border-l border-white/15 h-full shadow-2xl flex flex-col overflow-hidden animate-in slide-in-from-right duration-200 text-white"
+        className="w-full sm:max-w-xl bg-[#141414] border-l border-white/15 h-full shadow-2xl flex flex-col overflow-hidden animate-in slide-in-from-right duration-200 text-white"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="p-6 border-b border-white/10 bg-[#181818] flex items-center justify-between shrink-0">
-          <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-[16px] bg-[#0E0E0E] border border-white/20 text-[#D4E84A] font-mono font-semibold text-base flex items-center justify-center shadow-md">
+        <div className="p-4 sm:p-6 border-b border-white/10 bg-[#181818] flex items-center justify-between shrink-0">
+          <div className="flex items-center gap-2.5 sm:gap-3">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-[14px] sm:rounded-[16px] bg-[#0E0E0E] border border-white/20 text-[#D4E84A] font-mono font-semibold text-sm sm:text-base flex items-center justify-center shadow-md shrink-0">
               {(user?.name || "U").slice(0, 2).toUpperCase()}
             </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <h2 className="text-lg font-extrabold text-white">{user.name}</h2>
+            <div className="truncate">
+              <div className="flex items-center gap-2 flex-wrap">
+                <h2 className="text-base sm:text-lg font-extrabold text-white truncate">{user.name}</h2>
                 <StatusBadge status={user.status} />
               </div>
-              <p className="text-xs text-[#8E8E86] font-mono mt-0.5">
+              <p className="text-xs text-[#8E8E86] font-mono mt-0.5 truncate">
                 {user.title} · {user.department}
               </p>
             </div>
@@ -77,14 +80,15 @@ export function UserDetailDrawer({ user, open, onClose }: UserDetailDrawerProps)
 
           <button
             onClick={onClose}
-            className="w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-neutral-400 hover:text-white transition-colors"
+            className="w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-neutral-400 hover:text-white transition-colors shrink-0 cursor-pointer"
+            aria-label="Close details"
           >
             <X className="w-4 h-4" />
           </button>
         </div>
 
         {/* Scrollable Content */}
-        <div className="flex-1 overflow-y-auto p-6 space-y-6 scrollbar-none">
+        <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-5 sm:space-y-6 scrollbar-none touch-scroll safe-p-bottom">
           {/* Quick Lifecycle Action Buttons */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
             <button

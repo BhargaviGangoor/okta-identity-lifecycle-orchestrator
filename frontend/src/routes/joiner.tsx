@@ -183,7 +183,7 @@ export function JoinerWizardPage() {
       </section>
 
       {/* Step Progress Pills */}
-      <div className="grid grid-cols-4 gap-2 text-xs font-mono">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs font-mono">
         {[
           { num: "01", label: "Identity Profile" },
           { num: "02", label: "Entitlements" },
@@ -196,7 +196,7 @@ export function JoinerWizardPage() {
           return (
             <div
               key={st.num}
-              className={`p-3 rounded-[16px] border flex items-center gap-2 transition-all card-interactive ${
+              className={`p-2.5 sm:p-3 rounded-[16px] border flex items-center gap-2 transition-all card-interactive ${
                 isActive
                   ? "bg-[#141414] border-[#D4E84A] text-white shadow-lg hover-glow-lime"
                   : isDone
@@ -205,7 +205,7 @@ export function JoinerWizardPage() {
               }`}
             >
               <div
-                className={`w-6 h-6 rounded-full flex items-center justify-center font-bold text-[10px] ${
+                className={`w-6 h-6 rounded-full flex items-center justify-center font-bold text-[10px] shrink-0 ${
                   isActive
                     ? "bg-[#D4E84A] text-[#141414]"
                     : isDone
@@ -215,14 +215,14 @@ export function JoinerWizardPage() {
               >
                 {isDone ? <Check className="w-3 h-3 stroke-[3]" /> : st.num}
               </div>
-              <span className="truncate hidden sm:inline">{st.label}</span>
+              <span className="truncate text-[11px] sm:text-xs">{st.label}</span>
             </div>
           );
         })}
       </div>
 
       {/* Wizard Steps */}
-      <div className="bg-[#141414] rounded-[32px] p-6 sm:p-8 border border-white/10 shadow-xl space-y-6 card-interactive">
+      <div className="bg-[#141414] rounded-[24px] sm:rounded-[32px] p-4 sm:p-8 border border-white/10 shadow-xl space-y-6 card-interactive">
         {/* Step 1: Profile & Presets */}
         {step === 1 && (
           <div className="space-y-6 animate-in fade-in duration-150">

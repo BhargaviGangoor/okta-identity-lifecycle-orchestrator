@@ -863,7 +863,7 @@ export function TeamEchoEditorialExperience() {
         {/* Unified Interactive Pipeline Flow Bar with Animated Data Pulse */}
         <div className="card-high-contrast rounded-[36px] p-7 sm:p-10 space-y-8 shadow-2xl card-interactive ">
           {/* Horizontal Step Indicator with Connectors */}
-          <div className="grid grid-cols-2 md:grid-cols-6 gap-2 border-b border-white/15 pb-6 relative">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2 border-b border-white/15 pb-6 relative">
             {PIPELINE_STAGES.map((stage, idx) => {
               const isActive = activePipelineStage === idx;
               const isPast = activePipelineStage > idx;

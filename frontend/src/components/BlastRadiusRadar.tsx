@@ -37,7 +37,18 @@ export function BlastRadiusRadar({
   const revokedGroups = delta?.revoked || ["Finance-Ledger-Approver", "AWS-Prod-Admin"];
   const totalEntitlements = grantedGroups.length + revokedGroups.length;
 
-  // Generate orbital nodes around center
+  // Generate orbital nodes around center (with mobile-friendly distance)
+  const [isMobile, setIsMobile] = useState(typeof window !== "undefined" ? window.innerWidth < 640 : false);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 640);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const baseDist1 = isMobile ? 65 : 95;
+  const baseDist2 = isMobile ? 90 : 125;
+
   const orbitalNodes = [
     ...grantedGroups.map((g, i) => ({
       id: `grant-${i}`,
@@ -45,7 +56,7 @@ export function BlastRadiusRadar({
       type: "group-grant" as const,
       color: "#D4E84A",
       angle: (i / Math.max(totalEntitlements, 1)) * Math.PI * 2,
-      distance: 95 + (i % 2) * 20,
+      distance: baseDist1 + (i % 2) * (isMobile ? 12 : 20),
     })),
     ...revokedGroups.map((r, i) => ({
       id: `rev-${i}`,
@@ -53,7 +64,7 @@ export function BlastRadiusRadar({
       type: "group-revoke" as const,
       color: "#E8703A",
       angle: ((i + grantedGroups.length) / Math.max(totalEntitlements, 1)) * Math.PI * 2,
-      distance: 125 - (i % 2) * 15,
+      distance: baseDist2 - (i % 2) * (isMobile ? 10 : 15),
     })),
   ];
 

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Space+Grotesk:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
 @import "tailwindcss" source(none);
 @source "../src";
 @import "tw-animate-css";
@@ -68,9 +68,9 @@
   --color-muted-gray: #8E8E86;
   --color-lime: #D4E84A;
   --color-orange: #E8703A;
-  --font-display: "Plus Jakarta Sans", "Space Grotesk", system-ui, -apple-system, sans-serif;
-  --font-serif-display: "Space Grotesk", system-ui, sans-serif;
-  --font-mono: "IBM Plex Mono", ui-monospace, Menlo, Monaco, Consolas, monospace;
+  --font-display: "Space Grotesk", system-ui, -apple-system, sans-serif;
+  --font-headline: "Syne", "Space Grotesk", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, Menlo, Monaco, Consolas, monospace;
   --radius-frame: 36px;
   --radius-panel: 28px;
   --radius-card: 20px;
@@ -91,18 +91,70 @@
 html {
   scroll-behavior: smooth;
   background-color: #08090C;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
   background-color: #08090C;
   color: #FFFFFF;
   font-family: var(--font-display);
+  font-size: 15px;
+  line-height: 1.6;
+  letter-spacing: -0.01em;
+  font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
+  font-variant-numeric: tabular-nums;
   margin: 0;
   padding: 0;
   min-height: 100vh;
+  min-height: 100dvh;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
   overflow-x: hidden;
+  position: relative;
+  width: 100%;
+}
+
+/* ── Syne Display headlines ──────────────────────────────── */
+h1, h2, h3, .font-headline {
+  font-family: var(--font-headline);
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  font-feature-settings: "kern" 1, "liga" 1;
+}
+
+h4, h5, h6 {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+}
+
+/* ── Mono / telemetry ─────────────────────────────────────── */
+code, kbd, pre,
+.font-mono,
+[class*="font-mono"] {
+  font-family: var(--font-mono);
+  font-feature-settings: "calt" 1, "liga" 1;
+  font-variant-ligatures: contextual;
+}
+
+/* Touch-friendly smooth scrolling on mobile containers */
+.touch-scroll {
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+
+/* Safe area support for iOS notches / home indicator */
+.safe-p-top {
+  padding-top: max(0.5rem, env(safe-area-inset-top));
+}
+.safe-p-bottom {
+  padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
+}
+.safe-p-left {
+  padding-left: max(0.5rem, env(safe-area-inset-left));
+}
+.safe-p-right {
+  padding-right: max(0.5rem, env(safe-area-inset-right));
 }
 
 ::selection {
@@ -131,15 +183,24 @@ body {
 @utility mono-eyebrow {
   font-family: var(--font-mono);
   font-size: 0.6875rem;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   font-weight: 600;
+  font-feature-settings: "calt" 1;
 }
 
 @utility editorial-headline {
-  font-family: var(--font-display);
+  font-family: var(--font-headline);
   letter-spacing: -0.04em;
-  line-height: 1.1;
+  line-height: 1.05;
+  font-weight: 700;
+}
+
+@utility display-hero {
+  font-family: var(--font-headline);
+  letter-spacing: -0.05em;
+  line-height: 1.0;
+  font-weight: 800;
 }
 
 /* ── CLEAN INTERACTION SYSTEM ── */
