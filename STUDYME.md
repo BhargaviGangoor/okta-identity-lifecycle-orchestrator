@@ -206,7 +206,7 @@ Located in: `backend/src/main/java/com/company/identity/workstream4_dashboard_in
 ### Headers & Authentication
 Every request to Okta includes:
 ```http
-Authorization: SSWS 00wGM76_XkLARyhj2aZS9HzBYdtGP6eeSY3LR7K-Ac
+Authorization: SSWS <OKTA_API_TOKEN>
 Accept: application/json
 Content-Type: application/json
 ```
