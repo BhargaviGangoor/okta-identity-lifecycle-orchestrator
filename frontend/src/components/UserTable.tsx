@@ -98,22 +98,22 @@ export function UserTable({ users, onSelectUser }: UserTableProps) {
   return (
     <div className="space-y-4">
       {/* Controls Bar */}
-      <div className="flex flex-col gap-3 bg-[#1b1b1b] p-4 rounded-[24px] border border-white/10 card-interactive">
+      <div className="flex flex-col gap-3 bg-[#15161C] p-4 rounded-[24px] border border-white/15 card-interactive shadow-xl">
         {/* Search & Dept Selector */}
         <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3">
           <div className="relative flex-1 max-w-md">
-            <Search className="w-4 h-4 text-[#8A8A82] absolute left-3.5 top-1/2 -translate-y-1/2" />
+            <Search className="w-4 h-4 text-slate-300 absolute left-3.5 top-1/2 -translate-y-1/2" />
             <input
               type="text"
               placeholder="Search identities by name, email, title, or Okta ID..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full bg-[#141414] text-white pl-10 pr-8 py-2.5 rounded-full text-xs border border-white/10 focus:outline-none focus:border-[#D4E84A] hover:border-white/30 transition-colors placeholder-[#8A8A82] font-sans"
+              className="w-full bg-[#0D0E12] text-white pl-10 pr-8 py-2.5 rounded-full text-xs border border-white/20 focus:outline-none focus:border-[#D4E84A] hover:border-white/40 transition-colors placeholder:text-slate-400 font-medium"
             />
             {searchTerm && (
               <button
                 onClick={() => setSearchTerm("")}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-white"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-white hover:text-[#D4E84A]"
               >
                 <X className="w-3.5 h-3.5" />
               </button>
@@ -126,10 +126,10 @@ export function UserTable({ users, onSelectUser }: UserTableProps) {
               <button
                 key={dept}
                 onClick={() => setSelectedDept(dept)}
-                className={`px-3.5 py-1.5 rounded-full text-[11px] font-mono tracking-wider transition-all shrink-0 btn-interactive ${
+                className={`px-3.5 py-1.5 rounded-full text-xs font-mono tracking-wider transition-all shrink-0 btn-interactive ${
                   selectedDept === dept
-                    ? "bg-[#D4E84A] text-[#141414] font-bold shadow-md"
-                    : "bg-[#141414] text-[#8A8A82] hover:text-white border border-white/10 hover:border-white/30"
+                    ? "bg-[#D4E84A] text-[#141414] font-black shadow-md"
+                    : "bg-[#0D0E12] text-white hover:text-white border border-white/15 hover:border-white/40 font-medium"
                 }`}
               >
                 {dept}
@@ -139,20 +139,20 @@ export function UserTable({ users, onSelectUser }: UserTableProps) {
         </div>
 
         {/* Secondary Filter Row (Status, Risk, Bulk Actions) */}
-        <div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-white/5 text-xs">
+        <div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-white/10 text-xs">
           <div className="flex flex-wrap items-center gap-3">
             {/* Status Filter */}
             <div className="flex items-center gap-1.5">
-              <span className="text-[10px] font-mono text-[#8E8E86] uppercase">Status:</span>
+              <span className="text-[11px] font-mono text-white uppercase font-bold">Status:</span>
               <div className="flex items-center gap-1">
                 {statuses.map((st) => (
                   <button
                     key={st}
                     onClick={() => setSelectedStatus(st)}
-                    className={`px-2.5 py-1 rounded-full text-[10px] font-mono font-medium transition-all btn-interactive ${
+                    className={`px-2.5 py-1 rounded-full text-[11px] font-mono transition-all btn-interactive ${
                       selectedStatus === st
-                        ? "bg-white text-[#141414] font-bold shadow-sm"
-                        : "bg-[#141414] text-neutral-400 hover:text-white hover:bg-white/5"
+                        ? "bg-white text-[#141414] font-black shadow-sm"
+                        : "bg-[#0D0E12] text-white hover:text-white hover:bg-white/15 border border-white/10 font-bold"
                     }`}
                   >
                     {st}
@@ -163,16 +163,16 @@ export function UserTable({ users, onSelectUser }: UserTableProps) {
 
             {/* Risk Filter */}
             <div className="flex items-center gap-1.5">
-              <span className="text-[10px] font-mono text-[#8E8E86] uppercase">Risk:</span>
+              <span className="text-[11px] font-mono text-white uppercase font-bold">Risk:</span>
               <div className="flex items-center gap-1">
                 {riskLevels.map((rk) => (
                   <button
                     key={rk}
                     onClick={() => setSelectedRisk(rk)}
-                    className={`px-2.5 py-1 rounded-full text-[10px] font-mono font-medium transition-all btn-interactive ${
+                    className={`px-2.5 py-1 rounded-full text-[11px] font-mono transition-all btn-interactive ${
                       selectedRisk === rk
-                        ? "bg-[#D4E84A] text-[#141414] font-bold shadow-sm"
-                        : "bg-[#141414] text-neutral-400 hover:text-white hover:bg-white/5"
+                        ? "bg-[#D4E84A] text-[#141414] font-black shadow-sm"
+                        : "bg-[#0D0E12] text-white hover:text-white hover:bg-white/15 border border-white/10 font-bold"
                     }`}
                   >
                     {rk}
@@ -184,19 +184,19 @@ export function UserTable({ users, onSelectUser }: UserTableProps) {
 
           {/* Bulk Selection Actions */}
           {selectedUserIds.length > 0 && (
-            <div className="flex items-center gap-2 bg-[#141414] px-3.5 py-1.5 rounded-full border border-[#D4E84A]/30 shadow-md animate-in fade-in">
-              <span className="text-[11px] font-mono text-[#D4E84A] font-bold">
+            <div className="flex items-center gap-2 bg-[#0D0E12] px-3.5 py-1.5 rounded-full border border-[#D4E84A]/40 shadow-md animate-in fade-in">
+              <span className="text-xs font-mono text-[#D4E84A] font-black">
                 {selectedUserIds.length} Selected
               </span>
               <button
                 onClick={handleBulkExport}
-                className="text-[10px] font-mono text-white hover:text-[#D4E84A] flex items-center gap-1 btn-interactive"
+                className="text-xs font-mono text-white hover:text-[#D4E84A] flex items-center gap-1 btn-interactive font-bold"
               >
-                <Download className="w-3 h-3" /> Export CSV
+                <Download className="w-3.5 h-3.5" /> Export CSV
               </button>
               <button
                 onClick={() => setSelectedUserIds([])}
-                className="text-[10px] font-mono text-neutral-400 hover:text-white ml-1"
+                className="text-xs font-mono text-slate-300 hover:text-white ml-1 font-semibold"
               >
                 Clear
               </button>
@@ -206,15 +206,15 @@ export function UserTable({ users, onSelectUser }: UserTableProps) {
       </div>
 
       {/* Table Container */}
-      <div className="bg-[#1b1b1b] rounded-[24px] border border-white/10 overflow-hidden shadow-2xl card-interactive">
+      <div className="bg-[#15161C] rounded-[24px] border border-white/15 overflow-hidden shadow-2xl card-interactive">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
-            <thead className="bg-[#141414] text-[#8A8A82] font-mono text-[10px] uppercase tracking-wider border-b border-white/10">
+            <thead className="bg-[#0D0E12] text-white font-mono text-[11px] uppercase tracking-wider border-b border-white/15 font-bold">
               <tr>
                 <th className="py-3.5 px-4 w-10 text-center">
                   <button
                     onClick={handleSelectAll}
-                    className="text-neutral-400 hover:text-white transition-colors"
+                    className="text-white hover:text-[#D4E84A] transition-colors"
                   >
                     {selectedUserIds.length === filteredUsers.length && filteredUsers.length > 0 ? (
                       <CheckSquare className="w-4 h-4 text-[#D4E84A]" />
@@ -223,15 +223,15 @@ export function UserTable({ users, onSelectUser }: UserTableProps) {
                     )}
                   </button>
                 </th>
-                <th className="py-3.5 px-4">Identity & Okta ID</th>
-                <th className="py-3.5 px-4">Department & Role</th>
-                <th className="py-3.5 px-4">Status</th>
-                <th className="py-3.5 px-4">Risk Profile</th>
-                <th className="py-3.5 px-4">Entitlements</th>
-                <th className="py-3.5 px-5 text-right">Quick Actions</th>
+                <th className="py-3.5 px-4 text-white font-bold">Identity & Okta ID</th>
+                <th className="py-3.5 px-4 text-white font-bold">Department & Role</th>
+                <th className="py-3.5 px-4 text-white font-bold">Status</th>
+                <th className="py-3.5 px-4 text-white font-bold">Risk Profile</th>
+                <th className="py-3.5 px-4 text-white font-bold">Entitlements</th>
+                <th className="py-3.5 px-5 text-right text-white font-bold">Quick Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-white/5 font-sans text-neutral-200">
+            <tbody className="divide-y divide-white/10 font-sans text-white">
               {filteredUsers.length === 0 ? (
                 <tr>
                   <td colSpan={7} className="text-center py-12 text-[#8A8A82] font-mono space-y-2">
