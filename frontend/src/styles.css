@@ -220,9 +220,10 @@ code, kbd, pre,
 }
 
 .card-high-contrast {
-  background: rgba(18, 19, 25, 0.45) !important;
-  backdrop-filter: blur(12px) !important;
-  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  background: rgba(14, 15, 20, 0.35) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.09) !important;
 }
 
 /* Global button interactive pop-out */

@@ -1,32 +1,35 @@
 import { useEffect, useRef } from "react";
 
 interface Building {
-  gridX: number; // grid coordinate X
-  gridZ: number; // grid coordinate Z
+  gridX: number;
+  gridZ: number;
   width: number;
   depth: number;
   height: number;
   color: string;
   roofBeam: boolean;
   pulsePhase: number;
+  windows: { y: number; alpha: number }[];
 }
 
-interface TrafficParticle {
+interface TrafficPacket {
   startX: number;
   startZ: number;
   endX: number;
   endZ: number;
+  altitude: number;
   t: number;
   speed: number;
   color: string;
   size: number;
 }
 
-interface SearchBeam {
-  x: number;
-  z: number;
-  angle: number;
-  rotSpeed: number;
+interface SkywayBeam {
+  x1: number;
+  z1: number;
+  x2: number;
+  z2: number;
+  altitude: number;
   color: string;
 }
 
@@ -44,12 +47,19 @@ export function HolographicCyberCityBackground() {
     let animId: number;
 
     let camZ = 0;
+    let scrollY = 0;
+    let targetScrollY = 0;
+
     let mouse = { x: 0, y: 0 };
     let targetMouse = { x: 0, y: 0 };
 
     const handleMouseMove = (e: MouseEvent) => {
-      targetMouse.x = (e.clientX - width / 2) * 0.35;
-      targetMouse.y = (e.clientY - height / 2) * 0.25;
+      targetMouse.x = (e.clientX - width / 2) * 0.25;
+      targetMouse.y = (e.clientY - height / 2) * 0.2;
+    };
+
+    const handleScroll = () => {
+      targetScrollY = window.scrollY;
     };
 
     const handleResize = () => {
@@ -59,52 +69,66 @@ export function HolographicCyberCityBackground() {
     };
 
     window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     window.addEventListener("resize", handleResize);
 
-    const CITY_COLS = 16;
-    const CITY_ROWS = 28;
-    const BLOCK_SIZE = 140;
+    const CITY_COLS = 18;
+    const CITY_ROWS = 32;
+    const BLOCK_SIZE = 150;
     const TOTAL_DEPTH = CITY_ROWS * BLOCK_SIZE;
 
     let buildings: Building[] = [];
-    let traffic: TrafficParticle[] = [];
-    let searchBeams: SearchBeam[] = [];
+    let traffic: TrafficPacket[] = [];
+    let skyways: SkywayBeam[] = [];
 
     const COLORS = ["#D4E84A", "#22D3EE", "#38BDF8", "#E8703A", "#A855F7"];
 
     const initCity = () => {
       buildings = [];
       traffic = [];
-      searchBeams = [];
+      skyways = [];
 
+      // 1. Generate 3D Megacity Buildings across full grid
       for (let r = 0; r < CITY_ROWS; r++) {
         for (let c = -CITY_COLS / 2; c <= CITY_COLS / 2; c++) {
-          // Leave open street avenues in center
+          // Leave open central avenues
           if (c === 0 || c === -1) continue;
 
-          // Randomly place buildings
-          if (Math.random() < 0.65) {
-            const h = Math.random() * 260 + 60;
+          if (Math.random() < 0.72) {
+            const bHeight = Math.random() * 420 + 100;
             const col = COLORS[Math.floor(Math.random() * COLORS.length)]!;
+            
+            // Random window rows
+            const winRows: { y: number; alpha: number }[] = [];
+            const rowCount = Math.floor(bHeight / 28);
+            for (let w = 1; w < rowCount; w++) {
+              winRows.push({
+                y: w * 28,
+                alpha: Math.random() * 0.5 + 0.15,
+              });
+            }
+
             buildings.push({
-              gridX: c * BLOCK_SIZE + (Math.random() - 0.5) * 20,
+              gridX: c * BLOCK_SIZE + (Math.random() - 0.5) * 25,
               gridZ: r * BLOCK_SIZE,
-              width: Math.random() * 45 + 40,
-              depth: Math.random() * 45 + 40,
-              height: h,
+              width: Math.random() * 55 + 45,
+              depth: Math.random() * 55 + 45,
+              height: bHeight,
               color: col,
-              roofBeam: Math.random() < 0.35,
+              roofBeam: Math.random() < 0.45,
               pulsePhase: Math.random() * Math.PI * 2,
+              windows: winRows,
             });
           }
         }
       }
 
-      // Highway Traffic Particles
-      for (let i = 0; i < 90; i++) {
-        const isCrossStreet = Math.random() > 0.5;
-        const speed = Math.random() * 0.008 + 0.004;
-        const col = Math.random() > 0.4 ? "#D4E84A" : "#22D3EE";
+      // 2. Multi-tier High-Speed Laser Traffic (Ground & Skyways)
+      for (let i = 0; i < 140; i++) {
+        const isCrossStreet = Math.random() > 0.4;
+        const altitude = Math.random() > 0.6 ? -(Math.random() * 180 + 40) : 60; // Skyway vs Ground
+        const speed = Math.random() * 0.009 + 0.004;
+        const col = Math.random() > 0.45 ? "#D4E84A" : "#22D3EE";
 
         if (isCrossStreet) {
           const row = Math.floor(Math.random() * CITY_ROWS);
@@ -113,42 +137,47 @@ export function HolographicCyberCityBackground() {
             startZ: row * BLOCK_SIZE,
             endX: (CITY_COLS / 2) * BLOCK_SIZE,
             endZ: row * BLOCK_SIZE,
+            altitude,
             t: Math.random(),
             speed,
             color: col,
-            size: Math.random() * 2.2 + 1.2,
+            size: Math.random() * 2.5 + 1.4,
           });
         } else {
+          const colX = (Math.floor(Math.random() * 6) - 3) * BLOCK_SIZE;
           traffic.push({
-            startX: 0,
+            startX: colX,
             startZ: 0,
-            endX: 0,
+            endX: colX,
             endZ: TOTAL_DEPTH,
+            altitude,
             t: Math.random(),
-            speed,
+            speed: speed * 1.3,
             color: col,
-            size: Math.random() * 2.2 + 1.2,
+            size: Math.random() * 2.5 + 1.4,
           });
         }
       }
 
-      // Searchlight beams
+      // 3. Elevated Glowing Skyways connecting districts
       for (let i = 0; i < 8; i++) {
-        searchBeams.push({
-          x: (Math.random() - 0.5) * (CITY_COLS * BLOCK_SIZE * 0.7),
-          z: Math.random() * TOTAL_DEPTH,
-          angle: Math.random() * Math.PI * 2,
-          rotSpeed: (Math.random() - 0.5) * 0.02,
-          color: Math.random() > 0.5 ? "rgba(212, 232, 74, 0.14)" : "rgba(34, 211, 238, 0.14)",
+        const row = Math.floor(Math.random() * CITY_ROWS);
+        skyways.push({
+          x1: (-CITY_COLS / 2) * BLOCK_SIZE,
+          z1: row * BLOCK_SIZE,
+          x2: (CITY_COLS / 2) * BLOCK_SIZE,
+          z2: row * BLOCK_SIZE,
+          altitude: -(Math.random() * 160 + 60),
+          color: Math.random() > 0.5 ? "rgba(212, 232, 74, 0.12)" : "rgba(34, 211, 238, 0.12)",
         });
       }
     };
 
     initCity();
 
-    // 3D Projection Helper
+    // 3D Projection Engine
     const project = (x: number, y: number, z: number, cx: number, cy: number) => {
-      const fov = 340;
+      const fov = 380;
       if (z <= 1) return null;
       const scale = fov / z;
       return {
@@ -159,36 +188,39 @@ export function HolographicCyberCityBackground() {
     };
 
     const draw = () => {
-      // Continuous camera forward flight motion
-      camZ = (camZ + 1.6) % TOTAL_DEPTH;
+      // Continuous camera drive forward + scroll integration
+      scrollY += (targetScrollY - scrollY) * 0.08;
+      camZ = (camZ + 1.8 + scrollY * 0.015) % TOTAL_DEPTH;
 
       // Mouse parallax smooth damping
-      mouse.x += (targetMouse.x - mouse.x) * 0.04;
-      mouse.y += (targetMouse.y - mouse.y) * 0.04;
+      mouse.x += (targetMouse.x - mouse.x) * 0.05;
+      mouse.y += (targetMouse.y - mouse.y) * 0.05;
 
       ctx.fillStyle = "#08090C";
       ctx.fillRect(0, 0, width, height);
 
+      // Camera focal center spans full screen with scroll elevation
+      const scrollTilt = Math.sin(scrollY * 0.001) * 30;
       const cx = width / 2 + mouse.x;
-      const cy = height * 0.42 + mouse.y;
+      const cy = height * 0.48 + mouse.y + scrollTilt;
 
-      // 1. Skyline Aurora Nebula
-      const skyGrad = ctx.createRadialGradient(cx, cy - 80, 0, cx, cy - 80, width * 0.65);
-      skyGrad.addColorStop(0, "rgba(34, 211, 238, 0.06)");
-      skyGrad.addColorStop(0.5, "rgba(212, 232, 74, 0.03)");
+      // 1. Full-bleed Cyber Aurora Atmosphere (Edge-to-Edge)
+      const skyGrad = ctx.createRadialGradient(cx, cy - 100, 0, cx, cy - 100, width * 0.75);
+      skyGrad.addColorStop(0, "rgba(34, 211, 238, 0.09)");
+      skyGrad.addColorStop(0.4, "rgba(212, 232, 74, 0.04)");
       skyGrad.addColorStop(1, "transparent");
       ctx.fillStyle = skyGrad;
       ctx.fillRect(0, 0, width, height);
 
-      // 2. Ground Grid Lines (Perspective roads)
-      ctx.strokeStyle = "rgba(212, 232, 74, 0.04)";
+      // 2. Full-depth Ground Highway Grid
+      ctx.strokeStyle = "rgba(212, 232, 74, 0.045)";
       ctx.lineWidth = 1;
-      const roadCount = CITY_COLS + 2;
+      const roadCount = CITY_COLS + 4;
 
       for (let c = -roadCount / 2; c <= roadCount / 2; c++) {
         const roadX = c * BLOCK_SIZE;
-        const p1 = project(roadX, 80, 40, cx, cy);
-        const p2 = project(roadX, 80, TOTAL_DEPTH * 0.9, cx, cy);
+        const p1 = project(roadX, 80, 20, cx, cy);
+        const p2 = project(roadX, 80, TOTAL_DEPTH * 0.95, cx, cy);
         if (p1 && p2) {
           ctx.beginPath();
           ctx.moveTo(p1.x, p1.y);
@@ -197,32 +229,26 @@ export function HolographicCyberCityBackground() {
         }
       }
 
-      // 3. Searchlight Beams in the sky
+      // 3. Elevated Skyways
       ctx.globalCompositeOperation = "lighter";
-      for (const sb of searchBeams) {
-        sb.angle += sb.rotSpeed;
-        let relZ = sb.z - camZ;
-        if (relZ < 10) relZ += TOTAL_DEPTH;
-        if (relZ > TOTAL_DEPTH) relZ -= TOTAL_DEPTH;
+      for (const sw of skyways) {
+        let relZ = sw.z1 - camZ;
+        while (relZ < 10) relZ += TOTAL_DEPTH;
+        while (relZ > TOTAL_DEPTH) relZ -= TOTAL_DEPTH;
 
-        const base = project(sb.x, 60, relZ, cx, cy);
-        const topX = sb.x + Math.sin(sb.angle) * 350;
-        const topY = -450;
-        const top = project(topX, topY, relZ * 0.9, cx, cy);
-
-        if (base && top) {
+        const p1 = project(sw.x1, sw.altitude, relZ, cx, cy);
+        const p2 = project(sw.x2, sw.altitude, relZ, cx, cy);
+        if (p1 && p2) {
           ctx.beginPath();
-          ctx.moveTo(base.x - 6 * base.scale, base.y);
-          ctx.lineTo(top.x - 35 * top.scale, top.y);
-          ctx.lineTo(top.x + 35 * top.scale, top.y);
-          ctx.lineTo(base.x + 6 * base.scale, base.y);
-          ctx.closePath();
-          ctx.fillStyle = sb.color;
-          ctx.fill();
+          ctx.moveTo(p1.x, p1.y);
+          ctx.lineTo(p2.x, p2.y);
+          ctx.strokeStyle = sw.color;
+          ctx.lineWidth = 2.5 * p1.scale;
+          ctx.stroke();
         }
       }
 
-      // 4. Render 3D Buildings sorted by Depth (Far to Near)
+      // 4. Render 3D Buildings across entire height & depth
       const visibleBuildings = buildings
         .map((b) => {
           let relZ = b.gridZ - camZ;
@@ -239,7 +265,7 @@ export function HolographicCyberCityBackground() {
         const baseY = 80;
         const topY = baseY - b.height;
 
-        // Project 8 vertices of 3D box
+        // 8 vertices of 3D box
         const p1 = project(b.gridX - hw, baseY, relZ - hd, cx, cy);
         const p2 = project(b.gridX + hw, baseY, relZ - hd, cx, cy);
         const p3 = project(b.gridX + hw, baseY, relZ + hd, cx, cy);
@@ -252,10 +278,11 @@ export function HolographicCyberCityBackground() {
 
         if (!p1 || !p2 || !p3 || !p4 || !p5 || !p6 || !p7 || !p8) continue;
 
-        const depthAlpha = Math.max(0.04, Math.min(0.4, (1 - relZ / TOTAL_DEPTH) * 0.45));
+        const depthRatio = 1 - relZ / TOTAL_DEPTH;
+        const depthAlpha = Math.max(0.06, Math.min(0.55, depthRatio * 0.6));
 
-        // Dark glass building fill
-        ctx.fillStyle = "rgba(10, 11, 15, 0.75)";
+        // Dark glass building silhouette
+        ctx.fillStyle = "rgba(10, 11, 16, 0.82)";
 
         // Front Face
         ctx.beginPath();
@@ -282,16 +309,16 @@ export function HolographicCyberCityBackground() {
         ctx.lineTo(p7.x, p7.y);
         ctx.lineTo(p8.x, p8.y);
         ctx.closePath();
-        ctx.fillStyle = b.color + "18";
+        ctx.fillStyle = b.color + "22";
         ctx.fill();
 
-        // Wireframe edges
+        // Neon Wireframe Outlines
         ctx.strokeStyle = b.color.startsWith("#")
           ? b.color + Math.floor(depthAlpha * 255).toString(16).padStart(2, "0")
           : `rgba(212, 232, 74, ${depthAlpha})`;
-        ctx.lineWidth = 1;
+        ctx.lineWidth = Math.max(0.8, p1.scale * 1.6);
 
-        // Draw outer frame
+        // Frame Edges
         [
           [p1, p2], [p2, p3], [p3, p4], [p4, p1],
           [p5, p6], [p6, p7], [p7, p8], [p8, p5],
@@ -303,48 +330,46 @@ export function HolographicCyberCityBackground() {
           ctx.stroke();
         });
 
-        // Floor tier lines
-        const tiers = 3;
-        for (let t = 1; t <= tiers; t++) {
-          const ty = baseY - (b.height * (t / (tiers + 1)));
-          const tp1 = project(b.gridX - hw, ty, relZ - hd, cx, cy);
-          const tp2 = project(b.gridX + hw, ty, relZ - hd, cx, cy);
-          const tp3 = project(b.gridX + hw, ty, relZ + hd, cx, cy);
-          if (tp1 && tp2 && tp3) {
+        // Glowing Windows / Floor Tiers
+        for (const win of b.windows) {
+          const wy = baseY - win.y;
+          const wp1 = project(b.gridX - hw, wy, relZ - hd, cx, cy);
+          const wp2 = project(b.gridX + hw, wy, relZ - hd, cx, cy);
+          if (wp1 && wp2) {
             ctx.beginPath();
-            ctx.moveTo(tp1.x, tp1.y);
-            ctx.lineTo(tp2.x, tp2.y);
-            ctx.lineTo(tp3.x, tp3.y);
-            ctx.strokeStyle = `rgba(212, 232, 74, ${depthAlpha * 0.5})`;
+            ctx.moveTo(wp1.x, wp1.y);
+            ctx.lineTo(wp2.x, wp2.y);
+            ctx.strokeStyle = b.color + Math.floor(win.alpha * depthAlpha * 255).toString(16).padStart(2, "0");
             ctx.stroke();
           }
         }
 
-        // Rooftop Laser Spire
+        // Rooftop Laser Spire Shooting into Sky
         if (b.roofBeam) {
-          const spireTop = project(b.gridX, topY - 50, relZ, cx, cy);
+          const spireTop = project(b.gridX, topY - 70, relZ, cx, cy);
           const spireBase = project(b.gridX, topY, relZ, cx, cy);
           if (spireTop && spireBase) {
             ctx.beginPath();
             ctx.moveTo(spireBase.x, spireBase.y);
             ctx.lineTo(spireTop.x, spireTop.y);
             ctx.strokeStyle = b.color;
-            ctx.lineWidth = 1.5;
+            ctx.lineWidth = 1.8;
             ctx.stroke();
 
-            // Spire beacon flash
-            const bg = ctx.createRadialGradient(spireTop.x, spireTop.y, 0, spireTop.x, spireTop.y, 8);
+            // Spire Beacon Flare
+            const bg = ctx.createRadialGradient(spireTop.x, spireTop.y, 0, spireTop.x, spireTop.y, 10);
             bg.addColorStop(0, b.color);
+            bg.addColorStop(0.5, b.color + "50");
             bg.addColorStop(1, "transparent");
             ctx.beginPath();
-            ctx.arc(spireTop.x, spireTop.y, 8, 0, Math.PI * 2);
+            ctx.arc(spireTop.x, spireTop.y, 10, 0, Math.PI * 2);
             ctx.fillStyle = bg;
             ctx.fill();
           }
         }
       }
 
-      // 5. Continuous Highway Traffic Data Pulses
+      // 5. Continuous Multi-Tier Highway Traffic Pulses (Ground & Sky)
       for (const tf of traffic) {
         tf.t = (tf.t + tf.speed) % 1;
 
@@ -353,15 +378,15 @@ export function HolographicCyberCityBackground() {
         while (curZ < 10) curZ += TOTAL_DEPTH;
         while (curZ > TOTAL_DEPTH) curZ -= TOTAL_DEPTH;
 
-        const pt = project(curX, 78, curZ, cx, cy);
-        if (pt && pt.x > -20 && pt.x < width + 20 && pt.y > -20 && pt.y < height + 20) {
-          const alpha = (1 - curZ / TOTAL_DEPTH) * 0.9;
-          const sz = tf.size * pt.scale * 3;
+        const pt = project(curX, tf.altitude, curZ, cx, cy);
+        if (pt && pt.x > -40 && pt.x < width + 40 && pt.y > -40 && pt.y < height + 40) {
+          const alpha = (1 - curZ / TOTAL_DEPTH) * 0.95;
+          const sz = tf.size * pt.scale * 3.5;
 
           // Traffic light flare
           const tg = ctx.createRadialGradient(pt.x, pt.y, 0, pt.x, pt.y, sz * 4);
-          tg.addColorStop(0, tf.color + "E0");
-          tg.addColorStop(0.5, tf.color + "40");
+          tg.addColorStop(0, tf.color + "F0");
+          tg.addColorStop(0.5, tf.color + "45");
           tg.addColorStop(1, "transparent");
 
           ctx.beginPath();
@@ -370,7 +395,7 @@ export function HolographicCyberCityBackground() {
           ctx.fill();
 
           ctx.beginPath();
-          ctx.arc(pt.x, pt.y, sz * 0.7, 0, Math.PI * 2);
+          ctx.arc(pt.x, pt.y, sz * 0.8, 0, Math.PI * 2);
           ctx.fillStyle = "#FFFFFF";
           ctx.fill();
         }
@@ -385,6 +410,7 @@ export function HolographicCyberCityBackground() {
     return () => {
       cancelAnimationFrame(animId);
       window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("resize", handleResize);
     };
   }, []);
